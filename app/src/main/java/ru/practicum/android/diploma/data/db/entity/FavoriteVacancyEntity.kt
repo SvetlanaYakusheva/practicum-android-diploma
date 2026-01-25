@@ -6,5 +6,5 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "favorite_vacancy_table")
 data class FavoriteVacancyEntity(
     @PrimaryKey
-    val vacancyId: Int
+    val vacancyId: String
 )
