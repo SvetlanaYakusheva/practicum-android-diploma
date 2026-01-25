@@ -1,8 +1,27 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.PracticumAndroidDiploma" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.PracticumAndroidDiploma" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorOnPrimary">@color/black_universal</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/blue</item>
+        <item name="colorOnSecondary">@color/black_universal</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/white_universal</item>
+        <item name="edit_text_color">@color/light_gray_2</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="background_color">@color/white_universal</item>
+        <item name="icon_color">@color/black_universal</item>
+        <item name="text_hint_color">@color/gray</item>
+        <!--EditText hint color-->
+        <!-- TextInputLayout text color-->
+        <item name="colorControlActivated">@color/black_universal</item>
+        <!-- EditText line color when EditText on-focus-->
+        <item name="colorControlHighlight">@color/gray</item>
+        <!-- EditText line color when EditText  in un-focus-->
+        <item name="colorControlNormal">@color/gray</item>
     </style>
 
     <style name="Theme.PracticumAndroidDiploma" parent="Base.Theme.PracticumAndroidDiploma" />

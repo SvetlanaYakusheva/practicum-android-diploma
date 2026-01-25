@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@+id/search_fragment">
+
+    <activity
+        android:id="@+id/activity_root"
+        android:name="ru.practicum.android.diploma.ui.root.RootActivity"
+        android:label="activity_root"
+        tools:layout="@layout/activity_root" />
+
+    <fragment
+        android:id="@+id/search_fragment"
+        android:name="ru.practicum.android.diploma.ui.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/favorites_fragment"
+        android:name="ru.practicum.android.diploma.ui.favorites.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/development_team_fragment"
+        android:name="ru.practicum.android.diploma.ui.crew.DevelopmentTeamFragment"
+        android:label="fragment_development_team"
+        tools:layout="@layout/fragment_development_team" />
+</navigation>
