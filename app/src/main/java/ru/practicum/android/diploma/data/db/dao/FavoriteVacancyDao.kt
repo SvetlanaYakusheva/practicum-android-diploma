@@ -9,8 +9,8 @@ import ru.practicum.android.diploma.data.db.entity.FavoriteVacancyEntity
 @Dao
 interface FavoriteVacancyDao {
 
-    @Query("SELECT * FROM favorite_vacancy_table ORDER BY vacancyId DESC")
-    fun getVacancies(): Flow<List<FavoriteVacancyEntity>>
+    @Query("SELECT * FROM favorite_vacancy_table")
+    suspend fun getVacancies(): List<FavoriteVacancyEntity>
 
     @Insert(entity = FavoriteVacancyEntity::class)
     suspend fun insertVacancy(vacancy: FavoriteVacancyEntity)
