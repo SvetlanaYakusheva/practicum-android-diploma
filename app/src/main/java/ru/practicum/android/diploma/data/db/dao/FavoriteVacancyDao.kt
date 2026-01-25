@@ -1,0 +1,16 @@
+package ru.practicum.android.diploma.data.db.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import ru.practicum.android.diploma.data.db.entity.FavoriteVacancyEntity
+
+@Dao
+interface FavoriteVacancyDao {
+
+    @Query("SELECT * FROM favorite_vacancy_table")
+    suspend fun getVacancies(): List<FavoriteVacancyEntity>
+
+    @Insert(entity = FavoriteVacancyEntity::class)
+    suspend fun insertVacancy(vacancy: FavoriteVacancyEntity)
+}
