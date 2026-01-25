@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.data.db.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.data.db.entity.FavoriteVacancyEntity
@@ -10,4 +11,7 @@ interface FavoriteVacancyDao {
 
     @Query("SELECT * FROM favorite_vacancy_table ORDER BY vacancyId DESC")
     fun getVacancies(): Flow<List<FavoriteVacancyEntity>>
+
+    @Insert(entity = FavoriteVacancyEntity::class)
+    suspend fun insertVacancy(vacancy: FavoriteVacancyEntity)
 }
