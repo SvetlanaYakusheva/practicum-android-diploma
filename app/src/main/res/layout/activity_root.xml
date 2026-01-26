@@ -22,7 +22,6 @@
         android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_4xs"
-        android:background="@color/light_gray_2"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
