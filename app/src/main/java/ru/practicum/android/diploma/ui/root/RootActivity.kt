@@ -51,9 +51,7 @@ class RootActivity : AppCompatActivity() {
     }
 
     private fun changeBottomNavigationVisibility(isVisible: Boolean) {
-        binding.apply {
-            bottomNavigationView.isVisible = isVisible
-            separator.isVisible = isVisible
-        }
+        binding.bottomNavigationView.isVisible = isVisible
+        binding.separator.isVisible = isVisible
     }
 }
