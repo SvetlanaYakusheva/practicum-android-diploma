@@ -27,6 +27,7 @@ fun <T> debounce(
         }
     }
 }
+
 fun isConnected(context: Context): Boolean {
     val connectivityManager = context.getSystemService(
         Context.CONNECTIVITY_SERVICE
@@ -34,14 +35,9 @@ fun isConnected(context: Context): Boolean {
     val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
     if (capabilities != null) {
         when {
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                -> return true
-
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-                -> return true
-
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
-                -> return true
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) or
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) or
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> return true
         }
     }
     return false
