@@ -8,10 +8,12 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-fun <T> debounce(delayMillis: Long,
-                 coroutineScope: CoroutineScope,
-                 useLastParam: Boolean,
-                 action: (T) -> Unit): (T) -> Unit {
+fun <T> debounce(
+    delayMillis: Long,
+    coroutineScope: CoroutineScope,
+    useLastParam: Boolean,
+    action: (T) -> Unit
+): (T) -> Unit {
     var debounceJob: Job? = null
     return { param: T ->
         if (useLastParam) {
@@ -27,14 +29,17 @@ fun <T> debounce(delayMillis: Long,
 }
 fun isConnected(context: Context): Boolean {
     val connectivityManager = context.getSystemService(
-        Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        Context.CONNECTIVITY_SERVICE
+    ) as ConnectivityManager
     val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
     if (capabilities != null) {
         when {
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
                 -> return true
+
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
                 -> return true
+
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
                 -> return true
         }
