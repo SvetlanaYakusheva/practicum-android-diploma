@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="edit_text_color" />
+    <attr name="background_color" />
+    <attr name="icon_color" />
+    <attr name="text_hint_color" />
+</resources>
