@@ -39,7 +39,6 @@ class RetrofitNetworkClient(
         }
     }
 
-
     private fun VacanciesSearchRequest.toMap(): Map<String, String> {
         val map: MutableMap<String, String> = HashMap()
         if (text.isNotEmpty()) {
