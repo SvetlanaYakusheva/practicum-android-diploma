@@ -1,8 +1,77 @@
 package ru.practicum.android.diploma.data.network
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import java.net.SocketTimeoutException
 
 class RetrofitNetworkClient(
     private val context: Context,
-    private val vacanciesService: VacanciesAPI
-) : NetworkClient
+    private val vacanciesService: VacanciesAPI,
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
+) : NetworkClient {
+
+    override suspend fun doRequest(dto: Any): Response {
+        if (!isConnected()) {
+            return Response().apply { resultCode = NetworkClient.HTTP_NO_CONNECTION }
+        }
+
+        return when (dto) {
+            is VacanciesSearchRequest -> getVacancies(dto)
+            else -> Response().apply { resultCode = NetworkClient.HTTP_CLIENT_ERROR }
+        }
+    }
+
+    private suspend fun getVacancies(request: VacanciesSearchRequest): Response {
+        return withContext(defaultDispatcher) {
+            try {
+                vacanciesService.getVacancies(request.toMap())
+                    .apply { resultCode = NetworkClient.HTTP_SUCCESS }
+            } catch (e: HttpException) {
+                Response().apply { resultCode = e.code() }
+            } catch (_: SocketTimeoutException) {
+                Response().apply { resultCode = NetworkClient.HTTP_SERVER_ERROR }
+            }
+        }
+    }
+
+
+    private fun VacanciesSearchRequest.toMap(): Map<String, String> {
+        val map: MutableMap<String, String> = HashMap()
+        if (text.isNotEmpty()) {
+            map["text"] = text
+        }
+        if (page > 0) {
+            map["page"] = page.toString()
+        }
+        if (perPage > 0) {
+            map["per_page"] = perPage.toString()
+        }
+
+        filter.area?.let { map["area"] = it.id }
+        filter.industry?.let { map["industry"] = it.id }
+        filter.salary?.let { map["salary"] = it }
+        map["only_with_salary"] = filter.onlyWithSalary.toString()
+
+        return map
+    }
+
+    fun isConnected(): Boolean {
+        val connectivityManager = context.getSystemService(
+            Context.CONNECTIVITY_SERVICE
+        ) as ConnectivityManager
+        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        if (capabilities != null) {
+            when {
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) or
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) or
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> return true
+            }
+        }
+        return false
+    }
+}
