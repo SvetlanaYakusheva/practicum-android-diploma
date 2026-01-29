@@ -19,7 +19,7 @@ class RootActivity : AppCompatActivity() {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
-        // Пример использования access token для HeadHunter API
+        // Пример использования access token для Vacancies API
         networkRequestExample(accessToken = BuildConfig.API_ACCESS_TOKEN)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment

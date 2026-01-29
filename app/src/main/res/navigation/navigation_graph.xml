@@ -15,7 +15,15 @@
         android:id="@+id/search_fragment"
         android:name="ru.practicum.android.diploma.ui.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_search_fragment_to_filterFragment"
+            app:destination="@id/filterFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/hold"
+            app:popExitAnim="@anim/slide_in_up"
+            app:popEnterAnim="@anim/hold"/>
+    </fragment>
     <fragment
         android:id="@+id/favorites_fragment"
         android:name="ru.practicum.android.diploma.ui.favorites.FavoritesFragment"
@@ -26,4 +34,9 @@
         android:name="ru.practicum.android.diploma.ui.crew.DevelopmentTeamFragment"
         android:label="fragment_development_team"
         tools:layout="@layout/fragment_development_team" />
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="ru.practicum.android.diploma.ui.filter.FilterFragment"
+        android:label="fragment_filter"
+        tools:layout="@layout/fragment_filter" />
 </navigation>
