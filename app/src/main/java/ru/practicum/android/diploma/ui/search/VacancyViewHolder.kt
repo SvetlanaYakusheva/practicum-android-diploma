@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.databinding.VacancyItemBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
 import kotlin.TODO
 
-class VacancyViewHolder (private val binding: VacancyItemBinding) : RecyclerView.ViewHolder(binding.root) {
+class VacancyViewHolder(private val binding: VacancyItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(model: Vacancy) {
         binding.apply {
@@ -18,10 +18,8 @@ class VacancyViewHolder (private val binding: VacancyItemBinding) : RecyclerView
                 .placeholder(R.drawable.ic_employer_logo_placeholder_48)
                 .into(employerLogo)
 
+            //добавить areaName в Vacancy
             vacancyName.text = "${model.name}, "
-            //TODO("добавить areaName в Vacancy")
-
-            //TODO( "E1-TASK-1.6")
         }
     }
 
