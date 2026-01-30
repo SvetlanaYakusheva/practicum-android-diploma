@@ -21,13 +21,14 @@ val dataModule = module {
     }
 
     single<NetworkClient> {
-        RetrofitNetworkClient(get(), get())
+        RetrofitNetworkClient(context = get(), vacanciesService = get())
     }
 
-    factory { Gson() }
+    single { Gson() }
 
     single {
         Room.databaseBuilder(get(), AppDatabase::class.java, "database.db")
+            .fallbackToDestructiveMigration()
             .build()
     }
 
