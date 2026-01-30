@@ -35,4 +35,10 @@
     <string name="phone">Телефон:</string>
     <string name="comment">Комментарий:</string>
     <string name="vacancy_title">Вакансия</string>
+    <string name="crew_title">Команда</string>
+    <string name="first_team_member">Казаков Роман</string>
+    <string name="second_team_member">Якушева Светлана</string>
+    <string name="third_team_member">Марухян Ашот</string>
+    <string name="fourth_team_member">Жуков Игорь</string>
+    <string name="workers_list">Над приложением работали</string>
 </resources>
