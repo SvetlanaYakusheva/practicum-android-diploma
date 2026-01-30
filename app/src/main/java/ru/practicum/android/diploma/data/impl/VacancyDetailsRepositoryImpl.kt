@@ -14,14 +14,14 @@ import ru.practicum.android.diploma.util.toVacancy
 
 class VacancyDetailsRepositoryImpl(
     private val networkClient: NetworkClient,
-    private val favoritesDatabase: AppDatabase
+    private val appDatabase: AppDatabase
 ) : VacancyDetailsRepository {
     override suspend fun getVacancyById(vacancyId: String): Flow<Resource<Vacancy>> = flow {
         val response = networkClient.doRequest(VacancyRequest(vacancyId))
         when (response.resultCode) {
             200 -> {
                 val result = (response as VacancyResponse).vacancy.toVacancy()
-                result.isFavorite = favoritesDatabase.favoriteVacancyDao().findVacancyById(vacancyId).isNotEmpty()
+                result.isFavorite = appDatabase.favoriteVacancyDao().findVacancyById(vacancyId).isNotEmpty()
                 emit(Resource.Success(result))
             }
             404 -> {
