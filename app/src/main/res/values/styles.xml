@@ -6,32 +6,39 @@
         <item name="android:textSize">12sp</item>
         <item name="android:fontWeight">400</item>
     </style>
-    
-    <style name="Bold32">
+
+    <style name="FontDisplay">
+        <item name="android:fontFamily">@font/ys_display_bold</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:fontWeight">700</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="FontDisplay.Bold32" parent="FontDisplay">
         <item name="android:fontFamily">@font/ys_display_bold</item>
         <item name="android:textSize">32sp</item>
         <item name="android:fontWeight">700</item>
     </style>
 
-    <style name="Medium22">
+    <style name="FontDisplay.Medium22" parent="FontDisplay">
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:textSize">22sp</item>
         <item name="android:fontWeight">500</item>
     </style>
 
-    <style name="Medium16">
+    <style name="FontDisplay.Medium16" parent="FontDisplay">
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:textSize">16sp</item>
         <item name="android:fontWeight">500</item>
     </style>
 
-    <style name="Regular16">
+    <style name="FontDisplay.Regular16" parent="FontDisplay">
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textSize">16sp</item>
         <item name="android:fontWeight">400</item>
     </style>
 
-    <style name="Regular12">
+    <style name="FontDisplay.Regular12" parent="FontDisplay">
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textSize">12sp</item>
         <item name="android:fontWeight">400</item>

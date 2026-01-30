@@ -34,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="@id/back_button"
         android:layout_marginHorizontal="@dimen/dimen_4dp"
         android:text="@string/vacancy"
-        style="@style/Medium22"
+        style="@style/FontDisplay.Medium22"
         android:textColor="?attr/colorOnPrimary"
         />
 
@@ -89,8 +89,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="@string/vacancy_name"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Bold32"/>
+
+                style="@style/FontDisplay.Bold32"/>
 
             <TextView
                 android:id="@+id/salary"
@@ -100,8 +100,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_4dp"
                 android:text="@string/vacancy_salary"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Medium22"/>
+
+                style="@style/FontDisplay.Medium22"/>
             <View
                 android:id="@+id/company_card"
                 android:layout_width="match_parent"
@@ -135,8 +135,8 @@
                 app:layout_constraintBottom_toTopOf="@id/company_address"
                 android:layout_marginStart="@dimen/dimen_8dp"
                 android:text="@string/company_name"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Medium22"
+                android:textColor="@color/black_universal"
+                style="@style/FontDisplay.Medium22"
                 />
 
             <TextView
@@ -149,8 +149,8 @@
                 app:layout_constraintBottom_toBottomOf="@id/company_logo"
                 android:layout_marginStart="@dimen/dimen_8dp"
                 android:text="@string/company_address"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Regular16"
+                android:textColor="@color/black_universal"
+                style="@style/FontDisplay.Regular16"
                 />
 
             <TextView
@@ -161,8 +161,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_24dp"
                 android:text="@string/experience"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Medium16"
+                style="@style/FontDisplay.Medium16"
                 />
             <TextView
                 android:id="@+id/experience"
@@ -172,8 +171,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_4dp"
                 android:text="@string/experience_value"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Regular16"
+                style="@style/FontDisplay.Regular16"
                 />
 
             <TextView
@@ -184,8 +182,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_8dp"
                 android:text="@string/schedule"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Regular16"
+                style="@style/FontDisplay.Regular16"
                 />
 
             <TextView
@@ -197,8 +194,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_32dp"
                 android:text="@string/vacancy_description"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Medium22"
+                style="@style/FontDisplay.Medium22"
                 />
             <TextView
                 android:id="@+id/responsibilities"
@@ -208,18 +204,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_16dp"
                 android:text="@string/responsibilities"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Medium16"
+                style="@style/FontDisplay.Medium16"
                 />
 
             <TextView
                 android:id="@+id/responsibilities_list"
-                style="@style/Regular16"
+                style="@style/FontDisplay.Regular16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
                 android:layout_marginTop="@dimen/dimen_4dp"
-                android:textColor="?attr/colorOnPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/responsibilities"
                 android:text="@string/responsibilities_list" />
@@ -232,8 +226,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_16dp"
                 android:text="@string/requirements"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Medium16"
+                style="@style/FontDisplay.Medium16"
                 />
             <TextView
                 android:id="@+id/requirements_list"
@@ -243,8 +236,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_4dp"
                 android:text="@string/requirements_list"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Regular16"/>
+                style="@style/FontDisplay.Regular16"/>
 
             <TextView
                 android:id="@+id/conditions"
@@ -254,8 +246,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_16dp"
                 android:text="@string/conditions"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Medium16"
+                style="@style/FontDisplay.Medium16"
                 />
             <TextView
                 android:id="@+id/conditions_list"
@@ -265,8 +256,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_4dp"
                 android:text="@string/conditions_list"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Regular16"/>
+                style="@style/FontDisplay.Regular16"/>
 
             <TextView
                 android:id="@+id/skills_title"
@@ -277,8 +267,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_24dp"
                 android:text="@string/skills_title"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Medium22"
+                style="@style/FontDisplay.Medium22"
                 />
             <TextView
                 android:id="@+id/skills_list"
@@ -288,8 +277,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_16dp"
                 android:text="@string/skills_list"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Regular16"/>
+                style="@style/FontDisplay.Regular16"/>
 
             <TextView
                 android:id="@+id/contacts_title"
@@ -300,8 +288,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_24dp"
                 android:text="@string/contacts_title"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Medium22"
+                style="@style/FontDisplay.Medium22"
                 />
             <TextView
                 android:id="@+id/email_title"
@@ -311,8 +298,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_4dp"
                 android:text="@string/email"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Regular16"/>
+                style="@style/FontDisplay.Regular16"/>
             <TextView
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
@@ -322,8 +308,7 @@
                 android:layout_marginTop="@dimen/dimen_4dp"
                 android:layout_marginStart="@dimen/dimen_8dp"
                 android:text="@string/email"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Regular16"/>
+                style="@style/FontDisplay.Regular16"/>
             <TextView
                 android:id="@+id/phone_title"
                 android:layout_width="wrap_content"
@@ -332,8 +317,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_4dp"
                 android:text="@string/phone"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Regular16"/>
+                style="@style/FontDisplay.Regular16"/>
             <TextView
                 android:id="@+id/p"
                 android:layout_width="wrap_content"
@@ -343,8 +327,7 @@
                 android:layout_marginTop="@dimen/dimen_4dp"
                 android:layout_marginStart="@dimen/dimen_8dp"
                 android:text="@string/phone"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Regular16"/>
+                style="@style/FontDisplay.Regular16"/>
 
             <TextView
                 android:id="@+id/comment_title"
@@ -355,8 +338,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginTop="@dimen/dimen_4dp"
                 android:text="@string/comment"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Regular16"
+                style="@style/FontDisplay.Regular16"
                 android:layout_marginBottom="@dimen/dimen_24dp"/>
             <TextView
                 android:id="@+id/comment"
@@ -368,8 +350,7 @@
                 android:layout_marginTop="@dimen/dimen_4dp"
                 android:layout_marginStart="@dimen/dimen_8dp"
                 android:text="@string/comment"
-                android:textColor="?attr/colorOnPrimary"
-                style="@style/Regular16"
+                style="@style/FontDisplay.Regular16"
                 android:layout_marginBottom="@dimen/dimen_24dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
