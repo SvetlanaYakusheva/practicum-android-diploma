@@ -10,53 +10,41 @@
     android:background="?attr/background_color"
     tools:context=".ui.vacancy.VacancyDetailsFragment">
 
-    <ImageButton
-        android:id="@+id/back_button"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/vacancy_title"
+        style="@style/ToolbarStyleParent.AppBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dimen_4dp"
-        android:backgroundTint="?attr/background_color"
-        android:contentDescription="@string/back_button"
-        android:scaleType="fitCenter"
-        android:src="@drawable/back_icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        style="@style/FontDisplay.Medium22"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/dimen_4dp"
-        android:text="@string/vacancy"
-        android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintBottom_toBottomOf="@id/back_button"
-        app:layout_constraintEnd_toStartOf="@id/share_button"
-        app:layout_constraintStart_toEndOf="@id/back_button"
-        app:layout_constraintTop_toTopOf="@id/back_button" />
-
-    <ImageButton
-        android:id="@+id/share_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/dimen_4dp"
-        android:backgroundTint="?attr/background_color"
-        android:contentDescription="@string/back_button"
-        android:scaleType="fitCenter"
-        android:src="@drawable/share_icon"
-        app:layout_constraintEnd_toStartOf="@id/favorites_button"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/favorites_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dimen_8dp"
-        android:backgroundTint="?attr/background_color"
-        android:contentDescription="@string/back_button"
-        android:scaleType="fitCenter"
-        android:src="@drawable/favorites_icon"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/top_app_bar"
+            style="@style/ToolbarStyleParent.ToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:navigationIcon="@drawable/arrow_back_icon"
+            app:title="@string/vacancy_title">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/favorites_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:src="@drawable/favorites_icon" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/share_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/dimen_4dp"
+                android:src="@drawable/share_icon" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -64,8 +52,7 @@
         android:layout_marginTop="@dimen/dimen_24dp"
         android:paddingHorizontal="@dimen/dimen_16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/back_button"
-        >
+        app:layout_constraintTop_toBottomOf="@id/vacancy_title">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

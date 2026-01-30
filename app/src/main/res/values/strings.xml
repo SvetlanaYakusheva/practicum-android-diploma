@@ -34,4 +34,5 @@
     <string name="email">Почта:</string>
     <string name="phone">Телефон:</string>
     <string name="comment">Комментарий:</string>
+    <string name="vacancy_title">Вакансия</string>
 </resources>
