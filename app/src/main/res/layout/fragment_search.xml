@@ -1,14 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/background_color"
+    android:orientation="vertical"
     tools:context=".ui.search.SearchFragment">
 
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/search_title"
+        style="@style/ToolbarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        app:title="@string/vacancy_search"
+        app:titleTextAppearance="@style/Medium22">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/search_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_filter_off_24" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/name_background"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/searchbar_height"
+        android:layout_margin="@dimen/default_padding"
+        android:backgroundTint="?attr/edit_text_color"
+        app:cardCornerRadius="@dimen/searchbar_radius">
+
+        <EditText
+            android:id="@+id/playlist_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/searchbar_height"
+            android:layout_gravity="center_vertical"
+            android:background="@null"
+            android:drawableEnd="@drawable/ic_search_24"
+            android:elevation="0dp"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:paddingHorizontal="@dimen/default_padding"
+            android:singleLine="true"
+            android:textColor="@color/black_universal"
+            android:textColorHighlight="@color/blue" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="Search" />
+        android:paddingHorizontal="@dimen/default_padding"
+        android:src="@drawable/empty_placeholder" />
 
-</FrameLayout>
+
+</LinearLayout>

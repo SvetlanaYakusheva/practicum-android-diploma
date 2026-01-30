@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Practicum-Android-Diploma</string>
+    <string name="base_url">https://practicum-diploma-8bc38133faba.herokuapp.com/</string>
     <string name="main">Главная</string>
     <string name="favorites">Избранное</string>
     <string name="crew">Команда</string>
+    <string name="vacancy_search">Поиск вакансий</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="salary_not_specified">Зарплата не указана</string>

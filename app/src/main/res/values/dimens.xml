@@ -2,6 +2,10 @@
 <resources>
     <dimen name="size_zero">0dp</dimen>
     <dimen name="size_4xs">1dp</dimen>
+    <dimen name="toolbar_height">64dp</dimen>
+    <dimen name="default_padding">16dp</dimen>
+    <dimen name="searchbar_height">56dp</dimen>
+    <dimen name="searchbar_radius">12dp</dimen>
 
 
 </resources>
