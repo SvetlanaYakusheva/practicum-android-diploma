@@ -14,6 +14,7 @@ data class Vacancy(
     val contactsPhones: String?,
     val description: String,
     val employerName: String,
-    val employerLogoPath: String,
-    val keySkills: String?
+    val employerLogoPath: String?,
+    val keySkills: String?,
+    val isFavorite: Boolean
 )
