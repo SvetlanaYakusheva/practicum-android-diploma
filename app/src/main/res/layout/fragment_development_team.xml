@@ -51,7 +51,7 @@
             style="@style/FontDisplay.Medium16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_24dp"
+            android:layout_marginTop="@dimen/dimen_16dp"
             android:text="@string/second_team_member" />
 
         <TextView
@@ -59,7 +59,7 @@
             style="@style/FontDisplay.Medium16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_24dp"
+            android:layout_marginTop="@dimen/dimen_16dp"
             android:text="@string/third_team_member" />
 
         <TextView
@@ -67,7 +67,7 @@
             style="@style/FontDisplay.Medium16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_24dp"
+            android:layout_marginTop="@dimen/dimen_16dp"
             android:text="@string/fourth_team_member" />
     </LinearLayout>
 
