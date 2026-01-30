@@ -22,7 +22,7 @@ class RetrofitNetworkClient(
 
         return when (dto) {
             is VacanciesSearchRequest -> getVacancies(dto)
-            is VacancyRequest -> get
+            is VacancyRequest -> getVacancyFull( dto)
             else -> Response().apply { resultCode = NetworkClient.HTTP_CLIENT_ERROR }
         }
     }
@@ -31,6 +31,19 @@ class RetrofitNetworkClient(
         return withContext(defaultDispatcher) {
             try {
                 vacanciesService.getVacancies(request.toMap())
+                    .apply { resultCode = NetworkClient.HTTP_SUCCESS }
+            } catch (e: HttpException) {
+                Response().apply { resultCode = e.code() }
+            } catch (_: SocketTimeoutException) {
+                Response().apply { resultCode = NetworkClient.HTTP_SERVER_ERROR }
+            }
+        }
+    }
+
+    private suspend fun getVacancyFull(request: VacancyRequest): Response {
+        return withContext(defaultDispatcher) {
+            try {
+                vacanciesService.getVacancyFull(request.vacancyId)
                     .apply { resultCode = NetworkClient.HTTP_SUCCESS }
             } catch (e: HttpException) {
                 Response().apply { resultCode = e.code() }
