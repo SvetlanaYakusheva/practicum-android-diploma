@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         app:title="@string/vacancy_search"
-        app:titleTextAppearance="@style/Medium22">
+        app:titleTextAppearance="@style/FontDisplay.Medium22">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/search_filter"
