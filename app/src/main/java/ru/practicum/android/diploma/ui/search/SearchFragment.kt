@@ -14,7 +14,9 @@ class SearchFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-    private lateinit var vacancyAdapter: VacancyAdapter
+    private val vacancyAdapter by lazy {
+        VacancyAdapter()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
@@ -28,7 +30,6 @@ class SearchFragment : Fragment() {
             findNavController().navigate(R.id.action_search_fragment_to_filterFragment)
         }
 
-        vacancyAdapter = VacancyAdapter()
         binding.vacancyRecyclerView.adapter = vacancyAdapter
 
     }

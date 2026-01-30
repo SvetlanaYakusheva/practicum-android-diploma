@@ -7,7 +7,6 @@ import com.bumptech.glide.Glide
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.VacancyItemBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
-import kotlin.TODO
 
 class VacancyViewHolder(private val binding: VacancyItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -18,7 +17,7 @@ class VacancyViewHolder(private val binding: VacancyItemBinding) : RecyclerView.
                 .placeholder(R.drawable.ic_employer_logo_placeholder_48)
                 .into(employerLogo)
 
-            //добавить areaName в Vacancy
+            // добавить areaName в Vacancy
             vacancyName.text = "${model.name}, "
         }
     }

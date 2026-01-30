@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.domain.models.Vacancy
 
-class VacancyAdapter() : RecyclerView.Adapter<VacancyViewHolder>() {
+class VacancyAdapter : RecyclerView.Adapter<VacancyViewHolder>() {
 
     private var vacancyList: List<Vacancy> = listOf()
 
