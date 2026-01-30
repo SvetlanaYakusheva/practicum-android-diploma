@@ -22,6 +22,7 @@ class RetrofitNetworkClient(
 
         return when (dto) {
             is VacanciesSearchRequest -> getVacancies(dto)
+            is VacancyRequest -> get
             else -> Response().apply { resultCode = NetworkClient.HTTP_CLIENT_ERROR }
         }
     }
