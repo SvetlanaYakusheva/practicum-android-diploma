@@ -6,13 +6,9 @@
     <dimen name="default_padding">16dp</dimen>
     <dimen name="searchbar_height">56dp</dimen>
     <dimen name="searchbar_radius">12dp</dimen>
-    <dimen name="vacancy_logo_size">48dp</dimen>
 
-    <dimen name="dimen_3dp">3dp</dimen>
     <dimen name="dimen_4dp">4dp</dimen>
     <dimen name="dimen_8dp">8dp</dimen>
-    <dimen name="dimen_9dp">9dp</dimen>
-    <dimen name="dimen_12dp">12dp</dimen>
     <dimen name="dimen_16dp">16dp</dimen>
     <dimen name="dimen_24dp">24dp</dimen>
     <dimen name="dimen_32dp">32dp</dimen>
