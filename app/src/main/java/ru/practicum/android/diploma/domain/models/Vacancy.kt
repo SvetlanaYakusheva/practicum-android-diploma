@@ -7,6 +7,7 @@ data class Vacancy(
     val salaryTo: Int?,
     val salaryCurrencyName: String?,
     val addressCity: String?,
+    val addressFull: String?,
     val experienceName: String?,
     val schedule: String?,
     val employment: String,
@@ -16,6 +17,9 @@ data class Vacancy(
     val description: String,
     val employerName: String,
     val employerLogoPath: String?,
-    val keySkills: String?,
+    val skills: List<String>?,
+    val areaId: String?,
+    val areaName: String?,
+    val areaParentId: String?,
     val isFavorite: Boolean
 )

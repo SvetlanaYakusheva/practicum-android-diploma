@@ -6,18 +6,19 @@ import ru.practicum.android.diploma.data.network.VacancyResponse
 import ru.practicum.android.diploma.domain.api.VacancyDetailsRepository
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.util.ErrorType
+import ru.practicum.android.diploma.data.Mapper
 import ru.practicum.android.diploma.util.Resource
-import ru.practicum.android.diploma.util.toVacancy
 
 class VacancyDetailsRepositoryImpl(
-    private val networkClient: NetworkClient
+    private val networkClient: NetworkClient,
+    private val mapper: Mapper
 ) : VacancyDetailsRepository {
     override suspend fun getVacancyById(vacancyId: String): Resource<Vacancy> {
         val response = networkClient.doRequest(VacancyRequest(vacancyId))
 
         return when (response.resultCode) {
             NetworkClient.HTTP_SUCCESS -> {
-                val result = (response as VacancyResponse).vacancy.toVacancy()
+                val result = with(mapper) { (response as VacancyResponse).vacancy.toVacancy() }
                 Resource.Success(result)
             }
 
