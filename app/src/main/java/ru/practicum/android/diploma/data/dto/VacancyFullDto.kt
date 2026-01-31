@@ -16,8 +16,8 @@ data class VacancyFullDto(
     val area: AreaDto,
     @SerializedName("response_url")
     val responseUrl: Any,
-    @SerializedName("key_skills")
-    val keySkills: List<KeySkillDto>,
+    @SerializedName("skills")
+    val skills: List<String>,
     val url: String,
     val industry: IndustryDto?
 )
