@@ -8,7 +8,10 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.VacancyItemBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
 
-class VacancyViewHolder(private val binding: VacancyItemBinding) : RecyclerView.ViewHolder(binding.root) {
+class VacancyViewHolder(
+    private val binding: VacancyItemBinding,
+    private val onVacancyClick: (String) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(model: Vacancy) {
         binding.apply {
@@ -17,17 +20,22 @@ class VacancyViewHolder(private val binding: VacancyItemBinding) : RecyclerView.
                 .placeholder(R.drawable.ic_employer_logo_placeholder_48)
                 .into(employerLogo)
 
-            // добавить areaName в Vacancy
-            vacancyName.text = "${model.name}, "
+            vacancyName.text = model.name
+
+            root.setOnClickListener {
+                onVacancyClick(model.id)
+            }
         }
     }
 
     companion object {
-        fun from(parent: ViewGroup): VacancyViewHolder {
+        fun from(
+            parent: ViewGroup,
+            onVacancyClick: (String) -> Unit
+        ): VacancyViewHolder {
             val inflater = LayoutInflater.from(parent.context)
             val binding = VacancyItemBinding.inflate(inflater, parent, false)
-            return VacancyViewHolder(binding)
+            return VacancyViewHolder(binding, onVacancyClick)
         }
     }
-
 }
