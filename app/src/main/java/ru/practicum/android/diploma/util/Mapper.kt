@@ -32,6 +32,7 @@ fun FavoriteVacancyEntity.toVacancy() = Vacancy(
     salaryFrom = salaryFrom,
     salaryTo = salaryTo,
     salaryCurrencyName = salaryCurrencyName,
+    addressCity = addressCity,
     schedule = schedule,
     isFavorite = true
 )
@@ -56,6 +57,7 @@ fun Vacancy.toEntity() = FavoriteVacancyEntity(
     salaryFrom = salaryFrom,
     salaryTo = salaryTo,
     salaryCurrencyName = salaryCurrencyName,
+    addressCity = addressCity,
     schedule = schedule ?: ""
 )
 
@@ -74,6 +76,7 @@ fun VacancyDto.toVacancy() = Vacancy(
     salaryFrom = salary?.salaryFrom,
     salaryTo = salary?.salaryTo,
     salaryCurrencyName = salary?.currency,
+    addressCity = address.city,
     schedule = schedule?.name,
     isFavorite = false
 )
