@@ -8,5 +8,6 @@ interface NetworkClient {
         const val HTTP_CLIENT_ERROR = 400
         const val HTTP_SERVER_ERROR = 500
         const val HTTP_SUCCESS = 200
+        const val HTTP_NOTHING_FOUND = 404
     }
 }

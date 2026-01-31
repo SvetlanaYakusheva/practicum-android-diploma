@@ -98,6 +98,3 @@ fun VacancyFullDto.toVacancy() = Vacancy(
     schedule = schedule?.name,
     isFavorite = false
 )
-
-
-

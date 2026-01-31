@@ -17,16 +17,16 @@ class VacancyDetailsRepositoryImpl(
     override suspend fun getVacancyById(vacancyId: String): Resource<Vacancy> {
         val response = networkClient.doRequest(VacancyRequest(vacancyId))
         when (response.resultCode) {
-            200 -> {
+            NetworkClient.HTTP_SUCCESS -> {
                 val result = (response as VacancyResponse).vacancy.toVacancy()
                 result.isFavorite = appDatabase.favoriteVacancyDao().findVacancyById(vacancyId).isNotEmpty()
-                return (Resource.Success(result))
+                return Resource.Success(result)
             }
-            404 -> {
-                return (Resource.Error(ErrorType.ServerError, "Вакансия не найдена"))
+            NetworkClient.HTTP_NOTHING_FOUND -> {
+                return Resource.Error(ErrorType.ServerError, "Вакансия не найдена")
             }
             else -> {
-                return (Resource.Error(ErrorType.ServerError, "Ошибка сервера"))
+                return Resource.Error(ErrorType.ServerError, "Ошибка сервера")
             }
         }
     }
