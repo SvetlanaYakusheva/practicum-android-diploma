@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.data.network
 
-import ru.practicum.android.diploma.data.dto.VacancyFullDto
+import ru.practicum.android.diploma.data.dto.VacancyDto
 
 data class VacancyResponse(
-    val vacancy: VacancyFullDto,
+    val vacancy: VacancyDto,
 ) : Response()

@@ -11,10 +11,14 @@ data class VacancyDto(
     val schedule: ScheduleDto?,
     val employment: EmploymentDto?,
     val contacts: ContactsDto?,
+    val description: String,
     val employer: EmployerDto?,
     val area: AreaDto,
     @SerializedName("response_url")
     val responseUrl: Any,
-    val url: String
+    @SerializedName("skills")
+    val skills: List<String>?,
+    val url: String,
+    val industry: IndustryDto?
 
 )
