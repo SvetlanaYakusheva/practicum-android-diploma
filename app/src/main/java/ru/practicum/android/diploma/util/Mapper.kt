@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.util
 
-
 import ru.practicum.android.diploma.data.db.entity.FavoriteVacancyEntity
 import ru.practicum.android.diploma.data.dto.AreaDto
 import ru.practicum.android.diploma.data.dto.IndustryDto
