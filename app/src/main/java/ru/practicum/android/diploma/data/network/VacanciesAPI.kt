@@ -5,6 +5,7 @@ import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
+import ru.practicum.android.diploma.data.dto.VacancyFullDto
 
 interface VacanciesAPI {
 
@@ -22,5 +23,5 @@ interface VacanciesAPI {
     @GET("/vacancies/{vacancyId}")
     suspend fun getVacancyFull(
         @Path("vacancyId") vacancyId: String
-    ): VacancyResponse
+    ): VacancyFullDto
 }

@@ -1,7 +1,5 @@
 package ru.practicum.android.diploma.data.impl
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.data.db.AppDatabase
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.data.network.VacancyRequest
@@ -16,19 +14,19 @@ class VacancyDetailsRepositoryImpl(
     private val networkClient: NetworkClient,
     private val appDatabase: AppDatabase
 ) : VacancyDetailsRepository {
-    override suspend fun getVacancyById(vacancyId: String): Flow<Resource<Vacancy>> = flow {
+    override suspend fun getVacancyById(vacancyId: String): Resource<Vacancy> {
         val response = networkClient.doRequest(VacancyRequest(vacancyId))
         when (response.resultCode) {
             200 -> {
                 val result = (response as VacancyResponse).vacancy.toVacancy()
                 result.isFavorite = appDatabase.favoriteVacancyDao().findVacancyById(vacancyId).isNotEmpty()
-                emit(Resource.Success(result))
+                return (Resource.Success(result))
             }
             404 -> {
-                emit(Resource.Error(ErrorType.ServerError, "Вакансия не найдена"))
+                return (Resource.Error(ErrorType.ServerError, "Вакансия не найдена"))
             }
             else -> {
-                emit(Resource.Error(ErrorType.ServerError, "Произошла сетевая ошибка"))
+                return (Resource.Error(ErrorType.ServerError, "Ошибка сервера"))
             }
         }
     }
