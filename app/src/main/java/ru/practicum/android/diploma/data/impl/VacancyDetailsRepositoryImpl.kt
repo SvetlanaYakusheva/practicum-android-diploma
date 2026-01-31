@@ -14,20 +14,20 @@ class VacancyDetailsRepositoryImpl(
 ) : VacancyDetailsRepository {
     override suspend fun getVacancyById(vacancyId: String): Resource<Vacancy> {
         val response = networkClient.doRequest(VacancyRequest(vacancyId))
-        when (response.resultCode) {
+
+        return when (response.resultCode) {
             NetworkClient.HTTP_SUCCESS -> {
                 val result = (response as VacancyResponse).vacancy.toVacancy()
-                return Resource.Success(result)
+                Resource.Success(result)
             }
 
-            else -> {
-                val message = if (response.resultCode == NetworkClient.HTTP_NOTHING_FOUND) {
-                    "Вакансия не найдена"
-                } else {
-                    "Ошибка сервера"
-                }
-                return Resource.Error(ErrorType.ServerError, message)
-            }
+            NetworkClient.HTTP_NOTHING_FOUND -> Resource.Error(ErrorType.NothingFound, MESSAGE_VACANCY_NOT_FOUND)
+            else -> Resource.Error(ErrorType.ServerError, MESSAGE_SERVER_ERROR)
         }
+    }
+
+    companion object {
+        const val MESSAGE_VACANCY_NOT_FOUND = "Вакансия не найдена"
+        const val MESSAGE_SERVER_ERROR = "Ошибка сервера"
     }
 }
