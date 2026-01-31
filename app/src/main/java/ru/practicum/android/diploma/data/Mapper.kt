@@ -10,7 +10,7 @@ import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.domain.models.Vacancy
 
-class Mapper (private val gson: Gson) {
+class Mapper(private val gson: Gson) {
     fun AreaDto.toArea(): Area = Area(
         id = id,
         name = name,
