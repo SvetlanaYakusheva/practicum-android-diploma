@@ -4,6 +4,7 @@ import ru.practicum.android.diploma.data.db.entity.FavoriteVacancyEntity
 import ru.practicum.android.diploma.data.dto.AreaDto
 import ru.practicum.android.diploma.data.dto.IndustryDto
 import ru.practicum.android.diploma.data.dto.VacancyDto
+import ru.practicum.android.diploma.data.dto.VacancyFullDto
 import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.domain.models.Vacancy
@@ -77,6 +78,25 @@ fun VacancyDto.toVacancy() = Vacancy(
     salaryTo = salary?.salaryTo,
     salaryCurrencyName = salary?.currency,
     addressCity = address.city,
+    schedule = schedule?.name,
+    isFavorite = false
+)
+
+fun VacancyFullDto.toVacancy() = Vacancy(
+    id = id,
+    name = name,
+    employerName = employer?.name ?: "",
+    employerLogoPath = employer?.logoUrl ?: "",
+    employment = employment?.name ?: "",
+    description = description,
+    contactsEmail = contacts?.email,
+    contactsName = contacts?.name,
+    contactsPhones = contacts?.phones?.joinToString(),
+    experienceName = experience?.name,
+    keySkills = skills.toString(),
+    salaryFrom = salary?.salaryFrom,
+    salaryTo = salary?.salaryTo,
+    salaryCurrencyName = salary?.currency,
     schedule = schedule?.name,
     isFavorite = false
 )

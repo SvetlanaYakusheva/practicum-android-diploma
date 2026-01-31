@@ -57,5 +57,4 @@
         android:paddingHorizontal="@dimen/default_padding"
         android:src="@drawable/empty_placeholder" />
 
-
 </LinearLayout>
