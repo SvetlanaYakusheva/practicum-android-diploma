@@ -1,12 +1,12 @@
 package ru.practicum.android.diploma.data.impl
 
+import ru.practicum.android.diploma.data.Mapper
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.data.network.VacancyRequest
 import ru.practicum.android.diploma.data.network.VacancyResponse
 import ru.practicum.android.diploma.domain.api.VacancyDetailsRepository
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.util.ErrorType
-import ru.practicum.android.diploma.data.Mapper
 import ru.practicum.android.diploma.util.Resource
 
 class VacancyDetailsRepositoryImpl(
