@@ -11,4 +11,3 @@ data class VacanciesSearchResponse(
     @SerializedName("per_page")
     val perPage: Int
 ) : Response()
-

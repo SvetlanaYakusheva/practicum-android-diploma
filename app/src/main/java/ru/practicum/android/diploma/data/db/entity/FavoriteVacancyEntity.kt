@@ -13,6 +13,7 @@ data class FavoriteVacancyEntity(
     @ColumnInfo(name = "salary_to") val salaryTo: Int?,
     @ColumnInfo(name = "salary_currency_name") val salaryCurrencyName: String?,
     @ColumnInfo(name = "address_city") val addressCity: String?,
+    @ColumnInfo(name = "address_full") val addressFull: String?,
     @ColumnInfo(name = "experience_name") val experienceName: String,
     @ColumnInfo(name = "schedule") val schedule: String,
     @ColumnInfo(name = "employment") val employment: String,
@@ -22,5 +23,8 @@ data class FavoriteVacancyEntity(
     @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "employer_name") val employerName: String,
     @ColumnInfo(name = "employer_logo_path") val employerLogoPath: String,
-    @ColumnInfo(name = "key_skills") val keySkills: String
+    @ColumnInfo(name = "skills") val skills: String,
+    @ColumnInfo(name = "area_id") val areaId: String,
+    @ColumnInfo(name = "area_name") val areaName: String,
+    @ColumnInfo(name = "area_parent_id") val areaParentId: String
 )
