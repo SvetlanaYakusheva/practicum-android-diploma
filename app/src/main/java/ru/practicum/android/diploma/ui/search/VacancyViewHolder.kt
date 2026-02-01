@@ -20,7 +20,9 @@ class VacancyViewHolder(
                 .placeholder(R.drawable.ic_employer_logo_placeholder_48)
                 .into(employerLogo)
 
-            vacancyName.text = model.name
+            vacancyName.text = root.context.getString(
+                R.string.view_holder_vacancy_name, model.name, model.addressCity
+            )
 
             root.setOnClickListener {
                 onVacancyClick(model.id)
