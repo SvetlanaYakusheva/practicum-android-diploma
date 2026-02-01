@@ -1,16 +1,24 @@
 package ru.practicum.android.diploma.ui.vacancy
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import ru.practicum.android.diploma.domain.api.FavoriteVacanciesInteractor
+import ru.practicum.android.diploma.domain.models.Vacancy
 
 class VacancyDetailsViewModel(
-    private val favoriteVacanciesInteractor: FavoriteVacanciesInteractor
+    private val vacancyId: String,
+    private val favoriteVacanciesInteractor: FavoriteVacanciesInteractor,
+
 ) :
     ViewModel() {
 
-    private val _isFavorite = MutableStateFlow(false)
+    private val stateLiveData = MutableLiveData<VacancyDetailsState>()
+    fun observePlayerState(): LiveData<VacancyDetailsState> = stateLiveData
+
+
+
+    /*private val _isFavorite = MutableStateFlow(false)
     val isFavorite: StateFlow<Boolean> = _isFavorite
 
     fun onFavoriteClicked() {
@@ -19,5 +27,5 @@ class VacancyDetailsViewModel(
 
     fun setInitialFavoriteState(isFavorite: Boolean) {
         _isFavorite.value = isFavorite
-    }
+    }*/
 }
