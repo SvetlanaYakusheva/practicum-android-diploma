@@ -44,7 +44,7 @@ class VacancyDetailsViewModel(
 
     private fun processResult(result: Resource<Vacancy>) {
         val state = when (result) {
-            is Resource.Success -> VacancyDetailsState.Content( result.data)
+            is Resource.Success -> VacancyDetailsState.Content(result.data)
             is Resource.Error -> {
                 if (result.errorType == ErrorType.NothingFound) {
                     VacancyDetailsState.VacancyNotFoundError
