@@ -49,12 +49,14 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
+        android:id="@+id/vacancy_details_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/dimen_24dp"
         android:paddingHorizontal="@dimen/dimen_16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vacancy_title">
+        app:layout_constraintTop_toBottomOf="@id/vacancy_title"
+        android:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -247,7 +249,7 @@
                 style="@style/FontDisplay.Regular16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_16dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/skills_list"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/skills_title" />
@@ -294,7 +296,7 @@
                 app:layout_constraintTop_toBottomOf="@id/email_title" />
 
             <TextView
-                android:id="@+id/p"
+                android:id="@+id/phone"
                 style="@style/FontDisplay.Regular16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -331,6 +333,30 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/emptyPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+
+        android:paddingHorizontal="@dimen/dimen_16dp"
+        android:src="@drawable/empty_placeholder"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vacancy_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="56dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/blue"
+        android:visibility="visible"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
