@@ -14,46 +14,38 @@ class SearchViewModel(
     private val searchVacanciesInteractor: SearchVacanciesInteractor
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(SearchUiState())
+    private val _state = MutableStateFlow<SearchUiState>(SearchUiState.Initial)
     val state: StateFlow<SearchUiState> = _state.asStateFlow()
 
+    private var currentQuery: String = ""
+
     fun onQueryChanged(query: String) {
-        _state.update {
-            it.copy(query = query)
-        }
+        currentQuery = query
     }
 
     fun search() {
-        val query = state.value.query
-        if (query.isBlank()) return
+        if (currentQuery.isBlank()) return
 
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true, errorMessage = null) }
+            _state.value = SearchUiState.Loading
 
-            when (val result = searchVacanciesInteractor.searchVacancies(query)) {
+            when (val result = searchVacanciesInteractor.searchVacancies(currentQuery)) {
                 is Resource.Success -> {
-                    _state.update {
-                        it.copy(
-                            vacancies = result.data ?: emptyList(),
-                            isLoading = false
-                        )
-                    }
+                    _state.value = SearchUiState.Content(
+                        vacancies = result.data ?: emptyList()
+                    )
                 }
 
                 is Resource.Error -> {
-                    _state.update {
-                        it.copy(
-                            vacancies = emptyList(),
-                            isLoading = false,
-                            errorMessage = result.message
-                        )
-                    }
+                    // todo: добавить Error state
+                    _state.value = SearchUiState.Initial
                 }
             }
         }
     }
 
     fun clearSearch() {
-        _state.value = SearchUiState()
+        currentQuery = ""
+        _state.value = SearchUiState.Initial
     }
 }

@@ -2,9 +2,13 @@ package ru.practicum.android.diploma.ui.search
 
 import ru.practicum.android.diploma.domain.models.Vacancy
 
-data class SearchUiState(
-    val query: String = "",
-    val vacancies: List<Vacancy> = emptyList(),
-    val isLoading: Boolean = false,
-    val errorMessage: String? = null
-)
+sealed interface SearchUiState {
+
+    object Initial : SearchUiState
+
+    object Loading : SearchUiState
+
+    data class Content(
+        val vacancies: List<Vacancy>
+    ) : SearchUiState
+}
