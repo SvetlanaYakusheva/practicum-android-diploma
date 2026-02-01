@@ -121,30 +121,8 @@ class VacancyDetailsFragment : Fragment() {
             experience.text = vacancy.experienceName
             schedule.text = vacancy.schedule + ", " + vacancy.employment
             vacancyDescription.text = vacancy.description
-            if (vacancy.skills.isNullOrEmpty()) {
-                skillsTitle.isVisible = false
-                skillsList.isVisible = false
-            } else {
-                skillsTitle.isVisible = true
-                skillsList.isVisible = true
-                skillsList.text = listToUI(vacancy.skills)
-            }
-            if (vacancy.contactsEmail.isNullOrEmpty()) {
-                emailTitle.isVisible = false
-                email.isVisible = false
-            } else {
-                emailTitle.isVisible = true
-                email.isVisible = true
-                email.text = vacancy.contactsEmail
-            }
-            if (vacancy.contactsPhones.isNullOrEmpty()) {
-                phoneTitle.isVisible = false
-                phone.isVisible = false
-            } else {
-                phoneTitle.isVisible = true
-                phone.isVisible = true
-                phone.text = listPhonesToUI(vacancy.contactsPhones)
-            }
+            showSkills(vacancy.skills)
+            showContacts(vacancy.contactsEmail, vacancy.contactsPhones)
         }
     }
 
@@ -170,6 +148,39 @@ class VacancyDetailsFragment : Fragment() {
         }
     }
 
+    private fun showSkills(skills: List<String>?) {
+        binding.apply {
+            if (skills.isNullOrEmpty()) {
+                skillsTitle.isVisible = false
+                skillsList.isVisible = false
+            } else {
+                skillsTitle.isVisible = true
+                skillsList.isVisible = true
+                skillsList.text = listToUI(skills)
+            }
+        }
+    }
+
+    private fun showContacts(contactsEmail: String?, contactsPhones: List<Phone>?) {
+        binding.apply {
+            if (contactsEmail.isNullOrEmpty()) {
+                emailTitle.isVisible = false
+                email.isVisible = false
+            } else {
+                emailTitle.isVisible = true
+                email.isVisible = true
+                email.text = contactsEmail
+            }
+            if (contactsPhones.isNullOrEmpty()) {
+                phoneTitle.isVisible = false
+                phone.isVisible = false
+            } else {
+                phoneTitle.isVisible = true
+                phone.isVisible = true
+                phone.text = listPhonesToUI(contactsPhones)
+            }
+        }
+    }
     private fun listToUI(skills: List<String>): String {
         var result = ""
         for (skill in skills) {
