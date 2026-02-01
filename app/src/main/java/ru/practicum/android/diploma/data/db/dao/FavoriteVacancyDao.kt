@@ -13,7 +13,8 @@ interface FavoriteVacancyDao {
     @Query("SELECT * FROM favorite_vacancy_table")
     suspend fun getVacancies(): List<FavoriteVacancyEntity>
 
-    suspend fun getVacanciesIds() : List<Int>
+    @Query("SELECT vacancy_id FROM favorite_vacancy_table")
+    suspend fun getVacanciesIds() : List<String>
 
     @Insert(entity = FavoriteVacancyEntity::class, onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertVacancy(vacancy: FavoriteVacancyEntity)

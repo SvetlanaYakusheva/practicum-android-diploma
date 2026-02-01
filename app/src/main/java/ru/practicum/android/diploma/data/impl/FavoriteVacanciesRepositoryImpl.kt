@@ -34,7 +34,7 @@ class FavoriteVacanciesRepositoryImpl(
         appDatabase.favoriteVacancyDao().deleteVacancy(favoriteVacancyEntity)
     }
 
-    override suspend fun getFavoriteVacanciesIds() : List<Int> {
+    override suspend fun getFavoriteVacanciesIds() : List<String> {
         return appDatabase.favoriteVacancyDao().getVacanciesIds()
     }
 
