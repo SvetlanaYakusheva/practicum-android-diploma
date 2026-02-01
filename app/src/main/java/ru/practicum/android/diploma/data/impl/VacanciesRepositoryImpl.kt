@@ -20,7 +20,6 @@ class VacanciesRepositoryImpl(
         page: Int,
         perPage: Int
     ): Resource<List<Vacancy>> {
-
         val response = networkClient.doRequest(
             VacanciesSearchRequest(
                 text = query,
