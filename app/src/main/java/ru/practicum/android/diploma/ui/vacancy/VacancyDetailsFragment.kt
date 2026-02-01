@@ -83,7 +83,7 @@ class VacancyDetailsFragment : Fragment() {
                         if (isFavorite) {
                             R.drawable.favorites_tab_icon
                         } else {
-                            R.drawable.favorites_icon
+                            R.drawable.ic_favorite_off_48
                         }
                     )
                 }
