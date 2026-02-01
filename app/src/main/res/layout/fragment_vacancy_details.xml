@@ -97,7 +97,7 @@
                 android:layout_marginVertical="@dimen/dimen_16dp"
                 android:layout_marginStart="@dimen/dimen_16dp"
                 android:contentDescription="@string/company_logo"
-                android:src="@drawable/logo_icon"
+                android:src="@drawable/ic_employer_logo_placeholder_48"
                 app:layout_constraintBottom_toBottomOf="@id/company_card"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="@id/company_card"

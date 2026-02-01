@@ -51,6 +51,31 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/founded_count_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimen_3dp"
+        android:backgroundTint="@color/blue"
+        android:foreground="?attr/selectableItemBackground"
+        android:visibility="gone"
+        app:cardCornerRadius="@dimen/dimen_12dp"
+        app:cardElevation="0dp">
+
+        <TextView
+            android:id="@+id/founded_count"
+            style="@style/FontDisplay.Regular16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingHorizontal="@dimen/dimen_12dp"
+            android:paddingVertical="@dimen/dimen_4dp"
+            android:textColor="@color/white_universal"
+            tools:text="Найдено 286 вакансий" />
+
+    </androidx.cardview.widget.CardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/vacancyRecycler"
         android:layout_width="match_parent"
@@ -65,7 +90,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:paddingHorizontal="@dimen/default_padding"
-        android:src="@drawable/empty_placeholder"
-        android:visibility="gone" />
+        android:src="@drawable/empty_placeholder" />
 
 </LinearLayout>
