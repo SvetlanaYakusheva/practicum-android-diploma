@@ -51,10 +51,21 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/vacancyRecycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:paddingHorizontal="@dimen/default_padding"
-        android:src="@drawable/empty_placeholder" />
+        tools:listitem="@layout/vacancy_item" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/emptyPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingHorizontal="@dimen/default_padding"
+        android:src="@drawable/empty_placeholder"
+        android:visibility="gone" />
 
 </LinearLayout>

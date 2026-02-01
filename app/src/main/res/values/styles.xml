@@ -75,4 +75,9 @@
         <item name="elevation">@dimen/size_zero</item>
     </style>
 
+    <style name="RoundedLogoShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/dimen_12dp</item>
+    </style>
+
 </resources>
