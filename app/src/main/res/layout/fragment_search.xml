@@ -26,71 +26,67 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/name_background"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/searchbar_height"
-        android:layout_margin="@dimen/default_padding"
-        android:backgroundTint="?attr/edit_text_color"
-        app:cardCornerRadius="@dimen/searchbar_radius">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <EditText
-            android:id="@+id/playlist_name"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/vacancyRecycler"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/searchbar_height"
-            android:layout_gravity="center_vertical"
-            android:background="@null"
-            android:drawableEnd="@drawable/ic_search_24"
-            android:elevation="0dp"
-            android:imeOptions="actionDone"
-            android:inputType="text"
+            android:layout_height="match_parent"
             android:paddingHorizontal="@dimen/default_padding"
-            android:singleLine="true"
-            android:textColor="@color/black_universal"
-            android:textColorHighlight="@color/blue" />
+            tools:listitem="@layout/vacancy_item" />
 
-    </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/founded_count_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dimen_4dp"
+            android:backgroundTint="@color/blue"
+            android:foreground="?attr/selectableItemBackground"
+            android:visibility="gone"
+            app:cardCornerRadius="@dimen/dimen_12dp"
+            app:cardElevation="0dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/founded_count_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="27dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dimen_4dp"
-        android:backgroundTint="@color/blue"
-        android:foreground="?attr/selectableItemBackground"
-        android:visibility="gone"
-        app:cardCornerRadius="@dimen/dimen_12dp"
-        app:cardElevation="0dp">
+            <TextView
+                android:id="@+id/founded_count"
+                style="@style/FontDisplay.Regular16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingHorizontal="@dimen/dimen_12dp"
+                android:paddingVertical="@dimen/dimen_4dp"
+                android:textColor="@color/white_universal"
+                tools:text="Найдено 286 вакансий" />
 
-        <TextView
-            android:id="@+id/founded_count"
-            style="@style/FontDisplay.Regular16"
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/vacancy_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingHorizontal="@dimen/default_padding"
+            android:visibility="gone"
+            tools:listitem="@layout/vacancy_item" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/emptyPlaceholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/default_padding"
+            android:src="@drawable/empty_placeholder"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingHorizontal="@dimen/dimen_12dp"
-            android:paddingVertical="@dimen/dimen_4dp"
-            android:textColor="@color/white_universal"
-            tools:text="Найдено 286 вакансий" />
+            android:visibility="gone" />
 
-    </androidx.cardview.widget.CardView>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/vacancy_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingHorizontal="@dimen/default_padding"
-        android:visibility="gone"
-        tools:listitem="@layout/vacancy_item" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/empty_placeholder"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingHorizontal="@dimen/default_padding"
-        android:src="@drawable/empty_placeholder" />
+    </FrameLayout>
 
 </LinearLayout>
