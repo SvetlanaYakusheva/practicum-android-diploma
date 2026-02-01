@@ -7,14 +7,14 @@
     android:paddingHorizontal="@dimen/default_padding"
     android:paddingVertical="@dimen/dimen_12dp">
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/employer_logo"
         android:layout_width="@dimen/vacancy_logo_size"
         android:layout_height="@dimen/vacancy_logo_size"
         android:scaleType="centerCrop"
+        app:riv_corner_radius="@dimen/dimen_12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/RoundedLogoShape"
         tools:src="@drawable/ic_employer_logo_placeholder_48" />
 
     <com.google.android.material.textview.MaterialTextView

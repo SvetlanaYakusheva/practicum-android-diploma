@@ -28,7 +28,7 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.vacancyRecycler.adapter = vacancyAdapter
+        binding.vacancyRecyclerView.adapter = vacancyAdapter
 
         binding.searchFilter.setOnClickListener {
             findNavController().navigate(R.id.action_search_fragment_to_filterFragment)
