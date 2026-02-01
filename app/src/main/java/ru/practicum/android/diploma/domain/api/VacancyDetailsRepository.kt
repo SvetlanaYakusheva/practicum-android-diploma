@@ -1,8 +1,9 @@
 package ru.practicum.android.diploma.domain.api
 
+import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.util.Resource
 
 interface VacancyDetailsRepository {
-    suspend fun getVacancyById(vacancyId: String): Resource<Vacancy>
+    fun getVacancyById(vacancyId: String): Flow<Resource<Vacancy>>
 }

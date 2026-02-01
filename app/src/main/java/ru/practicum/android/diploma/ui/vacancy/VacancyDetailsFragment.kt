@@ -8,24 +8,29 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyDetailsBinding
+import ru.practicum.android.diploma.domain.models.Phone
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.util.UtilFunctions.formatSalary
+import kotlin.getValue
 
 class VacancyDetailsFragment : Fragment() {
 
     private var _binding: FragmentVacancyDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: VacancyDetailsViewModel by viewModels()
+    private val viewModel: VacancyDetailsViewModel by viewModel {
+        parametersOf(vacancyId)
+    }
 
     private var vacancyId: String? = null
 
@@ -76,7 +81,8 @@ class VacancyDetailsFragment : Fragment() {
             }
         }
     }
-    private fun render (state: VacancyDetailsState) {
+
+    private fun render(state: VacancyDetailsState) {
         when (state) {
             is VacancyDetailsState.Loading -> showLoading()
             is VacancyDetailsState.Content -> showContent(state.vacancy)
@@ -88,16 +94,19 @@ class VacancyDetailsFragment : Fragment() {
 
     private fun showLoading() {
         binding.apply {
-            vacancyDetailsScroll.isVisible = false
-            emptyPlaceholder.isVisible = false
             progressBar.isVisible = true
+            notFoundPlaceholder.isVisible = false
+            notFoundText.isVisible = false
+            vacancyDetailsScroll.isVisible = false
         }
     }
+
     private fun showContent(vacancy: Vacancy) {
         binding.apply {
-            vacancyDetailsScroll.isVisible = true
-            emptyPlaceholder.isVisible = false
             progressBar.isVisible = false
+            notFoundPlaceholder.isVisible = false
+            notFoundText.isVisible = false
+            vacancyDetailsScroll.isVisible = true
 
             Glide.with(requireContext())
                 .load(Uri.parse(vacancy.employerLogoPath))
@@ -110,31 +119,72 @@ class VacancyDetailsFragment : Fragment() {
             companyName.text = vacancy.employerName
             companyAddress.text = vacancy.addressFull ?: vacancy.areaName
             experience.text = vacancy.experienceName
-            schedule.text = vacancy.schedule
-            responsibilities.text = vacancy.description
-            skillsList.text = vacancy.skills.toString()
-            email.text = vacancy.contactsEmail
-            phone.text = vacancy.contactsPhones
-            comment.text = vacancy.contactsName
-
+            schedule.text = vacancy.schedule + ", " + vacancy.employment
+            vacancyDescription.text = vacancy.description
+            if (vacancy.skills.isNullOrEmpty()) {
+                skillsTitle.isVisible = false
+                skillsList.isVisible = false
+            } else {
+                skillsTitle.isVisible = true
+                skillsList.isVisible = true
+                skillsList.text = listToUI(vacancy.skills)
+            }
+            if (vacancy.contactsEmail.isNullOrEmpty()) {
+                emailTitle.isVisible = false
+                email.isVisible = false
+            } else {
+                emailTitle.isVisible = true
+                email.isVisible = true
+                email.text = vacancy.contactsEmail
+            }
+            if (vacancy.contactsPhones.isNullOrEmpty()) {
+                phoneTitle.isVisible = false
+                phone.isVisible = false
+            } else {
+                phoneTitle.isVisible = true
+                phone.isVisible = true
+                phone.text = listPhonesToUI(vacancy.contactsPhones)
+            }
         }
     }
 
     private fun showVacancyNotFound() {
         binding.apply {
-            vacancyDetailsScroll.isVisible = false
-            emptyPlaceholder.isVisible = true
             progressBar.isVisible = false
-        }
-    }
-    private fun showServerError() {
-        binding.apply {
             vacancyDetailsScroll.isVisible = false
-            emptyPlaceholder.isVisible = true
-            progressBar.isVisible = false
+            notFoundPlaceholder.isVisible = true
+            notFoundText.isVisible = true
+            notFoundPlaceholder.setImageResource(R.drawable.notfound2_icon)
+            notFoundText.setText(R.string.vacancy_not_found)
         }
     }
 
+    private fun showServerError() {
+        binding.apply {
+            progressBar.isVisible = false
+            vacancyDetailsScroll.isVisible = false
+            notFoundPlaceholder.isVisible = true
+            notFoundText.isVisible = true
+            notFoundPlaceholder.setImageResource(R.drawable.servererror2_icon)
+            notFoundText.setText(R.string.server_error_message)
+        }
+    }
+
+    private fun listToUI(skills: List<String>): String {
+        var result = ""
+        for (skill in skills) {
+            result += "\n ${Typography.bullet} " + skill
+        }
+        return result.drop(1)
+    }
+
+    private fun listPhonesToUI(phones: List<Phone>): String {
+        var result = ""
+        for (phone in phones) {
+            result += "\n ${phone.formatted} " + phone.comment.orEmpty()
+        }
+        return result.drop(1)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -34,7 +34,11 @@ class VacancyDetailsViewModel(
     fun fillData() {
         viewModelScope.launch {
             vacancyDetailsState.postValue(VacancyDetailsState.Loading)
-            processResult(interactor.getVacancyById(vacancyId))
+            interactor
+                .getVacancyById(vacancyId)
+                .collect { result ->
+                    processResult(result)
+                }
         }
     }
 
