@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -43,6 +44,10 @@ class SearchFragment : Fragment() {
 
         observeViewModel()
 
+        binding.searchInput.addTextChangedListener { text ->
+            viewModel.onQueryChanged(text.toString())
+        }
+
         binding.searchFilter.setOnClickListener {
             findNavController().navigate(R.id.action_search_fragment_to_filterFragment)
         }
@@ -72,9 +77,15 @@ class SearchFragment : Fragment() {
 
             is SearchUiState.Content -> {
                 binding.progressBar.visibility = View.GONE
-                binding.emptyPlaceholder.visibility = View.GONE
-                binding.vacancyRecycler.visibility = View.VISIBLE
-                vacancyAdapter.updateList(state.vacancies)
+
+                if (state.vacancies.isEmpty()) {
+                    binding.vacancyRecycler.visibility = View.GONE
+                    binding.emptyPlaceholder.visibility = View.VISIBLE
+                } else {
+                    binding.emptyPlaceholder.visibility = View.GONE
+                    binding.vacancyRecycler.visibility = View.VISIBLE
+                    vacancyAdapter.updateList(state.vacancies)
+                }
             }
         }
     }
