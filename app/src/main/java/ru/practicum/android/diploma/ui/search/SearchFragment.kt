@@ -50,6 +50,7 @@ class SearchFragment : Fragment() {
 
         binding.searchFilter.setOnClickListener {
             findNavController().navigate(R.id.action_search_fragment_to_filterFragment)
+
         }
     }
 
