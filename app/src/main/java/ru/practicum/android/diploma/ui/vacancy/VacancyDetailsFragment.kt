@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import kotlin.getValue
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -21,8 +24,6 @@ import ru.practicum.android.diploma.domain.models.Phone
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.vacancy.VacancyDetailsViewModel
 import ru.practicum.android.diploma.util.UtilFunctions.formatSalary
-import kotlin.getValue
-import androidx.core.net.toUri
 
 class VacancyDetailsFragment : Fragment() {
 
@@ -48,6 +49,10 @@ class VacancyDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         vacancyId = requireArguments().getString(KEY_VACANCY_ID)
+
+        binding.topAppBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
 
         viewModel.fillData()
         viewModel.observeVacancyDetailsState().observe(viewLifecycleOwner) {
@@ -111,7 +116,6 @@ class VacancyDetailsFragment : Fragment() {
 
             Glide.with(requireContext())
                 .load(vacancy.employerLogoPath?.toUri())
-                .centerCrop()
                 .placeholder(R.drawable.ic_employer_logo_placeholder_48)
                 .into(companyLogo)
 
