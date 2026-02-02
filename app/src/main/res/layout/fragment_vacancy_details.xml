@@ -94,18 +94,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/salary" />
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/company_logo"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="@dimen/vacancy_logo_size"
+                android:layout_height="@dimen/vacancy_logo_size"
                 android:layout_marginVertical="@dimen/dimen_16dp"
                 android:layout_marginStart="@dimen/dimen_16dp"
-                android:contentDescription="@string/company_logo"
-                android:src="@drawable/ic_employer_logo_placeholder_48"
+                android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="@id/company_card"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="@id/company_card"
-                app:layout_constraintTop_toTopOf="@id/company_card" />
+                app:layout_constraintTop_toTopOf="@id/company_card"
+                app:shapeAppearanceOverlay="@style/RoundedLogoShape"
+                tools:src="@drawable/ic_employer_logo_placeholder_48" />
 
             <TextView
                 android:id="@+id/company_name"
