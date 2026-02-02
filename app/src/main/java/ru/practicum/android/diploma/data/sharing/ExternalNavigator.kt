@@ -2,8 +2,8 @@ package ru.practicum.android.diploma.data.sharing
 
 import android.content.Context
 import android.content.Intent
-import ru.practicum.android.diploma.R
 import androidx.core.net.toUri
+import ru.practicum.android.diploma.R
 
 class ExternalNavigator(val context: Context) {
     fun shareLink(link: String) {
