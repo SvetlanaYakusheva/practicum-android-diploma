@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.search
+package ru.practicum.android.diploma.presentation.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.SearchVacanciesInteractor
+import ru.practicum.android.diploma.ui.search.SearchUiState
 import ru.practicum.android.diploma.util.Resource
 
 class SearchViewModel(
@@ -39,7 +40,7 @@ class SearchViewModel(
             when (val result = searchVacanciesInteractor.searchVacancies(query)) {
                 is Resource.Success -> {
                     _state.value = SearchUiState.Content(
-                        vacancies = result.data ?: emptyList()
+                        vacancies = result.data
                     )
                 }
 

@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
+import ru.practicum.android.diploma.presentation.search.SearchViewModel
+import ru.practicum.android.diploma.ui.adapters.VacancyAdapter
 import ru.practicum.android.diploma.ui.vacancy.VacancyDetailsFragment
 
 class SearchFragment : Fragment() {
