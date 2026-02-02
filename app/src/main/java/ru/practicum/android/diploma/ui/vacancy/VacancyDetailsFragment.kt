@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.ui.vacancy
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,8 +19,10 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyDetailsBinding
 import ru.practicum.android.diploma.domain.models.Phone
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.presentation.vacancy.VacancyDetailsViewModel
 import ru.practicum.android.diploma.util.UtilFunctions.formatSalary
 import kotlin.getValue
+import androidx.core.net.toUri
 
 class VacancyDetailsFragment : Fragment() {
 
@@ -109,7 +110,7 @@ class VacancyDetailsFragment : Fragment() {
             vacancyDetailsScroll.isVisible = true
 
             Glide.with(requireContext())
-                .load(Uri.parse(vacancy.employerLogoPath))
+                .load(vacancy.employerLogoPath?.toUri())
                 .centerCrop()
                 .placeholder(R.drawable.ic_employer_logo_placeholder_48)
                 .into(companyLogo)

@@ -1,8 +1,9 @@
-package ru.practicum.android.diploma.ui.search
+package ru.practicum.android.diploma.ui.adapters
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.ui.viewholders.VacancyViewHolder
 
 class VacancyAdapter(
     private val onVacancyClick: (String) -> Unit
