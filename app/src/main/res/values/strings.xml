@@ -46,4 +46,9 @@
     <string name="view_holder_vacancy_name">%1$s, %2$s</string>
     <string name="server_error_message">Ошибка сервера</string>
     <string name="vacancy_not_found">Вакансия не найдена или \nудалена</string>
+    <string name="share_app_text_plain">text/plain</string>
+    <string name="mailto" translatable="false">mailto:%s</string>
+    <string name="mail">Почта: </string>
+    <string name="message_email">" "</string>
+    <string name="share_vacancy_url">https://practicum-diploma-8bc38133faba.herokuapp.com/vacancies/%s</string>
 </resources>

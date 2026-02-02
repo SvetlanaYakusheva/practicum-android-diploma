@@ -12,8 +12,11 @@ import ru.practicum.android.diploma.data.db.AppDatabase
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.data.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.data.network.VacanciesAPI
+import ru.practicum.android.diploma.data.sharing.ExternalNavigator
 
 val dataModule = module {
+
+    single { Gson() }
 
     single<VacanciesAPI> {
         Retrofit.Builder()
@@ -27,8 +30,6 @@ val dataModule = module {
         RetrofitNetworkClient(context = get(), vacanciesService = get())
     }
 
-    single { Gson() }
-
     single {
         Room.databaseBuilder(get(), AppDatabase::class.java, "database.db")
             .fallbackToDestructiveMigration()
@@ -39,4 +40,7 @@ val dataModule = module {
         Mapper(get())
     }
 
+    single {
+        ExternalNavigator(get())
+    }
 }

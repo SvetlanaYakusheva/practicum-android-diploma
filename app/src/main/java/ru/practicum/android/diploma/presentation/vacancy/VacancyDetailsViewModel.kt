@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.domain.api.SharingInteractor
 import ru.practicum.android.diploma.domain.api.VacancyDetailsInteractor
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.vacancy.VacancyDetailsState
@@ -15,7 +16,8 @@ import ru.practicum.android.diploma.util.Resource
 
 class VacancyDetailsViewModel(
     private val vacancyId: String,
-    private val interactor: VacancyDetailsInteractor
+    private val interactor: VacancyDetailsInteractor,
+    private val sharingInteractor: SharingInteractor,
 ) : ViewModel() {
 
     private val _isFavorite = MutableStateFlow(false)
@@ -41,6 +43,18 @@ class VacancyDetailsViewModel(
                     processResult(result)
                 }
         }
+    }
+
+    fun shareVacancy() {
+        sharingInteractor.shareVacancy(vacancyId)
+    }
+
+    fun openEmail(mailTo: String, vacancyName: String) {
+        sharingInteractor.openEmail(mailTo, vacancyName)
+    }
+
+    fun callPhone(phoneNumber: String) {
+        sharingInteractor.callPhone(phoneNumber)
     }
 
     private fun processResult(result: Resource<Vacancy>) {
