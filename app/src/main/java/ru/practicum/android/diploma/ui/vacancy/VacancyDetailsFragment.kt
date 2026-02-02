@@ -22,9 +22,6 @@ import ru.practicum.android.diploma.databinding.FragmentVacancyDetailsBinding
 import ru.practicum.android.diploma.domain.models.Phone
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.vacancy.VacancyDetailsViewModel
-
-import kotlin.getValue
-
 import ru.practicum.android.diploma.util.UtilFunctions.formatSalary
 
 class VacancyDetailsFragment : Fragment() {
