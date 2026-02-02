@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.vacancy
+package ru.practicum.android.diploma.presentation.vacancy
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
