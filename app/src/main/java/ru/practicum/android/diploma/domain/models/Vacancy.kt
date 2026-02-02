@@ -13,7 +13,7 @@ data class Vacancy(
     val employment: String,
     val contactsName: String?,
     val contactsEmail: String?,
-    val contactsPhones: String?,
+    val contactsPhones: List<Phone>?,
     val description: String,
     val employerName: String,
     val employerLogoPath: String?,

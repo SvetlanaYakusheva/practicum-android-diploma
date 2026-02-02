@@ -23,11 +23,10 @@
     <string name="vacancy_description">Описание вакансии</string>
     <string name="schedule">Полная занятость, Удаленная работа</string>
     <string name="responsibilities">Обязанности</string>
-    <string name="responsibilities_list">Разрабатывать новую функциональность приложения\nПомогать с интеграцией нашего SDK в другие приложения\nПроектировать большие новые модули\nПисать UI- и unit-тесты\nСледить за работоспособностью сервиса и устранять технический долг</string>
-    <string name="requirements">Требования</string>
-    <string name="requirements_list">100% Kotlin\nWebRTC\nCI по модели Trunk Based Development</string>
-    <string name="conditions">Условия</string>
-    <string name="conditions_list">сильная команда, с которой можно расти\nвозможность влиять на процесс и результат\nрасширенная программа ДМС: стоматология, обследования, вызов врача на дом и многое другое</string>
+    <string name="responsibilities_example">Разрабатывать новую функциональность приложения\nПомогать с интеграцией нашего SDK в другие приложения\nПроектировать большие новые модули\nПисать UI- и unit-тесты\nСледить за работоспособностью сервиса и устранять технический долг\n
+        \nТребования
+        \n100% Kotlin\nWebRTC\nCI по модели Trunk Based Development\n
+        \nУсловия\nсильная команда, с которой можно расти\nвозможность влиять на процесс и результат\nрасширенная программа ДМС: стоматология, обследования, вызов врача на дом и многое другое</string>
     <string name="skills_title">Ключевые навыки</string>
     <string name="skills_list">Знание классических алгоритмов и структуры данных\nПрограммирование для Android больше одного года\nЗнание WebRTC</string>
     <string name="contacts_title">Контакты</string>
@@ -45,4 +44,6 @@
     <string name="example_text_2">Авто.ру</string>
     <string name="example_text_3">от 1 000 до 1 500 €</string>
     <string name="view_holder_vacancy_name">%1$s, %2$s</string>
+    <string name="server_error_message">Ошибка сервера</string>
+    <string name="vacancy_not_found">Вакансия не найдена или \nудалена</string>
 </resources>

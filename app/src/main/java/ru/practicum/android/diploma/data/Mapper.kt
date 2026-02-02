@@ -5,9 +5,11 @@ import com.google.gson.reflect.TypeToken
 import ru.practicum.android.diploma.data.db.entity.FavoriteVacancyEntity
 import ru.practicum.android.diploma.data.dto.AreaDto
 import ru.practicum.android.diploma.data.dto.IndustryDto
+import ru.practicum.android.diploma.data.dto.PhoneDto
 import ru.practicum.android.diploma.data.dto.VacancyDto
 import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.domain.models.Industry
+import ru.practicum.android.diploma.domain.models.Phone
 import ru.practicum.android.diploma.domain.models.Vacancy
 
 class Mapper(private val gson: Gson) {
@@ -29,7 +31,7 @@ class Mapper(private val gson: Gson) {
         description = description,
         contactsEmail = contactsEmail,
         contactsName = contactsName,
-        contactsPhones = contactsPhones,
+        contactsPhones = gson.fromJson(contactsPhones, object : TypeToken<List<Phone>>() {}.type),
         experienceName = experienceName,
         skills = gson.fromJson(skills, object : TypeToken<List<String>>() {}.type),
         salaryFrom = salaryFrom,
@@ -58,7 +60,7 @@ class Mapper(private val gson: Gson) {
         description = description,
         contactsEmail = contactsEmail,
         contactsName = contactsName,
-        contactsPhones = contactsPhones,
+        contactsPhones = gson.toJson(contactsPhones),
         experienceName = experienceName ?: "",
         skills = gson.toJson(skills),
         salaryFrom = salaryFrom,
@@ -78,10 +80,10 @@ class Mapper(private val gson: Gson) {
         employerName = employer?.name ?: "",
         employerLogoPath = employer?.logoUrl ?: "",
         employment = employment?.name ?: "",
-        description = "",
+        description = description,
         contactsEmail = contacts?.email,
         contactsName = contacts?.name,
-        contactsPhones = contacts?.phones?.joinToString(),
+        contactsPhones = contacts?.phones?.map { it.toPhone() },
         experienceName = experience?.name,
         skills = skills,
         salaryFrom = salary?.salaryFrom,
@@ -94,5 +96,10 @@ class Mapper(private val gson: Gson) {
         areaName = area.name,
         areaParentId = area.parentId,
         isFavorite = false
+    )
+
+    fun PhoneDto.toPhone() = Phone(
+        comment = comment,
+        formatted = formatted
     )
 }

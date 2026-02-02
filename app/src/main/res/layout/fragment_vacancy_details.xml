@@ -49,10 +49,14 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
+        android:id="@+id/vacancy_details_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/dimen_24dp"
+        android:clipToPadding="false"
         android:paddingHorizontal="@dimen/dimen_16dp"
+        android:paddingBottom="@dimen/dimen_16dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/vacancy_title">
 
@@ -67,9 +71,8 @@
                 style="@style/FontDisplay.Bold32"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/vacancy_name"
+                tools:text="@string/vacancy_name"
                 app:layout_constraintStart_toStartOf="parent"
-
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -78,9 +81,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_4dp"
-                android:text="@string/vacancy_salary"
+                tools:text="@string/vacancy_salary"
                 app:layout_constraintStart_toStartOf="parent"
-
                 app:layout_constraintTop_toBottomOf="@id/vacancy_name" />
 
             <View
@@ -111,7 +113,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_8dp"
-                android:text="@string/company_name"
+                tools:text="@string/company_name"
                 android:textColor="@color/black_universal"
                 app:layout_constraintBottom_toTopOf="@id/company_address"
                 app:layout_constraintEnd_toEndOf="@id/company_card"
@@ -124,7 +126,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_8dp"
-                android:text="@string/company_address"
+                tools:text="@string/company_address"
                 android:textColor="@color/black_universal"
                 app:layout_constraintBottom_toBottomOf="@id/company_logo"
                 app:layout_constraintEnd_toEndOf="@id/company_card"
@@ -147,7 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_4dp"
-                android:text="@string/experience_value"
+                tools:text="@string/experience_value"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/experience_title" />
 
@@ -165,7 +167,6 @@
                 android:id="@+id/vacancy_description_title"
                 style="@style/FontDisplay.Medium22"
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_32dp"
                 android:text="@string/vacancy_description"
@@ -173,64 +174,14 @@
                 app:layout_constraintTop_toBottomOf="@id/schedule" />
 
             <TextView
-                android:id="@+id/responsibilities"
-                style="@style/FontDisplay.Medium16"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_16dp"
-                android:text="@string/responsibilities"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vacancy_description_title" />
-
-            <TextView
-                android:id="@+id/responsibilities_list"
+                android:id="@+id/vacancy_description"
                 style="@style/FontDisplay.Regular16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_4dp"
-                android:text="@string/responsibilities_list"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/responsibilities" />
-
-            <TextView
-                android:id="@+id/requirements"
-                style="@style/FontDisplay.Medium16"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_16dp"
-                android:text="@string/requirements"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/responsibilities_list" />
-
-            <TextView
-                android:id="@+id/requirements_list"
-                style="@style/FontDisplay.Regular16"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_4dp"
-                android:text="@string/requirements_list"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/requirements" />
-
-            <TextView
-                android:id="@+id/conditions"
-                style="@style/FontDisplay.Medium16"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_16dp"
-                android:text="@string/conditions"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/requirements_list" />
-
-            <TextView
-                android:id="@+id/conditions_list"
-                style="@style/FontDisplay.Regular16"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_4dp"
-                android:text="@string/conditions_list"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/conditions" />
+                app:layout_constraintTop_toBottomOf="@id/vacancy_description_title"
+                tools:text="@string/responsibilities_example" />
 
             <TextView
                 android:id="@+id/skills_title"
@@ -240,17 +191,19 @@
                 android:layout_marginTop="@dimen/dimen_24dp"
                 android:text="@string/skills_title"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/conditions_list" />
+                app:layout_constraintTop_toBottomOf="@id/vacancy_description"
+                app:layout_constraintBottom_toTopOf="@id/skills_list"/>
 
             <TextView
                 android:id="@+id/skills_list"
                 style="@style/FontDisplay.Regular16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_16dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/skills_list"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/skills_title" />
+                app:layout_constraintTop_toBottomOf="@id/skills_title"
+                app:layout_constraintBottom_toTopOf="@id/contacts_title"/>
 
             <TextView
                 android:id="@+id/contacts_title"
@@ -279,9 +232,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_8dp"
                 android:layout_marginTop="@dimen/dimen_4dp"
-                android:text="@string/email"
                 app:layout_constraintStart_toEndOf="@id/email_title"
-                app:layout_constraintTop_toBottomOf="@id/contacts_title" />
+                app:layout_constraintTop_toBottomOf="@id/contacts_title"
+                tools:text="@string/email" />
 
             <TextView
                 android:id="@+id/phone_title"
@@ -294,43 +247,56 @@
                 app:layout_constraintTop_toBottomOf="@id/email_title" />
 
             <TextView
-                android:id="@+id/p"
+                android:id="@+id/phone"
                 style="@style/FontDisplay.Regular16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_8dp"
                 android:layout_marginTop="@dimen/dimen_4dp"
-                android:text="@string/phone"
                 app:layout_constraintStart_toEndOf="@id/phone_title"
-                app:layout_constraintTop_toBottomOf="@id/email_title" />
-
-            <TextView
-                android:id="@+id/comment_title"
-                style="@style/FontDisplay.Regular16"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_4dp"
-                android:layout_marginBottom="@dimen/dimen_24dp"
-                android:text="@string/comment"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/phone_title" />
-
-            <TextView
-                android:id="@+id/comment"
-                style="@style/FontDisplay.Regular16"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen_8dp"
-                android:layout_marginTop="@dimen/dimen_4dp"
-                android:layout_marginBottom="@dimen/dimen_24dp"
-                android:text="@string/comment"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/comment_title"
-                app:layout_constraintTop_toBottomOf="@id/phone_title" />
+                app:layout_constraintTop_toBottomOf="@id/email_title"
+                tools:text="@string/phone" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/notFoundPlaceholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/notfound2_icon"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/not_found_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vacancy_title"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/not_found_text"
+        style="@style/FontDisplay.Medium22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:gravity="center_horizontal"
+        android:text="@string/vacancy_not_found"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notFoundPlaceholder" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="56dp"
+        android:indeterminateTint="@color/blue"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vacancy_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

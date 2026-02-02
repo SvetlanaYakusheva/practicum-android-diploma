@@ -4,6 +4,6 @@ import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.util.Resource
 
-interface VacancyDetailsRepository {
+interface VacancyDetailsInteractor {
     fun getVacancyById(vacancyId: String): Flow<Resource<Vacancy>>
 }

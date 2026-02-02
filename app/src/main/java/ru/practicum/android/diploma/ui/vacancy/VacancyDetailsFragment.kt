@@ -1,26 +1,36 @@
 package ru.practicum.android.diploma.ui.vacancy
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyDetailsBinding
+import ru.practicum.android.diploma.domain.models.Phone
+import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.util.UtilFunctions.formatSalary
+import kotlin.getValue
 
 class VacancyDetailsFragment : Fragment() {
 
     private var _binding: FragmentVacancyDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: VacancyDetailsViewModel by viewModels()
+    private val viewModel: VacancyDetailsViewModel by viewModel {
+        parametersOf(vacancyId)
+    }
 
     private var vacancyId: String? = null
 
@@ -38,6 +48,10 @@ class VacancyDetailsFragment : Fragment() {
 
         vacancyId = requireArguments().getString(KEY_VACANCY_ID)
 
+        viewModel.fillData()
+        viewModel.observeVacancyDetailsState().observe(viewLifecycleOwner) {
+            render(it)
+        }
         // todo: пока заглушка
         viewModel.setInitialFavoriteState(false)
 
@@ -66,6 +80,121 @@ class VacancyDetailsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun render(state: VacancyDetailsState) {
+        when (state) {
+            is VacancyDetailsState.Loading -> showLoading()
+            is VacancyDetailsState.Content -> showContent(state.vacancy)
+            is VacancyDetailsState.VacancyNotFoundError -> showVacancyNotFound()
+            is VacancyDetailsState.VacancyServerError -> showServerError()
+
+        }
+    }
+
+    private fun showLoading() {
+        binding.apply {
+            progressBar.isVisible = true
+            notFoundPlaceholder.isVisible = false
+            notFoundText.isVisible = false
+            vacancyDetailsScroll.isVisible = false
+        }
+    }
+
+    private fun showContent(vacancy: Vacancy) {
+        binding.apply {
+            progressBar.isVisible = false
+            notFoundPlaceholder.isVisible = false
+            notFoundText.isVisible = false
+            vacancyDetailsScroll.isVisible = true
+
+            Glide.with(requireContext())
+                .load(Uri.parse(vacancy.employerLogoPath))
+                .centerCrop()
+                .placeholder(R.drawable.ic_employer_logo_placeholder_48)
+                .into(companyLogo)
+
+            vacancyName.text = vacancy.name
+            salary.text = formatSalary(vacancy, requireContext())
+            companyName.text = vacancy.employerName
+            companyAddress.text = vacancy.addressFull ?: vacancy.areaName
+            experience.text = vacancy.experienceName
+            schedule.text = vacancy.schedule + ", " + vacancy.employment
+            vacancyDescription.text = vacancy.description
+            showSkills(vacancy.skills)
+            showContacts(vacancy.contactsEmail, vacancy.contactsPhones)
+        }
+    }
+
+    private fun showVacancyNotFound() {
+        binding.apply {
+            progressBar.isVisible = false
+            vacancyDetailsScroll.isVisible = false
+            notFoundPlaceholder.isVisible = true
+            notFoundText.isVisible = true
+            notFoundPlaceholder.setImageResource(R.drawable.notfound2_icon)
+            notFoundText.setText(R.string.vacancy_not_found)
+        }
+    }
+
+    private fun showServerError() {
+        binding.apply {
+            progressBar.isVisible = false
+            vacancyDetailsScroll.isVisible = false
+            notFoundPlaceholder.isVisible = true
+            notFoundText.isVisible = true
+            notFoundPlaceholder.setImageResource(R.drawable.servererror2_icon)
+            notFoundText.setText(R.string.server_error_message)
+        }
+    }
+
+    private fun showSkills(skills: List<String>?) {
+        binding.apply {
+            if (skills.isNullOrEmpty()) {
+                skillsTitle.isVisible = false
+                skillsList.isVisible = false
+            } else {
+                skillsTitle.isVisible = true
+                skillsList.isVisible = true
+                skillsList.text = listToUI(skills)
+            }
+        }
+    }
+
+    private fun showContacts(contactsEmail: String?, contactsPhones: List<Phone>?) {
+        binding.apply {
+            if (contactsEmail.isNullOrEmpty()) {
+                emailTitle.isVisible = false
+                email.isVisible = false
+            } else {
+                emailTitle.isVisible = true
+                email.isVisible = true
+                email.text = contactsEmail
+            }
+            if (contactsPhones.isNullOrEmpty()) {
+                phoneTitle.isVisible = false
+                phone.isVisible = false
+            } else {
+                phoneTitle.isVisible = true
+                phone.isVisible = true
+                phone.text = listPhonesToUI(contactsPhones)
+            }
+        }
+    }
+    private fun listToUI(skills: List<String>): String {
+        var result = ""
+        for (skill in skills) {
+            result += "\n ${Typography.bullet} " + skill
+        }
+        return result.drop(1)
+    }
+
+    private fun listPhonesToUI(phones: List<Phone>): String {
+        var result = ""
+        for (phone in phones) {
+            result += "\n ${phone.formatted} " + phone.comment.orEmpty()
+        }
+        return result.drop(1)
     }
 
     override fun onDestroyView() {
