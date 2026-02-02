@@ -51,4 +51,6 @@
     <string name="mail">Почта: </string>
     <string name="message_email">" "</string>
     <string name="share_vacancy_url">https://practicum-diploma-8bc38133faba.herokuapp.com/vacancies/%s</string>
+    <string name="favorites_list_is_empty">Список пуст</string>
+    <string name="error_no_vacancies_found">Не удалось получить \\nсписок вакансий</string>
 </resources>
