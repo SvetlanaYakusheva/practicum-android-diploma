@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import kotlin.getValue
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,6 +22,9 @@ import ru.practicum.android.diploma.databinding.FragmentVacancyDetailsBinding
 import ru.practicum.android.diploma.domain.models.Phone
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.vacancy.VacancyDetailsViewModel
+
+import kotlin.getValue
+
 import ru.practicum.android.diploma.util.UtilFunctions.formatSalary
 
 class VacancyDetailsFragment : Fragment() {
@@ -186,6 +188,7 @@ class VacancyDetailsFragment : Fragment() {
             }
         }
     }
+
     private fun listToUI(skills: List<String>): String {
         var result = ""
         for (skill in skills) {
