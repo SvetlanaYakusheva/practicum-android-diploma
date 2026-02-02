@@ -60,6 +60,10 @@ class VacancyDetailsFragment : Fragment() {
         // todo: пока заглушка
         viewModel.setInitialFavoriteState(false)
 
+        binding.shareButton.setOnClickListener {
+            viewModel.shareVacancy()
+        }
+
         setupFavoriteButton()
         observeFavoriteState()
     }
@@ -126,7 +130,7 @@ class VacancyDetailsFragment : Fragment() {
             schedule.text = vacancy.schedule + ", " + vacancy.employment
             vacancyDescription.text = vacancy.description
             showSkills(vacancy.skills)
-            showContacts(vacancy.contactsEmail, vacancy.contactsPhones)
+            showContacts(vacancy.contactsEmail, vacancy.contactsPhones, vacancy.name)
         }
     }
 
@@ -165,7 +169,7 @@ class VacancyDetailsFragment : Fragment() {
         }
     }
 
-    private fun showContacts(contactsEmail: String?, contactsPhones: List<Phone>?) {
+    private fun showContacts(contactsEmail: String?, contactsPhones: List<Phone>?, vacancyName: String) {
         binding.apply {
             if (contactsEmail.isNullOrEmpty()) {
                 emailTitle.isVisible = false
@@ -174,6 +178,9 @@ class VacancyDetailsFragment : Fragment() {
                 emailTitle.isVisible = true
                 email.isVisible = true
                 email.text = contactsEmail
+                email.setOnClickListener {
+                    viewModel.openEmail(mailTo = contactsEmail, vacancyName = vacancyName)
+                }
             }
             if (contactsPhones.isNullOrEmpty()) {
                 phoneTitle.isVisible = false
@@ -181,7 +188,14 @@ class VacancyDetailsFragment : Fragment() {
             } else {
                 phoneTitle.isVisible = true
                 phone.isVisible = true
-                phone.text = listPhonesToUI(contactsPhones)
+                val regex = "\\+[0-9]{11}".toRegex()
+                val contactsFormattedNumber = regex.find(listPhonesToUI(contactsPhones))?.value
+                contactsFormattedNumber?.let {
+                    phone.text = contactsFormattedNumber
+                    phone.setOnClickListener {
+                        viewModel.callPhone(contactsFormattedNumber)
+                    }
+                }
             }
         }
     }
