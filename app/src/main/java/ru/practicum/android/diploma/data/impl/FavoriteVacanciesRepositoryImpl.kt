@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.data.impl
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.data.Mapper
 import ru.practicum.android.diploma.data.db.AppDatabase
@@ -14,17 +15,18 @@ class FavoriteVacanciesRepositoryImpl(
     private val mapper: Mapper
 ) : FavoriteVacanciesRepository {
 
-    override fun getFavoriteVacancies(): Flow<Resource<List<Vacancy>>> = flow {
-        try {
-            val favoriteVacancyEntities = appDatabase.favoriteVacancyDao().getVacancies()
-            val vacancies = with(mapper) {
-                favoriteVacancyEntities.map { it.toVacancy() }
-            }
-            emit(Resource.Success(vacancies))
+    override fun getFavoriteVacancies(): Flow<Resource<List<Vacancy>>> = flow<Resource<List<Vacancy>>> {
 
-        } catch (e: Exception) {
-            emit(Resource.Error(ErrorType.SQLError))
+        val favoriteVacancyEntities = appDatabase.favoriteVacancyDao().getVacancies()
+        val vacancies = with(mapper) {
+            favoriteVacancyEntities.map { it.toVacancy() }
         }
+        emit(Resource.Success(vacancies))
+
+    }.catch { e ->
+        // Ловим только реальные ошибки, не мешая корутинам отменяться
+        emit(Resource.Error(ErrorType.SQLError))
+
     }
 
     override suspend fun addToFavoriteVacancies(vacancy: Vacancy) {
