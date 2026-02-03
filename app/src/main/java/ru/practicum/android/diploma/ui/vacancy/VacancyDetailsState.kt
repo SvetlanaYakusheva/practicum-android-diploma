@@ -10,4 +10,5 @@ sealed interface VacancyDetailsState {
     data object VacancyNotFoundError : VacancyDetailsState
 
     data object VacancyServerError : VacancyDetailsState
+
 }

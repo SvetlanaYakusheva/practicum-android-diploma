@@ -4,16 +4,16 @@ import ru.practicum.android.diploma.data.Mapper
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.data.network.VacanciesSearchRequest
 import ru.practicum.android.diploma.data.network.VacanciesSearchResponse
-import ru.practicum.android.diploma.domain.api.VacanciesRepository
+import ru.practicum.android.diploma.domain.api.SearchVacanciesRepository
 import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.util.ErrorType
 import ru.practicum.android.diploma.util.Resource
 
-class VacanciesRepositoryImpl(
+class SearchVacanciesRepositoryImpl(
     private val networkClient: NetworkClient,
     private val mapper: Mapper
-) : VacanciesRepository {
+) : SearchVacanciesRepository {
 
     override suspend fun searchVacancies(
         query: String,

@@ -57,8 +57,6 @@ class VacancyDetailsFragment : Fragment() {
         viewModel.observeVacancyDetailsState().observe(viewLifecycleOwner) {
             render(it)
         }
-        // todo: пока заглушка
-        viewModel.setInitialFavoriteState(false)
 
         binding.shareButton.setOnClickListener {
             viewModel.shareVacancy()
@@ -70,7 +68,7 @@ class VacancyDetailsFragment : Fragment() {
 
     private fun setupFavoriteButton() {
         binding.favoritesButton.setOnClickListener {
-            viewModel.onFavoriteClicked()
+            viewModel.onFavoriteButtonClicked()
         }
     }
 
@@ -81,9 +79,9 @@ class VacancyDetailsFragment : Fragment() {
                     binding.favoritesButton.isSelected = isFavorite
                     binding.favoritesButton.setImageResource(
                         if (isFavorite) {
-                            R.drawable.favorites_tab_icon
+                            R.drawable.ic_favorite_on_48
                         } else {
-                            R.drawable.favorites_icon
+                            R.drawable.ic_favorite_off_48
                         }
                     )
                 }
@@ -97,7 +95,6 @@ class VacancyDetailsFragment : Fragment() {
             is VacancyDetailsState.Content -> showContent(state.vacancy)
             is VacancyDetailsState.VacancyNotFoundError -> showVacancyNotFound()
             is VacancyDetailsState.VacancyServerError -> showServerError()
-
         }
     }
 
