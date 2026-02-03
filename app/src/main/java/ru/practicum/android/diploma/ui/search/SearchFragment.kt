@@ -8,6 +8,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
@@ -48,11 +49,11 @@ class SearchFragment : Fragment() {
 
         binding.searchInput.addTextChangedListener { text ->
             viewModel.onQueryChanged(text.toString())
+
         }
 
         binding.searchFilter.setOnClickListener {
             findNavController().navigate(R.id.action_search_fragment_to_filterFragment)
-
         }
     }
 
@@ -84,9 +85,13 @@ class SearchFragment : Fragment() {
                 if (state.vacancies.isEmpty()) {
                     binding.vacancyRecycler.visibility = View.GONE
                     binding.emptyPlaceholder.visibility = View.VISIBLE
+                    binding.emptyPlaceholder.setImageResource(R.drawable.notfound_icon)
                 } else {
                     binding.emptyPlaceholder.visibility = View.GONE
                     binding.vacancyRecycler.visibility = View.VISIBLE
+                    binding.vacancyRecycler.layoutManager =
+                        LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                    binding.vacancyRecycler.adapter = vacancyAdapter
                     vacancyAdapter.updateList(state.vacancies)
                 }
             }
@@ -95,6 +100,7 @@ class SearchFragment : Fragment() {
                 binding.progressBar.visibility = View.GONE
                 binding.vacancyRecycler.visibility = View.GONE
                 binding.emptyPlaceholder.visibility = View.VISIBLE
+
             }
         }
     }
