@@ -16,7 +16,6 @@ class FavoriteVacanciesRepositoryImpl(
 ) : FavoriteVacanciesRepository {
 
     override fun getFavoriteVacancies(): Flow<Resource<List<Vacancy>>> = flow<Resource<List<Vacancy>>> {
-
         val favoriteVacancyEntities = appDatabase.favoriteVacancyDao().getVacancies()
         val vacancies = with(mapper) {
             favoriteVacancyEntities.map { it.toVacancy() }
