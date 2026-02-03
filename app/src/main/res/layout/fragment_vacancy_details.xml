@@ -71,9 +71,9 @@
                 style="@style/FontDisplay.Bold32"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="@string/vacancy_name"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/vacancy_name" />
 
             <TextView
                 android:id="@+id/salary"
@@ -81,9 +81,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_4dp"
-                tools:text="@string/vacancy_salary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vacancy_name" />
+                app:layout_constraintTop_toBottomOf="@id/vacancy_name"
+                tools:text="@string/vacancy_salary" />
 
             <View
                 android:id="@+id/company_card"
@@ -114,12 +114,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_8dp"
-                tools:text="@string/company_name"
                 android:textColor="@color/black_universal"
                 app:layout_constraintBottom_toTopOf="@id/company_address"
                 app:layout_constraintEnd_toEndOf="@id/company_card"
                 app:layout_constraintStart_toEndOf="@id/company_logo"
-                app:layout_constraintTop_toTopOf="@id/company_logo" />
+                app:layout_constraintTop_toTopOf="@id/company_logo"
+                tools:text="@string/company_name" />
 
             <TextView
                 android:id="@+id/company_address"
@@ -127,12 +127,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_8dp"
-                tools:text="@string/company_address"
                 android:textColor="@color/black_universal"
                 app:layout_constraintBottom_toBottomOf="@id/company_logo"
                 app:layout_constraintEnd_toEndOf="@id/company_card"
                 app:layout_constraintStart_toEndOf="@id/company_logo"
-                app:layout_constraintTop_toBottomOf="@id/company_name" />
+                app:layout_constraintTop_toBottomOf="@id/company_name"
+                tools:text="@string/company_address" />
 
             <TextView
                 android:id="@+id/experience_title"
@@ -150,9 +150,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_4dp"
-                tools:text="@string/experience_value"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/experience_title" />
+                app:layout_constraintTop_toBottomOf="@id/experience_title"
+                tools:text="@string/experience_value" />
 
             <TextView
                 android:id="@+id/schedule"
@@ -179,6 +179,7 @@
                 style="@style/FontDisplay.Regular16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="@dimen/dimen_16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vacancy_description_title"
@@ -191,9 +192,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_24dp"
                 android:text="@string/skills_title"
+                app:layout_constraintBottom_toTopOf="@id/skills_list"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vacancy_description"
-                app:layout_constraintBottom_toTopOf="@id/skills_list"/>
+                app:layout_constraintTop_toBottomOf="@id/vacancy_description" />
 
             <TextView
                 android:id="@+id/skills_list"
@@ -202,9 +203,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/skills_list"
+                app:layout_constraintBottom_toTopOf="@id/contacts_title"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/skills_title"
-                app:layout_constraintBottom_toTopOf="@id/contacts_title"/>
+                app:layout_constraintTop_toBottomOf="@id/skills_title" />
 
             <TextView
                 android:id="@+id/contacts_title"
@@ -233,7 +234,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_8dp"
                 android:layout_marginTop="@dimen/dimen_4dp"
-                app:layout_constraintStart_toEndOf="@id/email_title"
+                app:layout_constraintStart_toEndOf="@id/phone_title"
                 app:layout_constraintTop_toBottomOf="@id/contacts_title"
                 tools:text="@string/email" />
 
@@ -247,16 +248,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/email_title" />
 
-            <TextView
-                android:id="@+id/phone"
-                style="@style/FontDisplay.Regular16"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/phone_recycler_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="@dimen/dimen_8dp"
                 android:layout_marginTop="@dimen/dimen_4dp"
+                android:visibility="visible"
                 app:layout_constraintStart_toEndOf="@id/phone_title"
                 app:layout_constraintTop_toBottomOf="@id/email_title"
-                tools:text="@string/phone" />
+                tools:listitem="@layout/phone_item" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

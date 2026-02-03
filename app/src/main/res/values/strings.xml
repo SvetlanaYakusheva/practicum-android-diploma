@@ -53,4 +53,6 @@
     <string name="share_vacancy_url">https://practicum-diploma-8bc38133faba.herokuapp.com/vacancies/%s</string>
     <string name="favorites_list_is_empty">Список пуст</string>
     <string name="error_no_vacancies_found">Не удалось получить \\nсписок вакансий</string>
+    <string name="phone_number_example">+7 (999) 345-67-89</string>
+    <string name="phone_comment_example">с 9:00 до 18:00</string>
 </resources>
