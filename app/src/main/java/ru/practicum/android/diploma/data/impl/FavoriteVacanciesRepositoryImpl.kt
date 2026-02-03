@@ -6,18 +6,25 @@ import ru.practicum.android.diploma.data.Mapper
 import ru.practicum.android.diploma.data.db.AppDatabase
 import ru.practicum.android.diploma.domain.api.FavoriteVacanciesRepository
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.util.ErrorType
+import ru.practicum.android.diploma.util.Resource
 
 class FavoriteVacanciesRepositoryImpl(
     private val appDatabase: AppDatabase,
     private val mapper: Mapper
 ) : FavoriteVacanciesRepository {
 
-    override fun getFavoriteVacancies(): Flow<List<Vacancy>> = flow {
-        val favoriteVacancyEntities = appDatabase.favoriteVacancyDao().getVacancies()
-        val vacancies = with(mapper) {
-            favoriteVacancyEntities.map { it.toVacancy() }
+    override fun getFavoriteVacancies(): Flow<Resource<List<Vacancy>>> = flow {
+        try {
+            val favoriteVacancyEntities = appDatabase.favoriteVacancyDao().getVacancies()
+            val vacancies = with(mapper) {
+                favoriteVacancyEntities.map { it.toVacancy() }
+            }
+            emit(Resource.Success(vacancies))
+
+        } catch (e: Exception) {
+            emit(Resource.Error(ErrorType.SQLError))
         }
-        emit(vacancies)
     }
 
     override suspend fun addToFavoriteVacancies(vacancy: Vacancy) {

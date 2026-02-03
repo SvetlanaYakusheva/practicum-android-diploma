@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFavoritesBinding
@@ -68,6 +69,9 @@ class FavoritesFragment : Fragment() {
                     vacancyRecycler.isVisible = true
                     emptyPlaceholder.isVisible = false
                     emptyText.isVisible = false
+                    binding.vacancyRecycler.layoutManager =
+                        LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                    binding.vacancyRecycler.adapter = vacancyAdapter
                     vacancyAdapter.updateList(state.vacancies)
                 }
             }
