@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.domain.api.FavoriteVacanciesInteractor
 import ru.practicum.android.diploma.domain.api.SharingInteractor
 import ru.practicum.android.diploma.domain.api.VacancyDetailsInteractor
 import ru.practicum.android.diploma.domain.models.Vacancy
@@ -16,28 +15,31 @@ import ru.practicum.android.diploma.util.Resource
 
 class VacancyDetailsViewModel(
     private val vacancyId: String,
-    private val interactor: VacancyDetailsInteractor,
+    private val vacancyDetailsInteractor: VacancyDetailsInteractor,
     private val sharingInteractor: SharingInteractor,
+    private val favoriteVacanciesInteractor: FavoriteVacanciesInteractor
 ) : ViewModel() {
 
-    private val _isFavorite = MutableStateFlow(false)
-    val isFavorite: StateFlow<Boolean> = _isFavorite
+    /*private val _isFavorite = MutableStateFlow(false)
+    val isFavorite: StateFlow<Boolean> = _isFavorite*/
 
     private val vacancyDetailsState = MutableLiveData<VacancyDetailsState>()
     fun observeVacancyDetailsState(): LiveData<VacancyDetailsState> = vacancyDetailsState
 
-    fun onFavoriteClicked() {
+    private var vacancy: Vacancy? = null
+
+    /*fun onFavoriteClicked() {
         _isFavorite.value = !_isFavorite.value
     }
 
     fun setInitialFavoriteState(isFavorite: Boolean) {
         _isFavorite.value = isFavorite
-    }
+    }*/
 
     fun fillData() {
         viewModelScope.launch {
-            vacancyDetailsState.postValue(VacancyDetailsState.Loading)
-            interactor
+            renderState(VacancyDetailsState.Loading)
+            vacancyDetailsInteractor
                 .getVacancyById(vacancyId)
                 .collect { result ->
                     processResult(result)
@@ -68,6 +70,24 @@ class VacancyDetailsViewModel(
                 }
             }
         }
+        renderState(state)
+    }
+
+    fun onFavoriteButtonClicked(isFavorite: Boolean) {
+        if (vacancy != null) {
+            viewModelScope.launch {
+                if (isFavorite) {
+                    favoriteVacanciesInteractor.deleteFromFavoriteVacancies(vacancy!!)
+                    renderState(VacancyDetailsState.FavoriteStatus(false))
+                } else {
+                    favoriteVacanciesInteractor.addToFavoriteVacancies(vacancy!!)
+                    renderState(VacancyDetailsState.FavoriteStatus(true))
+                }
+            }
+        }
+    }
+
+    private fun renderState(state: VacancyDetailsState) {
         vacancyDetailsState.postValue(state)
     }
 }

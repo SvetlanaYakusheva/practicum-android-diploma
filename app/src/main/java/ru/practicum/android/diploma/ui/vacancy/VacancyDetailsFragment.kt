@@ -70,7 +70,7 @@ class VacancyDetailsFragment : Fragment() {
 
     private fun setupFavoriteButton() {
         binding.favoritesButton.setOnClickListener {
-            viewModel.onFavoriteClicked()
+            viewModel.onFavoriteButtonClicked()
         }
     }
 
@@ -97,7 +97,7 @@ class VacancyDetailsFragment : Fragment() {
             is VacancyDetailsState.Content -> showContent(state.vacancy)
             is VacancyDetailsState.VacancyNotFoundError -> showVacancyNotFound()
             is VacancyDetailsState.VacancyServerError -> showServerError()
-
+            is VacancyDetailsState.FavoriteStatus -> changeIsFavoriteButton(state.isFavorite)
         }
     }
 
@@ -198,6 +198,14 @@ class VacancyDetailsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun changeIsFavoriteButton(isFavorite: Boolean) {
+        binding.apply {
+            if (isFavorite) favoritesButton.setImageResource(R.drawable.ic_favorite_on_48)
+            else favoritesButton.setImageResource(R.drawable.ic_favorite_off_48)
+        }
+        this.isFavorite = isFavorite
     }
 
     private fun listToUI(skills: List<String>): String {
