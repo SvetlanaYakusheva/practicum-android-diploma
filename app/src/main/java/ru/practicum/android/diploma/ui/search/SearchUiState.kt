@@ -11,4 +11,8 @@ sealed interface SearchUiState {
     data class Content(
         val vacancies: List<Vacancy>
     ) : SearchUiState
+
+    data class Error(
+        val message: String
+    ) : SearchUiState
 }

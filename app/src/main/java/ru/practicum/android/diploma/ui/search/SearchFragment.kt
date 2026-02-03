@@ -90,6 +90,12 @@ class SearchFragment : Fragment() {
                     vacancyAdapter.updateList(state.vacancies)
                 }
             }
+
+            is SearchUiState.Error -> {
+                binding.progressBar.visibility = View.GONE
+                binding.vacancyRecycler.visibility = View.GONE
+                binding.emptyPlaceholder.visibility = View.VISIBLE
+            }
         }
     }
 
