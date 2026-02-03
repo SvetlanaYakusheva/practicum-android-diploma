@@ -11,5 +11,4 @@ sealed interface VacancyDetailsState {
 
     data object VacancyServerError : VacancyDetailsState
 
-    data class FavoriteStatus(val isFavorite: Boolean) : VacancyDetailsState
 }

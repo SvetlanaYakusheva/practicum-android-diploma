@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.data.db.entity.FavoriteVacancyEntity
 
 @Dao
@@ -14,7 +15,7 @@ interface FavoriteVacancyDao {
     suspend fun getVacancies(): List<FavoriteVacancyEntity>
 
     @Query("SELECT vacancy_id FROM favorite_vacancy_table")
-    suspend fun getVacanciesIds() : List<String>
+    fun getVacanciesIds() : Flow<List<String>>
 
     @Insert(entity = FavoriteVacancyEntity::class, onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertVacancy(vacancy: FavoriteVacancyEntity)

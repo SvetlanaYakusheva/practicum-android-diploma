@@ -11,5 +11,5 @@ interface FavoriteVacanciesRepository {
 
     suspend fun deleteFromFavoriteVacancies(vacancy: Vacancy)
 
-    suspend fun getFavoriteVacanciesIds() : List<String>
+    fun getFavoriteVacanciesIds() : Flow<List<String>>
 }

@@ -8,8 +8,13 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
@@ -53,18 +58,34 @@ class VacancyDetailsFragment : Fragment() {
             render(it)
         }
 
-        viewModel.setInitialFavoriteState()
-
         binding.shareButton.setOnClickListener {
             viewModel.shareVacancy()
         }
 
         setupFavoriteButton()
+        observeFavoriteState()
     }
 
     private fun setupFavoriteButton() {
         binding.favoritesButton.setOnClickListener {
             viewModel.onFavoriteButtonClicked()
+        }
+    }
+
+    private fun observeFavoriteState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isFavorite.collectLatest { isFavorite ->
+                    binding.favoritesButton.isSelected = isFavorite
+                    binding.favoritesButton.setImageResource(
+                        if (isFavorite) {
+                            R.drawable.ic_favorite_on_48
+                        } else {
+                            R.drawable.ic_favorite_off_48
+                        }
+                    )
+                }
+            }
         }
     }
 
@@ -74,7 +95,6 @@ class VacancyDetailsFragment : Fragment() {
             is VacancyDetailsState.Content -> showContent(state.vacancy)
             is VacancyDetailsState.VacancyNotFoundError -> showVacancyNotFound()
             is VacancyDetailsState.VacancyServerError -> showServerError()
-            is VacancyDetailsState.FavoriteStatus -> changeIsFavoriteButton(state.isFavorite)
         }
     }
 
@@ -177,12 +197,13 @@ class VacancyDetailsFragment : Fragment() {
         }
     }
 
-    private fun changeIsFavoriteButton(isFavorite: Boolean) {
+    /*private fun changeIsFavoriteButton(isFavorite: Boolean) {
+        Log.d("change", isFavorite.toString())
         binding.apply {
             if (isFavorite) favoritesButton.setImageResource(R.drawable.ic_favorite_on_48)
             else favoritesButton.setImageResource(R.drawable.ic_favorite_off_48)
         }
-    }
+    }*/
 
     private fun listToUI(skills: List<String>): String {
         var result = ""

@@ -34,7 +34,7 @@ class FavoriteVacanciesRepositoryImpl(
         appDatabase.favoriteVacancyDao().deleteVacancy(favoriteVacancyEntity)
     }
 
-    override suspend fun getFavoriteVacanciesIds() : List<String> {
+    override fun getFavoriteVacanciesIds() : Flow<List<String>> {
         return appDatabase.favoriteVacancyDao().getVacanciesIds()
     }
 

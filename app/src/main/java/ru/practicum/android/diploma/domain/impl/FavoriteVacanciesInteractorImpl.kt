@@ -21,7 +21,7 @@ class FavoriteVacanciesInteractorImpl(
         repository.deleteFromFavoriteVacancies(vacancy)
     }
 
-    override suspend fun getFavoriteVacanciesIds(): List<String> {
+    override fun getFavoriteVacanciesIds(): Flow<List<String>> {
         return repository.getFavoriteVacanciesIds()
     }
 }

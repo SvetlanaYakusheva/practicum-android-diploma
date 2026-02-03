@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.FavoriteVacanciesInteractor
 import ru.practicum.android.diploma.domain.api.SharingInteractor
@@ -20,22 +22,24 @@ class VacancyDetailsViewModel(
     private val favoriteVacanciesInteractor: FavoriteVacanciesInteractor
 ) : ViewModel() {
 
-    /*private val _isFavorite = MutableStateFlow(false)
-    val isFavorite: StateFlow<Boolean> = _isFavorite*/
-
     private val vacancyDetailsState = MutableLiveData<VacancyDetailsState>()
     fun observeVacancyDetailsState(): LiveData<VacancyDetailsState> = vacancyDetailsState
+
+    private val _isFavorite = MutableStateFlow(false)
+    val isFavorite: StateFlow<Boolean> = _isFavorite
+
+    private var hasLoadedFavoriteStatus = false
+
 
     private var vacancy: Vacancy? = null
 
     fun fillData() {
         viewModelScope.launch {
             renderState(VacancyDetailsState.Loading)
-            val favoriteVacanciesIds = favoriteVacanciesInteractor.getFavoriteVacanciesIds()
             vacancyDetailsInteractor
                 .getVacancyById(vacancyId)
                 .collect { result ->
-                    processResult(result, favoriteVacanciesIds)
+                    processResult(result)
                 }
         }
     }
@@ -52,13 +56,11 @@ class VacancyDetailsViewModel(
         sharingInteractor.callPhone(phoneNumber)
     }
 
-    private fun processResult(result: Resource<Vacancy>, favoriteVacanciesIds: List<String>) {
+    private fun processResult(result: Resource<Vacancy>) {
         val state = when (result) {
             is Resource.Success -> {
                 vacancy = result.data
-                if (favoriteVacanciesIds.contains(vacancy!!.id)) {
-                    vacancy!!.isFavorite = true
-                }
+                if (!hasLoadedFavoriteStatus) favoriteStatus()
                 VacancyDetailsState.Content(vacancy!!)
             }
 
@@ -73,21 +75,31 @@ class VacancyDetailsViewModel(
         renderState(state)
     }
 
-    fun setInitialFavoriteState() {
-        if (vacancy != null) {
-            renderState(VacancyDetailsState.FavoriteStatus(vacancy!!.isFavorite))
+    private fun favoriteStatus() {
+        viewModelScope.launch {
+            favoriteVacanciesInteractor
+                .getFavoriteVacanciesIds()
+                .collect { ids ->
+                    processFavoriteStatus(ids)
+                }
         }
     }
+
+    private fun processFavoriteStatus(ids: List<String>) {
+        if (vacancy != null) {
+            vacancy!!.isFavorite = ids.contains(vacancy!!.id)
+            _isFavorite.value = vacancy!!.isFavorite
+        }
+    }
+
 
     fun onFavoriteButtonClicked() {
         if (vacancy != null) {
             viewModelScope.launch {
                 if (vacancy!!.isFavorite) {
                     favoriteVacanciesInteractor.deleteFromFavoriteVacancies(vacancy!!)
-                    renderState(VacancyDetailsState.FavoriteStatus(false))
                 } else {
                     favoriteVacanciesInteractor.addToFavoriteVacancies(vacancy!!)
-                    renderState(VacancyDetailsState.FavoriteStatus(true))
                 }
             }
         }
