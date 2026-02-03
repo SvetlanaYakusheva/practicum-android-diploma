@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Vacancy
 import java.text.DecimalFormat
+import java.util.Currency
 
 object UtilFunctions {
 
@@ -32,7 +33,7 @@ object UtilFunctions {
     }
 
     fun formatSalary(vacancy: Vacancy, context: Context): String {
-        val symbol = vacancy.salaryCurrencyName
+        val symbol = Currency.getInstance(vacancy.salaryCurrencyName).symbol
         val decimalFormat = DecimalFormat("#,###.##")
         val formattedString: String
 
