@@ -28,8 +28,7 @@ class VacancyDetailsViewModel(
     private val _isFavorite = MutableStateFlow(false)
     val isFavorite: StateFlow<Boolean> = _isFavorite
 
-    private var hasLoadedFavoriteStatus = false
-
+    private var isFavoriteStatusLoaded = false
 
     private var vacancy: Vacancy? = null
 
@@ -60,7 +59,7 @@ class VacancyDetailsViewModel(
         val state = when (result) {
             is Resource.Success -> {
                 vacancy = result.data
-                if (!hasLoadedFavoriteStatus) favoriteStatus()
+                if (!isFavoriteStatusLoaded) favoriteStatus()
                 VacancyDetailsState.Content(vacancy!!)
             }
 
