@@ -8,13 +8,8 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
@@ -57,37 +52,19 @@ class VacancyDetailsFragment : Fragment() {
         viewModel.observeVacancyDetailsState().observe(viewLifecycleOwner) {
             render(it)
         }
-        // todo: пока заглушка
-        viewModel.setInitialFavoriteState(false)
+
+        viewModel.setInitialFavoriteState()
 
         binding.shareButton.setOnClickListener {
             viewModel.shareVacancy()
         }
 
         setupFavoriteButton()
-        observeFavoriteState()
     }
 
     private fun setupFavoriteButton() {
         binding.favoritesButton.setOnClickListener {
             viewModel.onFavoriteButtonClicked()
-        }
-    }
-
-    private fun observeFavoriteState() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.isFavorite.collectLatest { isFavorite ->
-                    binding.favoritesButton.isSelected = isFavorite
-                    binding.favoritesButton.setImageResource(
-                        if (isFavorite) {
-                            R.drawable.favorites_tab_icon
-                        } else {
-                            R.drawable.ic_favorite_off_48
-                        }
-                    )
-                }
-            }
         }
     }
 
@@ -205,7 +182,6 @@ class VacancyDetailsFragment : Fragment() {
             if (isFavorite) favoritesButton.setImageResource(R.drawable.ic_favorite_on_48)
             else favoritesButton.setImageResource(R.drawable.ic_favorite_off_48)
         }
-        this.isFavorite = isFavorite
     }
 
     private fun listToUI(skills: List<String>): String {

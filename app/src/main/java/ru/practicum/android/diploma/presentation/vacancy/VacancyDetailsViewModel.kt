@@ -28,21 +28,14 @@ class VacancyDetailsViewModel(
 
     private var vacancy: Vacancy? = null
 
-    /*fun onFavoriteClicked() {
-        _isFavorite.value = !_isFavorite.value
-    }
-
-    fun setInitialFavoriteState(isFavorite: Boolean) {
-        _isFavorite.value = isFavorite
-    }*/
-
     fun fillData() {
         viewModelScope.launch {
             renderState(VacancyDetailsState.Loading)
+            val favoriteVacanciesIds = favoriteVacanciesInteractor.getFavoriteVacanciesIds()
             vacancyDetailsInteractor
                 .getVacancyById(vacancyId)
                 .collect { result ->
-                    processResult(result)
+                    processResult(result, favoriteVacanciesIds)
                 }
         }
     }
@@ -59,9 +52,16 @@ class VacancyDetailsViewModel(
         sharingInteractor.callPhone(phoneNumber)
     }
 
-    private fun processResult(result: Resource<Vacancy>) {
+    private fun processResult(result: Resource<Vacancy>, favoriteVacanciesIds: List<String>) {
         val state = when (result) {
-            is Resource.Success -> VacancyDetailsState.Content(result.data)
+            is Resource.Success -> {
+                vacancy = result.data
+                if (favoriteVacanciesIds.contains(vacancy!!.id)) {
+                    vacancy!!.isFavorite = true
+                }
+                VacancyDetailsState.Content(vacancy!!)
+            }
+
             is Resource.Error -> {
                 if (result.errorType == ErrorType.NothingFound) {
                     VacancyDetailsState.VacancyNotFoundError
@@ -73,10 +73,16 @@ class VacancyDetailsViewModel(
         renderState(state)
     }
 
-    fun onFavoriteButtonClicked(isFavorite: Boolean) {
+    fun setInitialFavoriteState() {
+        if (vacancy != null) {
+            renderState(VacancyDetailsState.FavoriteStatus(vacancy!!.isFavorite))
+        }
+    }
+
+    fun onFavoriteButtonClicked() {
         if (vacancy != null) {
             viewModelScope.launch {
-                if (isFavorite) {
+                if (vacancy!!.isFavorite) {
                     favoriteVacanciesInteractor.deleteFromFavoriteVacancies(vacancy!!)
                     renderState(VacancyDetailsState.FavoriteStatus(false))
                 } else {
