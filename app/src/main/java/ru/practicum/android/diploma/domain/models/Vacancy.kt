@@ -21,5 +21,5 @@ data class Vacancy(
     val areaId: String?,
     val areaName: String?,
     val areaParentId: String?,
-    var isFavorite: Boolean
+    val isFavorite: Boolean
 )

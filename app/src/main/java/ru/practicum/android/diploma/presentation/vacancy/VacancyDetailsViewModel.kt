@@ -86,7 +86,7 @@ class VacancyDetailsViewModel(
 
     private fun processFavoriteStatus(ids: List<String>) {
         if (vacancy != null) {
-            vacancy!!.isFavorite = ids.contains(vacancy!!.id)
+            vacancy = vacancy!!.copy(isFavorite = ids.contains(vacancy!!.id))
             _isFavorite.value = vacancy!!.isFavorite
         }
     }
