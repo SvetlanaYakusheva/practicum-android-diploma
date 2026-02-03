@@ -13,7 +13,6 @@ class PhoneViewHolder(
 
     fun bind(model: Phone) {
         binding.apply {
-
             phoneNumber.text = model.formatted
             phoneComment.text = model.comment
 
