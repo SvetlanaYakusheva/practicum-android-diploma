@@ -11,5 +11,5 @@ interface FavoriteVacanciesInteractor {
 
     suspend fun deleteFromFavoriteVacancies(vacancy: Vacancy)
 
-    fun getFavoriteVacanciesIds() : Flow<List<String>>
+    fun getFavoriteVacanciesIds(): Flow<List<String>>
 }

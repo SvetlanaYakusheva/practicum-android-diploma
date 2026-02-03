@@ -15,7 +15,7 @@ interface FavoriteVacancyDao {
     suspend fun getVacancies(): List<FavoriteVacancyEntity>
 
     @Query("SELECT vacancy_id FROM favorite_vacancy_table")
-    fun getVacanciesIds() : Flow<List<String>>
+    fun getVacanciesIds(): Flow<List<String>>
 
     @Insert(entity = FavoriteVacancyEntity::class, onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertVacancy(vacancy: FavoriteVacancyEntity)

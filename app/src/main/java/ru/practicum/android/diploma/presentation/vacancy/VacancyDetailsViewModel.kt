@@ -91,7 +91,6 @@ class VacancyDetailsViewModel(
         }
     }
 
-
     fun onFavoriteButtonClicked() {
         if (vacancy != null) {
             viewModelScope.launch {
