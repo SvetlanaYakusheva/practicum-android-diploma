@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/phone_number"
+        style="@style/FontDisplay.Regular16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/phone_number_example" />
+
+    <TextView
+        android:id="@+id/phone_comment"
+        style="@style/FontDisplay.Regular16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_4dp"
+        tools:text="@string/phone_comment_example" />
+
+</LinearLayout>

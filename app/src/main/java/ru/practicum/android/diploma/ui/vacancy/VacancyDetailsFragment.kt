@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,6 +23,7 @@ import ru.practicum.android.diploma.databinding.FragmentVacancyDetailsBinding
 import ru.practicum.android.diploma.domain.models.Phone
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.vacancy.VacancyDetailsViewModel
+import ru.practicum.android.diploma.ui.adapters.PhoneAdapter
 import ru.practicum.android.diploma.util.UtilFunctions.formatSalary
 
 class VacancyDetailsFragment : Fragment() {
@@ -33,6 +35,11 @@ class VacancyDetailsFragment : Fragment() {
         parametersOf(vacancyId)
     }
 
+    private val phoneAdapter by lazy {
+        PhoneAdapter { number ->
+            viewModel.callPhone(number)
+        }
+    }
     private var vacancyId: String? = null
 
     override fun onCreateView(
@@ -181,18 +188,14 @@ class VacancyDetailsFragment : Fragment() {
             }
             if (contactsPhones.isNullOrEmpty()) {
                 phoneTitle.isVisible = false
-                phone.isVisible = false
+                phoneRecyclerView.isVisible = false
             } else {
                 phoneTitle.isVisible = true
-                phone.isVisible = true
-                val regex = "\\+[0-9]{11}".toRegex()
-                val contactsFormattedNumber = regex.find(listPhonesToUI(contactsPhones))?.value
-                contactsFormattedNumber?.let {
-                    phone.text = contactsFormattedNumber
-                    phone.setOnClickListener {
-                        viewModel.callPhone(contactsFormattedNumber)
-                    }
-                }
+                phoneRecyclerView.isVisible = true
+                phoneRecyclerView.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                phoneRecyclerView.adapter = phoneAdapter
+                phoneAdapter.updateList(contactsPhones)
             }
         }
     }
@@ -201,14 +204,6 @@ class VacancyDetailsFragment : Fragment() {
         var result = ""
         for (skill in skills) {
             result += "\n ${Typography.bullet} " + skill
-        }
-        return result.drop(1)
-    }
-
-    private fun listPhonesToUI(phones: List<Phone>): String {
-        var result = ""
-        for (phone in phones) {
-            result += "\n ${phone.formatted} " + phone.comment.orEmpty()
         }
         return result.drop(1)
     }
