@@ -197,14 +197,6 @@ class VacancyDetailsFragment : Fragment() {
         }
     }
 
-    /*private fun changeIsFavoriteButton(isFavorite: Boolean) {
-        Log.d("change", isFavorite.toString())
-        binding.apply {
-            if (isFavorite) favoritesButton.setImageResource(R.drawable.ic_favorite_on_48)
-            else favoritesButton.setImageResource(R.drawable.ic_favorite_off_48)
-        }
-    }*/
-
     private fun listToUI(skills: List<String>): String {
         var result = ""
         for (skill in skills) {
