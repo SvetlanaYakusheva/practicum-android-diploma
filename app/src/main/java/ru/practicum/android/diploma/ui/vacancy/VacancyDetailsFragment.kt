@@ -129,7 +129,7 @@ class VacancyDetailsFragment : Fragment() {
             vacancyName.text = vacancy.name
             salary.text = formatSalary(vacancy, requireContext())
             companyName.text = vacancy.employerName
-            companyAddress.text = vacancy.addressFull ?: vacancy.areaName
+            companyAddress.text = vacancy.addressFull ?: vacancy.addressCity
             experience.text = vacancy.experienceName
             schedule.text = vacancy.schedule + ", " + vacancy.employment
             vacancyDescription.text = vacancy.description
