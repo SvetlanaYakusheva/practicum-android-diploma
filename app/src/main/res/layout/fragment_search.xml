@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/search_height"
             android:layout_marginHorizontal="@dimen/dimen_16dp"
-            android:hint="@string/vacancy_search"
+            android:hint="@string/vacancy_search_hint"
             android:padding="@dimen/size_zero" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -65,8 +65,8 @@
 
         <ProgressBar
             android:id="@+id/progress_bar"
-            android:layout_width="@dimen/dimen_36dp"
-            android:layout_height="@dimen/dimen_36dp"
+            android:layout_width="@dimen/dimen_48dp"
+            android:layout_height="@dimen/dimen_48dp"
             android:layout_gravity="center"
             android:indeterminateTint="@color/blue"
             android:visibility="gone" />
@@ -99,7 +99,7 @@
 
     <TextView
         android:id="@+id/vacancy_count_text_view"
-        style="@style/FontDisplay"
+        style="@style/FontDisplay.Regular16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"

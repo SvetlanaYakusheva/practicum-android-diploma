@@ -119,15 +119,15 @@ class SearchFragment : Fragment() {
         )
     }
 
-    private fun render(state: SearchState) {
+    private fun render(state: SearchUiState) {
         when (state) {
-            is SearchState.Content -> state.countOfVacancies?.let { showContent(state.vacanciesList, it) }
-            is SearchState.Empty -> showEmpty(state.message)
-            is SearchState.ServerError -> showError(state.errorMessage)
-            is SearchState.LoadingNewExpression -> showLoading()
-            is SearchState.InternetNotAvailable -> showLooseInternetConnection(state.errorMessage)
-            is SearchState.Default -> setDefaultState()
-            is SearchState.NextPageLoading -> vacancyAdapter.showLoading(true)
+            is SearchUiState.Content -> state.countOfVacancies?.let { showContent(state.vacanciesList, it) }
+            is SearchUiState.EmptyQuery -> showEmpty(state.message)
+            is SearchUiState.ServerError -> showError(state.errorMessage)
+            is SearchUiState.LoadingNewQuery -> showLoading()
+            is SearchUiState.InternetNotAvailable -> showLooseInternetConnection(state.errorMessage)
+            is SearchUiState.Default -> setDefaultState()
+            is SearchUiState.NextPageLoading -> vacancyAdapter.showLoading(true)
         }
     }
 

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.SearchVacanciesInteractor
 import ru.practicum.android.diploma.domain.models.Vacancy
-import ru.practicum.android.diploma.ui.search.SearchState
+import ru.practicum.android.diploma.ui.search.SearchUiState
 import ru.practicum.android.diploma.util.ErrorType
 import ru.practicum.android.diploma.util.SingleLiveEvent
 import ru.practicum.android.diploma.util.UtilFunctions
@@ -15,8 +15,8 @@ import ru.practicum.android.diploma.util.UtilFunctions
 class SearchViewModel(
     private val searchVacanciesInteractor: SearchVacanciesInteractor
 ) : ViewModel() {
-    private val stateLiveData = MutableLiveData<SearchState>()
-    fun observeState(): LiveData<SearchState> = stateLiveData
+    private val stateLiveData = MutableLiveData<SearchUiState>()
+    fun observeState(): LiveData<SearchUiState> = stateLiveData
     private var vacanciesList = mutableListOf<Vacancy>()
     private val showToast = SingleLiveEvent<String>()
     fun observeShowToast(): LiveData<String> = showToast
@@ -45,21 +45,21 @@ class SearchViewModel(
                 return
             } else {
                 if (currentPage == 0) {
-                    renderState(SearchState.LoadingNewExpression)
+                    renderState(SearchUiState.LoadingNewQuery)
                 } else {
                     isNextPageLoading = true
-                    renderState(SearchState.NextPageLoading)
+                    renderState(SearchUiState.NextPageLoading)
                 }
                 searchRequest(searchText, currentPage)
                 currentPage += 1
             }
         } else {
-            renderState(SearchState.Default)
+            renderState(SearchUiState.Default)
         }
     }
 
     fun clearSearch() {
-        renderState(SearchState.Default)
+        renderState(SearchUiState.Default)
         currentPage = 0
         maxPage = null
         vacanciesList.clear()
@@ -111,17 +111,17 @@ class SearchViewModel(
             errorType != null -> {
                 if (errorType == ErrorType.NoConnection) {
                     if (isNextPageLoading) {
-                        renderState(SearchState.Content(vacanciesList, null))
+                        renderState(SearchUiState.Content(vacanciesList, null))
                     } else {
-                        renderState(SearchState.InternetNotAvailable(messageNoInternet))
+                        renderState(SearchUiState.InternetNotAvailable(messageNoInternet))
                     }
 
                     showToast(messageCheckConnection)
                 } else {
                     if (isNextPageLoading) {
-                        renderState(SearchState.Content(vacanciesList, null))
+                        renderState(SearchUiState.Content(vacanciesList, null))
                     } else {
-                        renderState(SearchState.ServerError(messageServerError))
+                        renderState(SearchUiState.ServerError(messageServerError))
                     }
                     showToast(errorMessage ?: messageServerError)
                 }
@@ -129,13 +129,13 @@ class SearchViewModel(
             }
             vacanciesList.isEmpty() -> {
                 renderState(
-                    SearchState.Empty(
+                    SearchUiState.EmptyQuery(
                         message = "not_get_a_list_of_vacancies",
                     )
                 )
             }
             else -> {
-                renderState(SearchState.Content(vacanciesList.distinct(), countOfVacancies))
+                renderState(SearchUiState.Content(vacanciesList.distinct(), countOfVacancies))
                 isNextPageLoading = false
             }
         }
@@ -145,7 +145,7 @@ class SearchViewModel(
         showToast.postValue(message)
     }
 
-    private fun renderState(state: SearchState) {
+    private fun renderState(state: SearchUiState) {
         stateLiveData.postValue(state)
     }
     companion object {

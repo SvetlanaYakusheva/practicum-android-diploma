@@ -5,6 +5,7 @@
     <string name="favorites">Избранное</string>
     <string name="crew">Команда</string>
     <string name="vacancy_search">Поиск вакансий</string>
+    <string name="vacancy_search_hint">Введите запрос</string>
     <string name="vacancy_found">Найдено</string>
     <string name="empty_string" />
     <string name="empty_space">" "</string>

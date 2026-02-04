@@ -4,8 +4,8 @@
     android:layout_height="@dimen/dimen_80dp">
 
     <ProgressBar
-        android:layout_width="@dimen/dimen_36dp"
-        android:layout_height="@dimen/dimen_36dp"
+        android:layout_width="@dimen/dimen_48dp"
+        android:layout_height="@dimen/dimen_48dp"
         android:layout_gravity="center"
         android:indeterminateTint="@color/blue" />
 </FrameLayout>
