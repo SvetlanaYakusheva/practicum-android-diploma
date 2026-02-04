@@ -13,4 +13,6 @@ interface FavoriteVacanciesRepository {
     suspend fun deleteFromFavoriteVacancies(vacancy: Vacancy)
 
     fun getFavoriteVacanciesIds(): Flow<List<String>>
+
+    fun getVacancyById(id: String): Flow<Resource<Vacancy>>
 }

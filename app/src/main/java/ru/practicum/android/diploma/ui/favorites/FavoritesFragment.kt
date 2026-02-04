@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFavoritesBinding
+import ru.practicum.android.diploma.domain.models.VacancySource
 import ru.practicum.android.diploma.presentation.favorites.FavoritesViewModel
 import ru.practicum.android.diploma.ui.adapters.VacancyAdapter
 import ru.practicum.android.diploma.ui.vacancy.VacancyDetailsFragment
@@ -85,7 +86,7 @@ class FavoritesFragment : Fragment() {
     private fun openVacancyDetails(vacancyId: String) {
         findNavController().navigate(
             R.id.action_favorites_fragment_to_vacancyDetailsFragment,
-            VacancyDetailsFragment.createArgs(vacancyId)
+            VacancyDetailsFragment.createArgs(vacancyId, VacancySource.FAVORITES)
         )
     }
 }

@@ -22,6 +22,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyDetailsBinding
 import ru.practicum.android.diploma.domain.models.Phone
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancySource
 import ru.practicum.android.diploma.presentation.vacancy.VacancyDetailsViewModel
 import ru.practicum.android.diploma.ui.adapters.PhoneAdapter
 import ru.practicum.android.diploma.util.UtilFunctions.formatSalary
@@ -32,7 +33,7 @@ class VacancyDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: VacancyDetailsViewModel by viewModel {
-        parametersOf(vacancyId)
+        parametersOf(vacancyId, sourceFragment)
     }
 
     private val phoneAdapter by lazy {
@@ -41,6 +42,7 @@ class VacancyDetailsFragment : Fragment() {
         }
     }
     private var vacancyId: String? = null
+    private var sourceFragment: VacancySource? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,6 +57,8 @@ class VacancyDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         vacancyId = requireArguments().getString(KEY_VACANCY_ID)
+        val sourceString = arguments?.getString(KEY_SOURCE_FRAGMENT)
+        sourceFragment = sourceString?.let { VacancySource.valueOf(it) } ?: VacancySource.SEARCH
 
         binding.topAppBar.setNavigationOnClickListener {
             findNavController().navigateUp()
@@ -131,7 +135,11 @@ class VacancyDetailsFragment : Fragment() {
             companyName.text = vacancy.employerName
             companyAddress.text = vacancy.addressFull ?: vacancy.addressCity
             experience.text = vacancy.experienceName
-            schedule.text = vacancy.schedule + ", " + vacancy.employment
+            schedule.text = buildString {
+                append(vacancy.schedule)
+                append(requireContext().getString(R.string.comma_space))
+                append(vacancy.employment)
+            }
             vacancyDescription.text = vacancy.description
             showSkills(vacancy.skills)
             showContacts(vacancy.contactsEmail, vacancy.contactsPhones, vacancy.name)
@@ -215,8 +223,9 @@ class VacancyDetailsFragment : Fragment() {
 
     companion object {
         const val KEY_VACANCY_ID = "KEY_VACANCY_ID"
+        const val KEY_SOURCE_FRAGMENT = "KEY_PREVIOUS_FRAGMENT"
 
-        fun createArgs(id: String): Bundle =
-            bundleOf(KEY_VACANCY_ID to id)
+        fun createArgs(id: String, sourceFragment: VacancySource): Bundle =
+            bundleOf(KEY_VACANCY_ID to id, KEY_SOURCE_FRAGMENT to sourceFragment.name)
     }
 }

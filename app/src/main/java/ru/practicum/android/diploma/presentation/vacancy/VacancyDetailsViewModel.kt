@@ -11,12 +11,14 @@ import ru.practicum.android.diploma.domain.api.FavoriteVacanciesInteractor
 import ru.practicum.android.diploma.domain.api.SharingInteractor
 import ru.practicum.android.diploma.domain.api.VacancyDetailsInteractor
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancySource
 import ru.practicum.android.diploma.ui.vacancy.VacancyDetailsState
 import ru.practicum.android.diploma.util.ErrorType
 import ru.practicum.android.diploma.util.Resource
 
 class VacancyDetailsViewModel(
     private val vacancyId: String,
+    private val sourceFragment: VacancySource,
     private val vacancyDetailsInteractor: VacancyDetailsInteractor,
     private val sharingInteractor: SharingInteractor,
     private val favoriteVacanciesInteractor: FavoriteVacanciesInteractor
@@ -35,11 +37,23 @@ class VacancyDetailsViewModel(
     fun fillData() {
         viewModelScope.launch {
             renderState(VacancyDetailsState.Loading)
-            vacancyDetailsInteractor
-                .getVacancyById(vacancyId)
-                .collect { result ->
-                    processResult(result)
+            when (sourceFragment) {
+                VacancySource.SEARCH -> {
+                    vacancyDetailsInteractor
+                        .getVacancyById(vacancyId)
+                        .collect { result ->
+                            processResult(result)
+                        }
                 }
+
+                VacancySource.FAVORITES -> {
+                    favoriteVacanciesInteractor
+                        .getVacancyById(vacancyId)
+                        .collect { result ->
+                            processResult(result)
+                        }
+                }
+            }
         }
     }
 
