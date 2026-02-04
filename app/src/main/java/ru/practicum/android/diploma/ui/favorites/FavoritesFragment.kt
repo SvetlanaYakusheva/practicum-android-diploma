@@ -72,7 +72,7 @@ class FavoritesFragment : Fragment() {
                     binding.vacancyRecycler.layoutManager =
                         LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                     binding.vacancyRecycler.adapter = vacancyAdapter
-                    vacancyAdapter.updateList(state.vacancies)
+                    vacancyAdapter.setData(state.vacancies)
                 }
             }
         }

@@ -11,14 +11,14 @@ interface VacanciesAPI {
 
     @Headers(
         "Authorization: Bearer ${BuildConfig.API_ACCESS_TOKEN}",
-        "HH-User-Agent: FindJobApp/1.0 (i@bergolz.ru)"
+        "HH-User-Agent: FindJobApp/1.0 (i@iberholz.ru)"
     )
     @GET("/vacancies")
     suspend fun getVacancies(@QueryMap options: Map<String, String>): VacanciesSearchResponse
 
     @Headers(
         "Authorization: Bearer ${BuildConfig.API_ACCESS_TOKEN}",
-        "HH-User-Agent: FindJobApp/1.0 (i@bergolz.ru)"
+        "HH-User-Agent: FindJobApp/1.0 (i@iberholz.ru)"
     )
     @GET("/vacancies/{vacancyId}")
     suspend fun getVacancyFull(

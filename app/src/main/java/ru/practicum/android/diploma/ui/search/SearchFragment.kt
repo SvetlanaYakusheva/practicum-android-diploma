@@ -4,17 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
+import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.launch
+import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
+import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.search.SearchViewModel
-import ru.practicum.android.diploma.ui.adapters.VacancyAdapter
+import ru.practicum.android.diploma.ui.adapters.SearchVacancyAdapter
 import ru.practicum.android.diploma.ui.vacancy.VacancyDetailsFragment
 
 class SearchFragment : Fragment() {
@@ -26,7 +28,7 @@ class SearchFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModel()
 
     private val vacancyAdapter by lazy {
-        VacancyAdapter { vacancyId ->
+        SearchVacancyAdapter { vacancyId ->
             openVacancyDetails(vacancyId)
         }
     }
@@ -43,66 +45,71 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.vacancyRecycler.adapter = vacancyAdapter
+        setDefaultState()
 
-        observeViewModel()
-
-        binding.searchInput.addTextChangedListener { text ->
-            viewModel.onQueryChanged(text.toString())
-
+        viewModel.observeState().observe(viewLifecycleOwner) {
+            render(it)
         }
 
-        binding.searchFilter.setOnClickListener {
-            findNavController().navigate(R.id.action_search_fragment_to_filterFragment)
+        viewModel.observeShowToast().observe(viewLifecycleOwner) { toast ->
+            showToast(toast)
         }
-    }
 
-    private fun observeViewModel() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect { state ->
-                render(state)
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = vacancyAdapter
+        binding.recyclerView.animation = null
+
+        binding.searchInput.doAfterTextChanged { action ->
+            viewModel.searchDebounce(action.toString())
+            if (action?.isNotEmpty() == true) {
+                binding.searchInputLayout.setEndIconDrawable(R.drawable.ic_close_icon_24)
+            } else {
+                viewModel.clearSearch()
+                binding.searchInputLayout.setEndIconDrawable(R.drawable.ic_search_24)
             }
         }
-    }
 
-    private fun render(state: SearchUiState) {
-        when (state) {
-            is SearchUiState.Initial -> {
-                binding.progressBar.visibility = View.GONE
-                binding.vacancyRecycler.visibility = View.GONE
-                binding.emptyPlaceholder.visibility = View.VISIBLE
-            }
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
 
-            is SearchUiState.Loading -> {
-                binding.progressBar.visibility = View.VISIBLE
-                binding.vacancyRecycler.visibility = View.GONE
-                binding.emptyPlaceholder.visibility = View.GONE
-            }
-
-            is SearchUiState.Content -> {
-                binding.progressBar.visibility = View.GONE
-
-                if (state.vacancies.isEmpty()) {
-                    binding.vacancyRecycler.visibility = View.GONE
-                    binding.emptyPlaceholder.visibility = View.VISIBLE
-                    binding.emptyPlaceholder.setImageResource(R.drawable.notfound_icon)
-                } else {
-                    binding.emptyPlaceholder.visibility = View.GONE
-                    binding.vacancyRecycler.visibility = View.VISIBLE
-                    binding.vacancyRecycler.layoutManager =
-                        LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                    binding.vacancyRecycler.adapter = vacancyAdapter
-                    vacancyAdapter.updateList(state.vacancies)
+                if (dy > 0) {
+                    val pos = (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val itemsCount = vacancyAdapter.itemCount
+                    itemsCount.let {
+                        if (pos >= it - 2) {
+                            viewModel.onLastItemReached()
+                        }
+                    }
                 }
             }
+        })
 
-            is SearchUiState.Error -> {
-                binding.progressBar.visibility = View.GONE
-                binding.vacancyRecycler.visibility = View.GONE
-                binding.emptyPlaceholder.visibility = View.VISIBLE
+        binding.searchTopAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.filter -> {
+                    findNavController().navigate(R.id.action_search_fragment_to_filterFragment)
+                    true
+                }
 
+                else -> false
             }
         }
+
+        binding.searchTopAppBar.menu.findItem(R.id.filter).setOnMenuItemClickListener { _ ->
+            runFilter()
+        }
+
+        binding.searchInputLayout.setEndIconOnClickListener {
+            binding.searchInput.setText(getString(R.string.empty_string))
+            viewModel.clearSearch()
+        }
+
+    }
+
+    private fun runFilter(): Boolean {
+        findNavController().navigate(R.id.action_search_fragment_to_filterFragment)
+        return true
     }
 
     private fun openVacancyDetails(vacancyId: String) {
@@ -110,6 +117,88 @@ class SearchFragment : Fragment() {
             R.id.action_search_fragment_to_vacancyDetailsFragment,
             VacancyDetailsFragment.createArgs(vacancyId)
         )
+    }
+
+    private fun render(state: SearchUiState) {
+        when (state) {
+            is SearchUiState.Content -> state.countOfVacancies?.let { showContent(state.vacanciesList, it) }
+            is SearchUiState.EmptyQuery -> showEmpty(state.message)
+            is SearchUiState.ServerError -> showError(state.errorMessage)
+            is SearchUiState.LoadingNewQuery -> showLoading()
+            is SearchUiState.InternetNotAvailable -> showLooseInternetConnection(state.errorMessage)
+            is SearchUiState.Default -> setDefaultState()
+            is SearchUiState.NextPageLoading -> vacancyAdapter.showLoading(true)
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showLooseInternetConnection(errorMessage: String) {
+        showImageAndTextState()
+        binding.vacancyCountTextView.isVisible = false
+        binding.emptyPlaceholder.setImageResource(R.drawable.nointernet_icon)
+        binding.stateTextView.text = errorMessage
+    }
+
+    private fun showContent(vacanciesList: List<Vacancy>, countOfVacancies: Int) {
+        binding.progressBar.isVisible = false
+        binding.emptyPlaceholder.isVisible = false
+        binding.recyclerView.isVisible = true
+        binding.stateTextView.isVisible = false
+        binding.vacancyCountTextView.isVisible = true
+        binding.vacancyCountTextView.text = buildString {
+            append(getString(R.string.vacancy_found))
+            append(getString(R.string.empty_space))
+            append(
+                context?.resources?.getQuantityString(
+                    R.plurals.vacancy_of_vacancies, countOfVacancies, countOfVacancies
+                )
+            )
+        }
+        vacancyAdapter.showLoading(false)
+        vacancyAdapter.setData(vacanciesList)
+
+    }
+
+    private fun showError(errorMessage: String) {
+        showImageAndTextState()
+        binding.vacancyCountTextView.isVisible = false
+        binding.emptyPlaceholder.setImageResource(R.drawable.error_icon)
+        binding.stateTextView.text = errorMessage
+    }
+
+    private fun setDefaultState() {
+        binding.vacancyCountTextView.isVisible = false
+        binding.progressBar.isVisible = false
+        binding.emptyPlaceholder.isVisible = true
+        binding.recyclerView.isVisible = false
+        binding.stateTextView.isVisible = false
+        binding.emptyPlaceholder.setImageResource(R.drawable.empty_icon)
+    }
+
+    private fun showEmpty(message: String) {
+        showImageAndTextState()
+        binding.vacancyCountTextView.isVisible = true
+        binding.vacancyCountTextView.text = getString(R.string.no_vacancies)
+        binding.emptyPlaceholder.setImageResource(R.drawable.empty_list_icon)
+        binding.stateTextView.text = message
+    }
+
+    private fun showImageAndTextState() {
+        binding.progressBar.isVisible = false
+        binding.emptyPlaceholder.isVisible = true
+        binding.recyclerView.isVisible = false
+        binding.stateTextView.isVisible = true
+    }
+
+    private fun showLoading() {
+        binding.vacancyCountTextView.isVisible = false
+        binding.progressBar.isVisible = true
+        binding.emptyPlaceholder.isVisible = false
+        binding.recyclerView.isVisible = false
+        binding.stateTextView.isVisible = false
     }
 
     override fun onDestroyView() {

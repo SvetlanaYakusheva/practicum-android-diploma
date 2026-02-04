@@ -1,32 +1,32 @@
 package ru.practicum.android.diploma.ui.adapters
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.viewholders.VacancyViewHolder
+import ru.practicum.android.diploma.util.OnItemClickListener
 
-class VacancyAdapter(
-    private val onVacancyClick: (String) -> Unit
-) : RecyclerView.Adapter<VacancyViewHolder>() {
+class VacancyAdapter(private val onItemClickListener: OnItemClickListener) :
+    RecyclerView.Adapter<VacancyViewHolder>() {
 
-    private var vacancyList: List<Vacancy> = emptyList()
+    val listVacancies = mutableListOf<Vacancy>()
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): VacancyViewHolder = VacancyViewHolder.from(parent, onVacancyClick)
-
-    override fun onBindViewHolder(
-        holder: VacancyViewHolder,
-        position: Int
-    ) {
-        holder.bind(vacancyList[position])
+    fun setData(newListData: List<Vacancy>) {
+        listVacancies.clear()
+        listVacancies.addAll(newListData)
+        notifyDataSetChanged()
     }
 
-    override fun getItemCount(): Int = vacancyList.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VacancyViewHolder(
+        LayoutInflater.from(parent.context)
+            .inflate(R.layout.vacancy_list_item, parent, false)
+    ) { id -> onItemClickListener.onItemClick(id) }
 
-    fun updateList(newList: List<Vacancy>) {
-        vacancyList = newList
-        notifyDataSetChanged()
+    override fun getItemCount(): Int = listVacancies.size
+
+    override fun onBindViewHolder(holder: VacancyViewHolder, position: Int) {
+        holder.bind(listVacancies[position])
     }
 }

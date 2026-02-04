@@ -1,43 +1,40 @@
 package ru.practicum.android.diploma.ui.viewholders
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.databinding.VacancyItemBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.util.OnItemClickListener
+import ru.practicum.android.diploma.util.UtilFunctions
 
-class VacancyViewHolder(
-    private val binding: VacancyItemBinding,
-    private val onVacancyClick: (String) -> Unit
-) : RecyclerView.ViewHolder(binding.root) {
+class VacancyViewHolder(itemView: View, private val onClickListener: OnItemClickListener) :
+    ListItemViewHolder(itemView) {
 
-    fun bind(model: Vacancy) {
-        binding.apply {
-            Glide.with(root)
-                .load(model.employerLogoPath)
-                .placeholder(R.drawable.ic_employer_logo_placeholder_48)
-                .into(employerLogo)
+    private val context = itemView.context
 
-            vacancyName.text = root.context.getString(
-                R.string.view_holder_vacancy_name, model.name, model.addressCity
-            )
+    private val vacancyIcon = itemView.findViewById<ImageView>(R.id.employer_logo)
+    private val vacancyTitle = itemView.findViewById<TextView>(R.id.vacancy_name)
+    private val companyName = itemView.findViewById<TextView>(R.id.employer_name)
+    private val salaryRange = itemView.findViewById<TextView>(R.id.vacancy_salary)
 
-            root.setOnClickListener {
-                onVacancyClick(model.id)
-            }
-        }
+    override fun bind(vacancy: Vacancy) {
+        itemView.setOnClickListener { onClickListener.onItemClick(vacancy.id) }
+        Glide.with(context)
+            .load(vacancy.employerLogoPath)
+            .placeholder(R.drawable.ic_employer_logo_placeholder_48)
+            .centerInside()
+            .transform(RoundedCorners(context.resources.getDimensionPixelSize(R.dimen.dimen_12dp)))
+            .into(vacancyIcon)
+
+        vacancyTitle.text =
+            String.format(context.getString(R.string.view_holder_vacancy_name), vacancy.name, vacancy.addressCity)
+
+        companyName.text = vacancy.employerName
+
+        salaryRange.text = UtilFunctions.formatSalary(vacancy, context)
     }
 
-    companion object {
-        fun from(
-            parent: ViewGroup,
-            onVacancyClick: (String) -> Unit
-        ): VacancyViewHolder {
-            val inflater = LayoutInflater.from(parent.context)
-            val binding = VacancyItemBinding.inflate(inflater, parent, false)
-            return VacancyViewHolder(binding, onVacancyClick)
-        }
-    }
 }

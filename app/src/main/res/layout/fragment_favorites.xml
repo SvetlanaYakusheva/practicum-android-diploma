@@ -29,7 +29,7 @@
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/favorites_title"
-        tools:listitem="@layout/vacancy_item" />
+        tools:listitem="@layout/vacancy_list_item" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/emptyPlaceholder"
