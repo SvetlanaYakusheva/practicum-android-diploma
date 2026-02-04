@@ -7,4 +7,3 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 abstract class ListItemViewHolder(itemView: View) : ViewHolder(itemView) {
     abstract fun bind(listItem: Vacancy)
 }
-

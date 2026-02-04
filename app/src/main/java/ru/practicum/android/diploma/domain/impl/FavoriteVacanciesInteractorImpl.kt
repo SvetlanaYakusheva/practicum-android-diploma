@@ -25,4 +25,8 @@ class FavoriteVacanciesInteractorImpl(
     override fun getFavoriteVacanciesIds(): Flow<List<String>> {
         return repository.getFavoriteVacanciesIds()
     }
+
+    override fun getVacancyById(id: String): Flow<Resource<Vacancy>> {
+        return repository.getVacancyById(id)
+    }
 }

@@ -23,6 +23,6 @@ interface FavoriteVacancyDao {
     @Delete
     suspend fun deleteVacancy(vacancy: FavoriteVacancyEntity)
 
-    @Query("select vacancy_id from favorite_vacancy_table where vacancy_id = :vacancyId")
-    suspend fun findVacancyById(vacancyId: String): List<String>
+    @Query("select * from favorite_vacancy_table where vacancy_id = :vacancyId")
+    suspend fun getVacancyById(vacancyId: String): FavoriteVacancyEntity
 }

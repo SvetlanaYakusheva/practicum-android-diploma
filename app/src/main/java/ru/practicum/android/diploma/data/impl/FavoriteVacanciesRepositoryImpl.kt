@@ -46,4 +46,16 @@ class FavoriteVacanciesRepositoryImpl(
         return appDatabase.favoriteVacancyDao().getVacanciesIds()
     }
 
+    override fun getVacancyById(id: String): Flow<Resource<Vacancy>> = flow<Resource<Vacancy>> {
+        val favoriteVacancyEntity = appDatabase.favoriteVacancyDao().getVacancyById(id)
+        val vacancy = with(mapper) {
+            favoriteVacancyEntity.toVacancy()
+        }
+        emit(Resource.Success(vacancy))
+
+    }.catch { e ->
+        // Ловим только реальные ошибки, не мешая корутинам отменяться
+        emit(Resource.Error(ErrorType.SQLError))
+    }
+
 }
