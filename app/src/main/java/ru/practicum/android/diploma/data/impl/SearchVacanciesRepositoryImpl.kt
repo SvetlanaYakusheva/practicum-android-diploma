@@ -19,7 +19,6 @@ class SearchVacanciesRepositoryImpl(
     private val networkClient: NetworkClient,
     private val mapper: Mapper
 ) : SearchVacanciesRepository {
-
     private fun makeErrorMessage(response: Response): String {
         val header = context.getString(R.string.server_error_message)
         return "$header : ${response.resultCode}"
@@ -30,7 +29,6 @@ class SearchVacanciesRepositoryImpl(
         page: Int,
         perPage: Int,
     ): Flow<Resource<VacanciesSearchResult>> = flow {
-
         val response = networkClient.doRequest(
             VacanciesSearchRequest(
                 text = expression,
