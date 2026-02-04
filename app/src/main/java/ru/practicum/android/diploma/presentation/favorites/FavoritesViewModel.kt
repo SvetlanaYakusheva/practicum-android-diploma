@@ -17,7 +17,7 @@ class FavoritesViewModel(
     fun observeFavoritesState(): LiveData<FavoritesUiState> = favoritesState
 
     fun fillData() {
-        favoritesState.postValue(FavoritesUiState.Empty)
+        favoritesState.postValue(FavoritesUiState.Loading)
         viewModelScope.launch {
             interactor
                 .getFavoriteVacancies()

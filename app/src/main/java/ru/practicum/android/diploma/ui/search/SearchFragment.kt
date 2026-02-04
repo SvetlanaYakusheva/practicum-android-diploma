@@ -45,21 +45,12 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setDefaultState()
-
-        viewModel.observeState().observe(viewLifecycleOwner) {
-            render(it)
-        }
-
-        viewModel.observeShowToast().observe(viewLifecycleOwner) { toast ->
-            showToast(toast)
-        }
-
+        viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
+        viewModel.observeShowToast().observe(viewLifecycleOwner) { toast -> showToast(toast) }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = vacancyAdapter
         binding.recyclerView.animation = null
-
         binding.searchInput.doAfterTextChanged { action ->
             viewModel.searchDebounce(action.toString())
             if (action?.isNotEmpty() == true) {
@@ -69,11 +60,9 @@ class SearchFragment : Fragment() {
                 binding.searchInputLayout.setEndIconDrawable(R.drawable.ic_search_24)
             }
         }
-
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-
                 if (dy > 0) {
                     val pos = (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     val itemsCount = vacancyAdapter.itemCount
@@ -85,7 +74,6 @@ class SearchFragment : Fragment() {
                 }
             }
         })
-
         binding.searchTopAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.filter -> {
@@ -96,16 +84,13 @@ class SearchFragment : Fragment() {
                 else -> false
             }
         }
-
         binding.searchTopAppBar.menu.findItem(R.id.filter).setOnMenuItemClickListener { _ ->
             runFilter()
         }
-
         binding.searchInputLayout.setEndIconOnClickListener {
             binding.searchInput.setText(getString(R.string.empty_string))
             viewModel.clearSearch()
         }
-
     }
 
     private fun runFilter(): Boolean {

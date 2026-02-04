@@ -6,6 +6,8 @@ sealed interface FavoritesUiState {
 
     object Empty : FavoritesUiState
 
+    object Loading : FavoritesUiState
+
     object Error : FavoritesUiState
 
     data class Content(

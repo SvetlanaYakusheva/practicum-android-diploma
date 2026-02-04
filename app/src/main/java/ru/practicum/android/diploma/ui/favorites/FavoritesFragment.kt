@@ -42,10 +42,6 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.fillData()
-    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -54,11 +50,17 @@ class FavoritesFragment : Fragment() {
     private fun render(state: FavoritesUiState) {
         binding.apply {
             when (state) {
+                is FavoritesUiState.Loading -> {
+                    vacancyRecycler.isVisible = false
+                    emptyPlaceholder.isVisible = false
+                    emptyText.isVisible = false
+                }
+
                 is FavoritesUiState.Error -> {
                     vacancyRecycler.isVisible = false
                     emptyPlaceholder.isVisible = true
                     emptyText.isVisible = true
-                    emptyPlaceholder.setImageResource(R.drawable.notfound_icon)
+                    emptyPlaceholder.setImageResource(R.drawable.empty_list_icon)
                     emptyText.setText(R.string.error_no_vacancies_found)
                 }
 
