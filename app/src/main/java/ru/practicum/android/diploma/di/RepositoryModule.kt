@@ -14,7 +14,6 @@ val repositoryModule = module {
 
     single {
         SearchVacanciesRepositoryImpl(
-            context = get(),
             networkClient = get(),
             mapper = get()
         )
@@ -25,7 +24,7 @@ val repositoryModule = module {
     }
 
     single<VacancyDetailsRepository> {
-        VacancyDetailsRepositoryImpl(get(), get(), get())
+        VacancyDetailsRepositoryImpl(get(), get())
     }
 
     single<SharingRepository> {

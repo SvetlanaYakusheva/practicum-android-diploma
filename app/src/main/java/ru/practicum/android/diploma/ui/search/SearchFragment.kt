@@ -122,10 +122,10 @@ class SearchFragment : Fragment() {
     private fun render(state: SearchUiState) {
         when (state) {
             is SearchUiState.Content -> state.countOfVacancies?.let { showContent(state.vacanciesList, it) }
-            is SearchUiState.EmptyQuery -> showEmpty(state.message)
-            is SearchUiState.ServerError -> showError(state.errorMessage)
+            is SearchUiState.EmptyQuery -> showEmpty()
+            is SearchUiState.ServerError -> showError()
             is SearchUiState.LoadingNewQuery -> showLoading()
-            is SearchUiState.InternetNotAvailable -> showLooseInternetConnection(state.errorMessage)
+            is SearchUiState.InternetNotAvailable -> showLooseInternetConnection()
             is SearchUiState.Default -> setDefaultState()
             is SearchUiState.NextPageLoading -> vacancyAdapter.showLoading(true)
         }
@@ -135,11 +135,11 @@ class SearchFragment : Fragment() {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
-    private fun showLooseInternetConnection(errorMessage: String) {
+    private fun showLooseInternetConnection() {
         showImageAndTextState()
         binding.vacancyCountTextView.isVisible = false
         binding.emptyPlaceholder.setImageResource(R.drawable.nointernet_icon)
-        binding.stateTextView.text = errorMessage
+        binding.stateTextView.setText(R.string.internet_is_not_available)
     }
 
     private fun showContent(vacanciesList: List<Vacancy>, countOfVacancies: Int) {
@@ -162,11 +162,11 @@ class SearchFragment : Fragment() {
 
     }
 
-    private fun showError(errorMessage: String) {
+    private fun showError() {
         showImageAndTextState()
         binding.vacancyCountTextView.isVisible = false
         binding.emptyPlaceholder.setImageResource(R.drawable.error_icon)
-        binding.stateTextView.text = errorMessage
+        binding.stateTextView.setText(R.string.server_error_message)
     }
 
     private fun setDefaultState() {
@@ -178,12 +178,12 @@ class SearchFragment : Fragment() {
         binding.emptyPlaceholder.setImageResource(R.drawable.empty_icon)
     }
 
-    private fun showEmpty(message: String) {
+    private fun showEmpty() {
         showImageAndTextState()
         binding.vacancyCountTextView.isVisible = true
         binding.vacancyCountTextView.text = getString(R.string.no_vacancies)
         binding.emptyPlaceholder.setImageResource(R.drawable.empty_list_icon)
-        binding.stateTextView.text = message
+        binding.stateTextView.setText(R.string.error_no_vacancies_found)
     }
 
     private fun showImageAndTextState() {

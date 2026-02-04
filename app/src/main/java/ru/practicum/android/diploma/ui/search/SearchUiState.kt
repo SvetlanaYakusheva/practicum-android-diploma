@@ -12,15 +12,9 @@ sealed interface SearchUiState {
         val countOfVacancies: Int?,
     ) : SearchUiState
 
-    data class ServerError(
-        val errorMessage: String
-    ) : SearchUiState
+    object ServerError : SearchUiState
 
-    data class InternetNotAvailable(
-        val errorMessage: String
-    ) : SearchUiState
+    object InternetNotAvailable : SearchUiState
 
-    data class EmptyQuery(
-        val message: String
-    ) : SearchUiState
+    object EmptyQuery : SearchUiState
 }

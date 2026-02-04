@@ -15,6 +15,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/RoundedLogoShape"
+        app:strokeColor="@color/light_gray"
+        app:strokeWidth="@dimen/dimen_1dp"
         tools:src="@drawable/ic_employer_logo_placeholder_48" />
 
     <com.google.android.material.textview.MaterialTextView

@@ -32,6 +32,7 @@ class SearchViewModel(
         clearSearch()
         searchVacancies(query)
     }
+
     fun searchDebounce(changedText: String) {
         if (latestSearchText != changedText) {
             latestSearchText = changedText
@@ -113,7 +114,7 @@ class SearchViewModel(
                     if (isNextPageLoading) {
                         renderState(SearchUiState.Content(vacanciesList, null))
                     } else {
-                        renderState(SearchUiState.InternetNotAvailable(messageNoInternet))
+                        renderState(SearchUiState.InternetNotAvailable)
                     }
 
                     showToast(messageCheckConnection)
@@ -121,19 +122,19 @@ class SearchViewModel(
                     if (isNextPageLoading) {
                         renderState(SearchUiState.Content(vacanciesList, null))
                     } else {
-                        renderState(SearchUiState.ServerError(messageServerError))
+                        renderState(SearchUiState.ServerError)
                     }
                     showToast(errorMessage ?: messageServerError)
                 }
                 isNextPageLoading = false
             }
+
             vacanciesList.isEmpty() -> {
                 renderState(
-                    SearchUiState.EmptyQuery(
-                        message = "not_get_a_list_of_vacancies",
-                    )
+                    SearchUiState.EmptyQuery
                 )
             }
+
             else -> {
                 renderState(SearchUiState.Content(vacanciesList.distinct(), countOfVacancies))
                 isNextPageLoading = false
@@ -148,6 +149,7 @@ class SearchViewModel(
     private fun renderState(state: SearchUiState) {
         stateLiveData.postValue(state)
     }
+
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY_MS = 2_000L
         private const val PER_PAGE_SIZE = 20
