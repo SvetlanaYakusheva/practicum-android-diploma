@@ -106,6 +106,8 @@
                 app:layout_constraintStart_toStartOf="@id/company_card"
                 app:layout_constraintTop_toTopOf="@id/company_card"
                 app:shapeAppearanceOverlay="@style/RoundedLogoShape"
+                app:strokeColor="@color/light_gray"
+                app:strokeWidth="@dimen/dimen_1dp"
                 tools:src="@drawable/ic_employer_logo_placeholder_48" />
 
             <TextView

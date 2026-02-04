@@ -1,8 +1,10 @@
 package ru.practicum.android.diploma.data.impl
 
 import android.content.Context
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.data.Mapper
 import ru.practicum.android.diploma.data.network.NetworkClient
@@ -36,7 +38,7 @@ class VacancyDetailsRepositoryImpl(
                 else -> Resource.Error(ErrorType.ServerError, makeErrorMessage(ErrorType.ServerError))
             }
         )
-    }
+    }.flowOn(Dispatchers.IO)
 
     private fun makeErrorMessage(errorType: ErrorType): String {
         return when (errorType) {
