@@ -1,15 +1,14 @@
 package ru.practicum.android.diploma.domain.api
 
-import ru.practicum.android.diploma.domain.models.Vacancy
+import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.util.Resource
 
 interface SearchVacanciesRepository {
-    suspend fun searchVacancies(
-        query: String,
+    fun searchVacancies(
+        expression: String,
         page: Int = 0,
-        // todo: сразу задел под пагинацию
         perPage: Int = DEFAULT_PAGE_SIZE
-    ): Resource<List<Vacancy>>
+    ): Flow<Resource<VacanciesSearchResult>>
 
     companion object {
         const val DEFAULT_PAGE_SIZE = 20

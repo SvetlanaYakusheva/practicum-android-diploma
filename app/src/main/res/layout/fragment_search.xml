@@ -1,108 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/search_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/background_color"
-    android:orientation="vertical"
-    tools:context=".ui.search.SearchFragment">
+    android:background="?attr/background_color">
 
-    <com.google.android.material.appbar.MaterialToolbar
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/search_title"
-        style="@style/ToolbarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height"
-        app:title="@string/vacancy_search"
-        app:titleTextAppearance="@style/FontDisplay.Medium22">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/search_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:src="@drawable/ic_filter_off_24" />
-
-    </com.google.android.material.appbar.MaterialToolbar>
-
-    <com.google.android.material.textfield.TextInputLayout
+        style="@style/ToolbarStyleParent.AppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_padding"
-        android:hint="@string/vacancy_search">
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/search_top_app_bar"
+            style="@style/ToolbarStyleParent.ToolBar"
+            app:menu="@menu/top_search_app_bar"
+            app:title="@string/vacancy_search">
+
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_input_layout"
+        style="@style/EditTextStyleBoxed"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/search_height"
+        app:layout_constraintTop_toBottomOf="@id/search_title">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/searchInput"
+            style="@style/EditTextStyleBoxed.Input"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:singleLine="true" />
+            android:layout_height="@dimen/search_height"
+            android:layout_marginHorizontal="@dimen/dimen_16dp"
+            android:hint="@string/vacancy_search"
+            android:padding="@dimen/size_zero" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+    <LinearLayout
+        android:id="@+id/search_main_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_input_layout">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/vacancyRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/default_padding"
-            tools:listitem="@layout/vacancy_item" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/founded_count_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="27dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dimen_4dp"
-            android:backgroundTint="@color/blue"
-            android:foreground="?attr/selectableItemBackground"
-            android:visibility="gone"
-            app:cardCornerRadius="@dimen/dimen_12dp"
-            app:cardElevation="0dp">
-
-            <TextView
-                android:id="@+id/founded_count"
-                style="@style/FontDisplay.Regular16"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingHorizontal="@dimen/dimen_12dp"
-                android:paddingVertical="@dimen/dimen_4dp"
-                android:textColor="@color/white_universal"
-                tools:text="Найдено 286 вакансий" />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/vacancy_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingHorizontal="@dimen/default_padding"
-            android:visibility="gone"
-            tools:listitem="@layout/vacancy_item" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/emptyPlaceholder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/default_padding"
-            android:src="@drawable/empty_placeholder"
-            android:visibility="gone" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleLarge"
+        <ImageView
+            android:id="@+id/empty_placeholder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            android:src="@drawable/empty_placeholder" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="@dimen/dimen_36dp"
+            android:layout_height="@dimen/dimen_36dp"
             android:layout_gravity="center"
+            android:indeterminateTint="@color/blue"
             android:visibility="gone" />
 
-    </FrameLayout>
+        <TextView
+            android:id="@+id/state_text_view"
+            style="@style/FontDisplay.Medium22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:gravity="center_horizontal"
+            android:text="@string/internet_is_not_available"
+            android:visibility="gone" />
+    </LinearLayout>
 
-</LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_zero"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_input_layout"
+        app:layout_constraintVertical_weight="1"
+        tools:itemCount="20"
+        tools:layout_editor_absoluteX="@dimen/size_zero"
+        tools:listitem="@layout/vacancy_list_item" />
+
+
+    <TextView
+        android:id="@+id/vacancy_count_text_view"
+        style="@style/FontDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="@dimen/dimen_12dp"
+        android:background="@drawable/rounded_blue_rectangle"
+        android:gravity="top|center_horizontal"
+        android:paddingHorizontal="@dimen/dimen_12dp"
+        android:paddingVertical="@dimen/dimen_4dp"
+        android:text="@string/no_vacancies"
+        android:textColor="@color/white_universal"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_input_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

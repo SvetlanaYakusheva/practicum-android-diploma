@@ -80,4 +80,31 @@
         <item name="cornerSize">@dimen/dimen_12dp</item>
     </style>
 
+    <style name="EditTextStyleBoxed">
+        <item name="boxBackgroundColor">?attr/edit_text_color</item>
+        <item name="boxCornerRadiusTopStart">@dimen/dimen_8dp</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/dimen_8dp</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/dimen_8dp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/dimen_8dp</item>
+        <item name="boxStrokeWidth">@dimen/size_zero</item>
+        <item name="boxStrokeWidthFocused">@dimen/size_zero</item>
+        <item name="hintEnabled">false</item>
+        <item name="endIconDrawable">@drawable/ic_search_24</item>
+        <item name="endIconTint">@color/black_universal</item>
+        <item name="endIconMode">custom</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontWeight">400</item>
+    </style>
+
+    <style name="EditTextStyleBoxed.Input">
+        <item name="android:textColor">@color/black_universal</item>
+        <item name="android:textColorHint">?attr/text_hint_color</item>
+        <item name="android:background" />
+        <item name="android:textSize">16sp</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:fontWeight">400</item>
+        <item name="android:inputType">text</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
 </resources>

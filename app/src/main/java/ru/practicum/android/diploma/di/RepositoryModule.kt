@@ -14,6 +14,7 @@ val repositoryModule = module {
 
     single {
         SearchVacanciesRepositoryImpl(
+            context = get(),
             networkClient = get(),
             mapper = get()
         )
