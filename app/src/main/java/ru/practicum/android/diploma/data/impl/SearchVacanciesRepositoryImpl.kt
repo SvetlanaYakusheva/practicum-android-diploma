@@ -19,6 +19,7 @@ class SearchVacanciesRepositoryImpl(
     private val networkClient: NetworkClient,
     private val mapper: Mapper
 ) : SearchVacanciesRepository {
+
     private fun makeErrorMessage(response: Response): String {
         val header = context.getString(R.string.server_error_message)
         return "$header : ${response.resultCode}"
