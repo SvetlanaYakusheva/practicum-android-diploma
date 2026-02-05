@@ -1,8 +1,74 @@
 <resources>
     <string name="app_name">Practicum-Android-Diploma</string>
+    <string name="base_url">https://practicum-diploma-8bc38133faba.herokuapp.com/</string>
     <string name="main">Главная</string>
     <string name="favorites">Избранное</string>
     <string name="crew">Команда</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="vacancy_search">Поиск вакансий</string>
+    <string name="vacancy_search_hint">Введите запрос</string>
+    <string name="vacancy_found">Найдено</string>
+    <string name="empty_string" />
+    <string name="empty_space">" "</string>
+
+    <string name="salary_not_specified">Зарплата не указана</string>
+    <string name="salary_range_from_to">от %1$s до %2$s %3$s</string>
+    <string name="salary_range_from">от %1$s %2$s</string>
+    <string name="salary_range_to">до %1$s %2$s</string>
+    <string name="back_button">Назад</string>
+    <string name="vacancy">Вакансия</string>
+    <string name="vacancy_name">Название вакансии</string>
+    <string name="vacancy_salary">Доход</string>
+    <string name="company_logo">Логотип</string>
+    <string name="company_name">Название компании</string>
+    <string name="company_address">Адрес компании</string>
+    <string name="experience">Требуемый опыт</string>
+    <string name="experience_value">От 1 года до 3 лет</string>
+    <string name="vacancy_description">Описание вакансии</string>
+    <string name="schedule">Полная занятость, Удаленная работа</string>
+    <string name="responsibilities">Обязанности</string>
+    <string name="responsibilities_example">Разрабатывать новую функциональность приложения\nПомогать с интеграцией нашего SDK в другие приложения\nПроектировать большие новые модули\nПисать UI- и unit-тесты\nСледить за работоспособностью сервиса и устранять технический долг\n
+        \nТребования
+        \n100% Kotlin\nWebRTC\nCI по модели Trunk Based Development\n
+        \nУсловия\nсильная команда, с которой можно расти\nвозможность влиять на процесс и результат\nрасширенная программа ДМС: стоматология, обследования, вызов врача на дом и многое другое</string>
+    <string name="skills_title">Ключевые навыки</string>
+    <string name="skills_list">Знание классических алгоритмов и структуры данных\nПрограммирование для Android больше одного года\nЗнание WebRTC</string>
+    <string name="contacts_title">Контакты</string>
+    <string name="email">Почта:</string>
+    <string name="phone">Телефон:</string>
+    <string name="comment">Комментарий:</string>
+    <string name="vacancy_title">Вакансия</string>
+    <string name="crew_title">Команда</string>
+    <string name="first_team_member">Казаков Роман</string>
+    <string name="second_team_member">Якушева Светлана</string>
+    <string name="third_team_member">Марухян Ашот</string>
+    <string name="fourth_team_member">Жуков Игорь</string>
+    <string name="workers_list">Над приложением работали</string>
+    <string name="example_text_1">Разработчик на С++ в команду внутренних сервисов, Москва</string>
+    <string name="example_text_2">Авто.ру</string>
+    <string name="example_text_3">от 1 000 до 1 500 €</string>
+    <string name="view_holder_vacancy_name">%1$s, %2$s</string>
+    <string name="server_error_message">Ошибка сервера</string>
+    <string name="vacancy_not_found">Вакансия не найдена или \nудалена</string>
+    <string name="share_app_text_plain">text/plain</string>
+    <string name="mailto" translatable="false">mailto:%s</string>
+    <string name="mail">Почта: </string>
+    <string name="message_email">" "</string>
+    <string name="share_vacancy_url">https://practicum-diploma-8bc38133faba.herokuapp.com/vacancies/%s</string>
+    <string name="favorites_list_is_empty">Список пуст</string>
+    <string name="error_no_vacancies_found">Не удалось получить \nсписок вакансий</string>
+    <string name="phone_number_example">+7 (999) 345-67-89</string>
+    <string name="phone_comment_example">с 9:00 до 18:00</string>
+    <string name="filter">фильтр</string>
+    <string name="unknown_view_type_requested">Unknown view type requested: %1$s</string>
+    <string name="internet_is_not_available">Нет интернета</string>
+    <string name="no_vacancies">Таких вакансий нет</string>
+    <string name="comma_space">", "</string>
+
+    <plurals name="vacancy_of_vacancies">
+        <item quantity="one">%d вакансия</item>
+        <item quantity="two">%d вакансии</item>
+        <item quantity="few">%d вакансий</item>
+        <item quantity="many">%d вакансий</item>
+        <item quantity="other">%d вакансий</item>
+    </plurals>
 </resources>

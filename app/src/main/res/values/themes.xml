@@ -3,6 +3,9 @@
     <style name="Theme.PracticumAndroidDiploma" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
 
+        <!--Navigation bar color-->
+        <item name="android:navigationBarColor">@color/white_universal</item>
+
         <item name="colorPrimary">@color/blue</item>
         <item name="colorOnPrimary">@color/black_universal</item>
         <!-- Secondary brand color. -->

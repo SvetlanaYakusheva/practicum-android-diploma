@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.util
 
-sealed interface Resource<T> {
-    data class Success<T>(val data: T) : Resource<T>
-    data class Error<T>(val message: String) : Resource<T>
+sealed class Resource<T>(open val data: T? = null, val errorType: ErrorType? = null, val message: String? = null) {
+    class Success<T>(override val data: T) : Resource<T>(data = data)
+    class Error<T>(errorType: ErrorType, data: T? = null) :
+        Resource<T>(data = data, errorType = errorType)
 }

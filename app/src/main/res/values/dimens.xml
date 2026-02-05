@@ -2,6 +2,22 @@
 <resources>
     <dimen name="size_zero">0dp</dimen>
     <dimen name="size_4xs">1dp</dimen>
+    <dimen name="toolbar_height">64dp</dimen>
+    <dimen name="default_padding">16dp</dimen>
+    <dimen name="searchbar_height">56dp</dimen>
+    <dimen name="search_height">52dp</dimen>
+    <dimen name="searchbar_radius">12dp</dimen>
+    <dimen name="vacancy_logo_size">48dp</dimen>
 
+    <dimen name="dimen_1dp">1dp</dimen>
+    <dimen name="dimen_4dp">4dp</dimen>
+    <dimen name="dimen_8dp">8dp</dimen>
+    <dimen name="dimen_12dp">12dp</dimen>
+    <dimen name="dimen_16dp">16dp</dimen>
+    <dimen name="dimen_24dp">24dp</dimen>
+    <dimen name="dimen_32dp">32dp</dimen>
+    <dimen name="dimen_36dp">32dp</dimen>
+    <dimen name="dimen_48dp">48dp</dimen>
+    <dimen name="dimen_80dp">80dp</dimen>
 
 </resources>
