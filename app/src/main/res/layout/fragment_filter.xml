@@ -25,7 +25,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/work_place"
-        style="@style/EditTextStyleBoxed"
+        style="@style/TextStyleFilter"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_60dp"
         android:layout_marginTop="@dimen/dimen_16dp"
@@ -37,7 +37,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/work_place_value"
-            style="@style/EditTextStyleBoxed.Input"
+            style="@style/TextStyleFilter.Input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="" />

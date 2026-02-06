@@ -69,9 +69,7 @@ class IndustryViewModel(
         }
         if (filtered.isEmpty()) {
             stateLiveData.postValue(
-                IndustryUiState.Empty(
-                    message = "industry_not_found",
-                )
+                IndustryUiState.Empty
             )
         } else {
             stateLiveData.postValue(IndustryUiState.Content(filtered))

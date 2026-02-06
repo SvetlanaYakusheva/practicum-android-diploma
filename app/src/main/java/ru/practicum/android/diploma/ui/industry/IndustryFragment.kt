@@ -31,7 +31,7 @@ class IndustryFragment : Fragment() {
         when (state) {
             is IndustryUiState.Content -> showContent(state.industries)
             is IndustryUiState.Loading -> showLoading()
-            is IndustryUiState.Empty -> showEmpty(state.message)
+            is IndustryUiState.Empty -> showEmpty()
             is IndustryUiState.Error -> showError(state.error)
         }
     }
@@ -57,10 +57,10 @@ class IndustryFragment : Fragment() {
         }
     }
 
-    private fun showEmpty(message: String) {
+    private fun showEmpty() {
         showImageAndTextState()
         binding.centralImageHolder.setImageResource(R.drawable.empty_list_icon)
-        binding.stateTextView.text = message
+        binding.stateTextView.text = getString(R.string.not_found_industry)
     }
 
     private fun showError(errorType: ErrorType) {

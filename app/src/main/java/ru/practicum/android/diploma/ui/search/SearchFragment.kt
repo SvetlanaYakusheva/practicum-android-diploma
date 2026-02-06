@@ -19,6 +19,7 @@ import ru.practicum.android.diploma.domain.models.VacancySource
 import ru.practicum.android.diploma.presentation.search.SearchViewModel
 import ru.practicum.android.diploma.ui.adapters.SearchVacancyAdapter
 import ru.practicum.android.diploma.ui.vacancy.VacancyDetailsFragment
+import ru.practicum.android.diploma.util.ErrorType
 
 class SearchFragment : Fragment() {
 
@@ -126,8 +127,22 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+    private fun showToast(errorType: ErrorType) {
+        when (errorType) {
+            ErrorType.NoConnection -> Toast.makeText(
+                requireContext(),
+                getString(R.string.internet_is_not_available),
+                Toast.LENGTH_LONG
+            ).show()
+
+            ErrorType.ServerError -> Toast.makeText(
+                requireContext(),
+                getString(R.string.server_error_message),
+                Toast.LENGTH_LONG
+            ).show()
+
+            else -> {}
+        }
     }
 
     private fun showLooseInternetConnection() {
@@ -153,7 +168,7 @@ class SearchFragment : Fragment() {
             )
         }
         vacancyAdapter.showLoading(false)
-        vacancyAdapter.setData(vacanciesList)
+        vacancyAdapter.setData(vacanciesList, vacancyAdapter.itemCount)
         showIconFilterIsOn(viewModel.filterNotEmpty())
 
     }

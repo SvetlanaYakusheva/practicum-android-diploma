@@ -22,10 +22,10 @@ class SearchViewModel(
     private val stateLiveData = MutableLiveData<SearchUiState>()
     fun observeState(): LiveData<SearchUiState> = stateLiveData
     private var vacanciesList = mutableListOf<Vacancy>()
-    private val showToast = SingleLiveEvent<String>()
-    fun observeShowToast(): LiveData<String> = showToast
+    private val showToast = SingleLiveEvent<ErrorType>()
+    fun observeShowToast(): LiveData<ErrorType> = showToast
     private var isNextPageLoading: Boolean = false
-    private var currentPage: Int = 0
+    private var currentPage: Int = 1
     private var maxPage: Int? = null
     private var latestSearchText: String? = null
     private val vacancySearchDebounce = UtilFunctions.debounce<String>(
@@ -51,7 +51,7 @@ class SearchViewModel(
             if (this.currentPage == maxPage) {
                 return
             } else {
-                if (currentPage == 0) {
+                if (currentPage == 1) {
                     renderState(SearchUiState.LoadingNewQuery)
                 } else {
                     isNextPageLoading = true
@@ -67,7 +67,7 @@ class SearchViewModel(
 
     fun clearSearch() {
         renderState(SearchUiState.Default)
-        currentPage = 0
+        currentPage = 1
         maxPage = null
         vacanciesList.clear()
     }
@@ -93,8 +93,7 @@ class SearchViewModel(
                         processResult(
                             resource.data?.vacancies,
                             resource.data?.found,
-                            resource.errorType,
-                            resource.message
+                            resource.errorType
                         )
                         maxPage = resource.data?.count
                     }
@@ -105,11 +104,8 @@ class SearchViewModel(
     private fun processResult(
         foundVacancies: List<Vacancy>?,
         countOfVacancies: Int?,
-        errorType: ErrorType?,
-        errorMessage: String?
+        errorType: ErrorType?
     ) {
-        val messageServerError = "server_error"
-        val messageCheckConnection = "check_connection_message"
 
         if (foundVacancies != null) {
             vacanciesList.addAll(foundVacancies)
@@ -122,15 +118,14 @@ class SearchViewModel(
                     } else {
                         renderState(SearchUiState.InternetNotAvailable)
                     }
-
-                    showToast(messageCheckConnection)
+                    showToast(ErrorType.NoConnection)
                 } else {
                     if (isNextPageLoading) {
                         renderState(SearchUiState.Content(vacanciesList, null))
                     } else {
                         renderState(SearchUiState.ServerError)
                     }
-                    showToast(errorMessage ?: messageServerError)
+                    showToast(ErrorType.ServerError)
                 }
                 isNextPageLoading = false
             }
@@ -148,8 +143,8 @@ class SearchViewModel(
         }
     }
 
-    private fun showToast(message: String) {
-        showToast.postValue(message)
+    private fun showToast(errorType: ErrorType) {
+        showToast.postValue(errorType)
     }
 
     private fun renderState(state: SearchUiState) {
@@ -161,7 +156,7 @@ class SearchViewModel(
         val newFilter = filterInteractor.appliedFilter()
         if (newFilter != appliedFilter) {
             appliedFilter = newFilter
-            currentPage = 0
+            currentPage = 1
             vacanciesList.clear()
             latestSearchText?.let { searchText ->
                 searchVacancies(searchText)

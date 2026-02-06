@@ -7,22 +7,51 @@ import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Industry
 
 class FilterInteractorImpl(private val repository: FilterRepository) : FilterInteractor {
-    override fun currentFilter(): Filter = repository.currentFilter()
+    private var currentFilter: Filter = repository.loadFilter()
+    private var appliedFilter: Filter = currentFilter
 
-    override fun appliedFilter(): Filter = repository.appliedFilter()
+    override fun currentFilter(): Filter = currentFilter
+    override fun appliedFilter(): Filter = appliedFilter
 
-    override fun setCountry(country: Area?) = repository.setCountry(country)
+    override fun setCountry(country: Area?) {
+        currentFilter = currentFilter.copy(country = country)
+        saveCurrentFilter()
+    }
 
-    override fun setArea(area: Area?) = repository.setArea(area)
+    override fun setArea(area: Area?) {
+        currentFilter = currentFilter.copy(area = area)
+        saveCurrentFilter()
+    }
 
-    override fun setIndustry(industry: Industry?) = repository.setIndustry(industry)
+    override fun setIndustry(industry: Industry?) {
+        currentFilter = currentFilter.copy(industry = industry)
+        saveCurrentFilter()
+    }
 
-    override fun setSalary(salary: String?) = repository.setSalary(salary)
+    override fun setSalary(salary: String?) {
+        currentFilter = currentFilter.copy(salary = salary)
+        saveCurrentFilter()
+    }
 
-    override fun setOnlyWithSalary(onlyWithSalary: Boolean) = repository.setOnlyWithSalary(onlyWithSalary)
+    override fun setOnlyWithSalary(onlyWithSalary: Boolean) {
+        currentFilter = currentFilter.copy(onlyWithSalary = onlyWithSalary)
+        saveCurrentFilter()
+    }
 
-    override fun apply() = repository.apply()
+    private fun saveCurrentFilter() {
+        repository.saveFilter(currentFilter)
+    }
 
-    override fun flushCurrentFilter() = repository.flushCurrentFilter()
+    override fun apply() {
+        if (appliedFilter != currentFilter) {
+            appliedFilter = currentFilter
+            repository.saveAppliedFilter(appliedFilter)
+        }
+    }
+
+    override fun flushCurrentFilter() {
+        currentFilter = Filter()
+        saveCurrentFilter()
+    }
 
 }
