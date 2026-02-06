@@ -1,95 +1,77 @@
 package ru.practicum.android.diploma.data.impl
 
 import android.content.Context
+import androidx.core.content.edit
 import com.google.gson.Gson
 import ru.practicum.android.diploma.domain.api.FilterRepository
 import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Industry
-import androidx.core.content.edit
 
-class FilterRepositoryImpl(val context: Context) : FilterRepository {
-    private val sharedPreferences = context.getSharedPreferences(STORAGE_FILTER, Context.MODE_PRIVATE)
+class FilterRepositoryImpl(context: Context, private val gson: Gson) : FilterRepository {
+    private val sharedPreferences = context.applicationContext.getSharedPreferences(STORAGE_FILTER, Context.MODE_PRIVATE)
+
     private var currentFilter: Filter = Filter()
     private var appliedFilter: Filter = Filter()
 
     init {
-        loadCurrentFilter()
-        loadAppliedFilter()
-        appliedFilter = currentFilter
+        currentFilter = loadFilter(CURRENT_FILTER)
+        appliedFilter = loadFilter(APPLIED_FILTER)
     }
 
-    private fun loadCurrentFilter() {
-        currentFilter = Gson().fromJson(
-            sharedPreferences.getString(CURRENT_FILTER, ""),
-            Filter::class.java
-        ) ?: Filter()
+    private fun loadFilter(key: String): Filter {
+        val json = sharedPreferences.getString(key, null)
+        return if (json.isNullOrEmpty()) Filter() else gson.fromJson(json, Filter::class.java)
     }
 
-    private fun saveCurrentFilter() {
-        sharedPreferences
-            .edit {
-                putString(CURRENT_FILTER, Gson().toJson(currentFilter))
-            }
-    }
-
-    private fun loadAppliedFilter() {
-        appliedFilter = Gson().fromJson(
-            sharedPreferences.getString(APPLIED_FILTER, ""),
-            Filter::class.java
-        ) ?: Filter()
-    }
-
-    private fun saveAppliedFilter() {
-        sharedPreferences
-            .edit {
-                putString(APPLIED_FILTER, Gson().toJson(appliedFilter))
-            }
+    private fun saveFilter(key: String, filter: Filter) {
+        sharedPreferences.edit {
+            putString(key, gson.toJson(filter))
+        }
     }
 
     override fun currentFilter(): Filter = currentFilter
     override fun appliedFilter(): Filter = appliedFilter
 
     override fun setCountry(country: Area?) {
-        currentFilter = currentFilter.copy(country = country)
-        saveCurrentFilter()
+        // Business Logic: If country changes, we might want to clear the specific area
+        currentFilter = currentFilter.copy(country = country, area = null)
+        saveFilter(CURRENT_FILTER, currentFilter)
     }
 
     override fun setArea(area: Area?) {
         currentFilter = currentFilter.copy(area = area)
-        saveCurrentFilter()
+        saveFilter(CURRENT_FILTER, currentFilter)
     }
 
     override fun setIndustry(industry: Industry?) {
         currentFilter = currentFilter.copy(industry = industry)
-        saveCurrentFilter()
+        saveFilter(CURRENT_FILTER, currentFilter)
     }
 
     override fun setSalary(salary: String?) {
         currentFilter = currentFilter.copy(salary = salary)
-        saveCurrentFilter()
+        saveFilter(CURRENT_FILTER, currentFilter)
     }
 
     override fun setOnlyWithSalary(onlyWithSalary: Boolean) {
         currentFilter = currentFilter.copy(onlyWithSalary = onlyWithSalary)
-        saveCurrentFilter()
+        saveFilter(CURRENT_FILTER, currentFilter)
     }
 
     override fun apply() {
-        if (appliedFilter != currentFilter) {
-            appliedFilter = currentFilter
-            saveAppliedFilter()
-        }
+        appliedFilter = currentFilter
+        saveFilter(APPLIED_FILTER, appliedFilter)
     }
 
     override fun flushCurrentFilter() {
         currentFilter = Filter()
-        saveCurrentFilter()
+        saveFilter(CURRENT_FILTER, currentFilter)
     }
 
     companion object {
-        const val APPLIED_FILTER = "APPLIED_FILTER"
-        const val CURRENT_FILTER = "CURRENT_FILTER"
-        const val STORAGE_FILTER = "STORAGE_FILTER"
+        private const val APPLIED_FILTER = "APPLIED_FILTER"
+        private const val CURRENT_FILTER = "CURRENT_FILTER"
+        private const val STORAGE_FILTER = "STORAGE_FILTER"
     }
 }

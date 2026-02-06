@@ -49,6 +49,7 @@ val repositoryModule = module {
     single<FilterRepository> {
         FilterRepositoryImpl(
             context = get(),
+            gson = get()
         )
     }
 }
