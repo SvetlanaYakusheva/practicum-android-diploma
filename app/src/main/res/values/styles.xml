@@ -152,6 +152,7 @@
         <item name="android:inputType">number</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
+        <item name="endIconMode">none</item>
     </style>
 
     <style name="FontDisplay.SalaryInputTextStyle" parent="TextStyleFilter">
