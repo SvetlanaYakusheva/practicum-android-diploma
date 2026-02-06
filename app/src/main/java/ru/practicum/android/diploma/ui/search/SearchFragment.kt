@@ -115,6 +115,15 @@ class SearchFragment : Fragment() {
             is SearchUiState.Default -> setDefaultState()
             is SearchUiState.NextPageLoading -> vacancyAdapter.showLoading(true)
         }
+        showIconFilterIsOn(viewModel.hasFilter())
+    }
+
+    private fun showIconFilterIsOn(filtered: Boolean) {
+        if (filtered) {
+            binding.searchTopAppBar.menu.findItem(R.id.filter).setIcon(R.drawable.ic_filter_on_24)
+        } else {
+            binding.searchTopAppBar.menu.findItem(R.id.filter).setIcon(R.drawable.ic_filter_off_24)
+        }
     }
 
     private fun showToast(message: String) {
@@ -145,6 +154,7 @@ class SearchFragment : Fragment() {
         }
         vacancyAdapter.showLoading(false)
         vacancyAdapter.setData(vacanciesList)
+        showIconFilterIsOn(viewModel.filterNotEmpty())
 
     }
 
@@ -185,6 +195,12 @@ class SearchFragment : Fragment() {
         binding.emptyPlaceholder.isVisible = false
         binding.recyclerView.isVisible = false
         binding.stateTextView.isVisible = false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.checkFilters()
+        showIconFilterIsOn(viewModel.hasFilter())
     }
 
     override fun onDestroyView() {

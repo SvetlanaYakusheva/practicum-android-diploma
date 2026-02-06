@@ -23,6 +23,8 @@ class RetrofitNetworkClient(
         return when (dto) {
             is VacanciesSearchRequest -> getVacancies(dto)
             is VacancyRequest -> getVacancyFull(dto)
+            is AreasRequest -> getAreas()
+            is IndustriesRequest -> getIndustries()
             else -> Response().apply { resultCode = NetworkClient.HTTP_CLIENT_ERROR }
         }
     }
@@ -66,7 +68,38 @@ class RetrofitNetworkClient(
             map["per_page"] = perPage.toString()
         }
 
+        filter.area?.let { map["area"] = it.id }
+        filter.industry?.let { map["industry"] = it.id }
+        filter.salary?.let { map["salary"] = it }
+        map["only_with_salary"] = filter.onlyWithSalary.toString()
+
         return map
+    }
+
+    private suspend fun getAreas(): Response {
+        return withContext(defaultDispatcher) {
+            try {
+                AreaResponse(vacanciesService.getAreas())
+                    .apply { resultCode = NetworkClient.HTTP_SUCCESS }
+            } catch (e: HttpException) {
+                Response().apply { resultCode = e.code() }
+            } catch (_: SocketTimeoutException) {
+                Response().apply { resultCode = NetworkClient.HTTP_SERVER_ERROR }
+            }
+        }
+    }
+
+    private suspend fun getIndustries(): Response {
+        return withContext(defaultDispatcher) {
+            try {
+                IndustriesResponse(vacanciesService.getIndustries())
+                    .apply { resultCode = NetworkClient.HTTP_SUCCESS }
+            } catch (e: HttpException) {
+                Response().apply { resultCode = e.code() }
+            } catch (_: SocketTimeoutException) {
+                Response().apply { resultCode = NetworkClient.HTTP_SERVER_ERROR }
+            }
+        }
     }
 
     fun isConnected(): Boolean {

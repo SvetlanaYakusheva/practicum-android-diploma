@@ -56,13 +56,24 @@
     <string name="share_vacancy_url">https://practicum-diploma-8bc38133faba.herokuapp.com/vacancies/%s</string>
     <string name="favorites_list_is_empty">Список пуст</string>
     <string name="error_no_vacancies_found">Не удалось получить \nсписок вакансий</string>
-    <string name="phone_number_example">+7 (999) 345-67-89</string>
+    <string name="phone_number_example">+7 (999) 345–67–89</string>
     <string name="phone_comment_example">с 9:00 до 18:00</string>
     <string name="filter">фильтр</string>
+    <string name="filter_select">Выбрать</string>
     <string name="unknown_view_type_requested">Unknown view type requested: %1$s</string>
     <string name="internet_is_not_available">Нет интернета</string>
     <string name="no_vacancies">Таких вакансий нет</string>
     <string name="comma_space">", "</string>
+    <string name="industry_choose_title">Выбор отрасли</string>
+    <string name="industry_hint">Отрасль</string>
+    <string name="enter_industry_hint">Введите отрасль</string>
+    <string name="filter_settings_title">Настройка фильтрации</string>
+    <string name="work_place_hint">Место работы</string>
+    <string name="salary_expected_hint">Ожидаемая зарплата</string>
+    <string name="enter_sum_hint">Введите сумму</string>
+    <string name="not_show_without_salary">Не показывать без зарплаты</string>
+    <string name="apply_filter">Применить</string>
+    <string name="reset_filter">Сбросить</string>
 
     <plurals name="vacancy_of_vacancies">
         <item quantity="one">%d вакансия</item>

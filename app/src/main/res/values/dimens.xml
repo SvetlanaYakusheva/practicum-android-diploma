@@ -14,10 +14,12 @@
     <dimen name="dimen_8dp">8dp</dimen>
     <dimen name="dimen_12dp">12dp</dimen>
     <dimen name="dimen_16dp">16dp</dimen>
+    <dimen name="dimen_20dp">20dp</dimen>
     <dimen name="dimen_24dp">24dp</dimen>
     <dimen name="dimen_32dp">32dp</dimen>
     <dimen name="dimen_36dp">32dp</dimen>
     <dimen name="dimen_48dp">48dp</dimen>
+    <dimen name="dimen_60dp">60dp</dimen>
     <dimen name="dimen_80dp">80dp</dimen>
 
 </resources>
