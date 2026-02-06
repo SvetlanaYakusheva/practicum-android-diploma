@@ -68,9 +68,7 @@ class IndustryViewModel(
             }
         }
         if (filtered.isEmpty()) {
-            stateLiveData.postValue(
-                IndustryUiState.Empty
-            )
+            stateLiveData.postValue(IndustryUiState.Empty)
         } else {
             stateLiveData.postValue(IndustryUiState.Content(filtered))
         }

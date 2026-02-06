@@ -49,7 +49,7 @@
         android:id="@+id/industry"
         style="@style/TextStyleFilter"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_60dp"
+        android:layout_height="wrap_content"
         android:background="@color/transparent"
         android:gravity="center_vertical"
         android:hint="@string/industry_hint"
@@ -63,6 +63,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:maxLines="2"
             android:text="" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -87,6 +89,7 @@
             style="@style/SalaryTextStyleFilter.Input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:hint="@string/enter_sum_hint" />
 
 
