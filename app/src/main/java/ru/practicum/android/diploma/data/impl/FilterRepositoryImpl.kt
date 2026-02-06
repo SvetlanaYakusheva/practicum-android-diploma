@@ -9,7 +9,8 @@ import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Industry
 
 class FilterRepositoryImpl(context: Context, private val gson: Gson) : FilterRepository {
-    private val sharedPreferences = context.applicationContext.getSharedPreferences(STORAGE_FILTER, Context.MODE_PRIVATE)
+    private val sharedPreferences = context.applicationContext
+        .getSharedPreferences(STORAGE_FILTER, Context.MODE_PRIVATE)
 
     private var currentFilter: Filter = Filter()
     private var appliedFilter: Filter = Filter()
@@ -66,7 +67,9 @@ class FilterRepositoryImpl(context: Context, private val gson: Gson) : FilterRep
 
     override fun flushCurrentFilter() {
         currentFilter = Filter()
+        appliedFilter = Filter()
         saveFilter(CURRENT_FILTER, currentFilter)
+        saveFilter(APPLIED_FILTER, appliedFilter)
     }
 
     companion object {
