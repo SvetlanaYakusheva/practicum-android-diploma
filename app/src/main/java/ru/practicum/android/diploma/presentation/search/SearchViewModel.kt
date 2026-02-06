@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.domain.api.FilterInteractor
 import ru.practicum.android.diploma.domain.api.SearchVacanciesInteractor
+import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.search.SearchUiState
 import ru.practicum.android.diploma.util.ErrorType
@@ -13,8 +15,10 @@ import ru.practicum.android.diploma.util.SingleLiveEvent
 import ru.practicum.android.diploma.util.UtilFunctions
 
 class SearchViewModel(
-    private val searchVacanciesInteractor: SearchVacanciesInteractor
+    private val searchVacanciesInteractor: SearchVacanciesInteractor,
+    private val filterInteractor: FilterInteractor
 ) : ViewModel() {
+    private var appliedFilter: Filter = filterInteractor.appliedFilter()
     private val stateLiveData = MutableLiveData<SearchUiState>()
     fun observeState(): LiveData<SearchUiState> = stateLiveData
     private var vacanciesList = mutableListOf<Vacancy>()
@@ -36,6 +40,8 @@ class SearchViewModel(
     fun searchDebounce(changedText: String) {
         if (latestSearchText != changedText) {
             latestSearchText = changedText
+            filterInteractor.apply()
+            appliedFilter = filterInteractor.appliedFilter()
             vacancySearchDebounce(changedText)
         }
     }
@@ -79,6 +85,7 @@ class SearchViewModel(
             viewModelScope.launch {
                 searchVacanciesInteractor.searchVacancies(
                     searchText,
+                    appliedFilter,
                     currentPage,
                     PER_PAGE_SIZE
                 )
@@ -102,7 +109,6 @@ class SearchViewModel(
         errorMessage: String?
     ) {
         val messageServerError = "server_error"
-        val messageNoInternet = "internet_is_not_available"
         val messageCheckConnection = "check_connection_message"
 
         if (foundVacancies != null) {
@@ -149,6 +155,21 @@ class SearchViewModel(
     private fun renderState(state: SearchUiState) {
         stateLiveData.postValue(state)
     }
+
+    fun filterNotEmpty() = appliedFilter != Filter()
+    fun checkFilters() {
+        val newFilter = filterInteractor.appliedFilter()
+        if (newFilter != appliedFilter) {
+            appliedFilter = newFilter
+            currentPage = 0
+            vacanciesList.clear()
+            latestSearchText?.let { searchText ->
+                searchVacancies(searchText)
+            }
+        }
+    }
+
+    fun hasFilter() = filterInteractor.currentFilter() != Filter()
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY_MS = 2_000L

@@ -14,6 +14,13 @@
         <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
+    <style name="FontDisplay.Hint" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontWeight">400</item>
+        <item name="android:textColorHint">?attr/colorOnPrimary</item>
+    </style>
+
     <style name="FontDisplay.Bold32" parent="FontDisplay">
         <item name="android:fontFamily">@font/ys_display_bold</item>
         <item name="android:textSize">32sp</item>
@@ -106,5 +113,81 @@
         <item name="android:inputType">text</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="TextStyleFilter">
+        <item name="boxBackgroundColor">@color/light_gray_3</item>
+        <item name="boxStrokeWidth">@dimen/size_zero</item>
+        <item name="boxStrokeWidthFocused">@dimen/size_zero</item>
+        <item name="endIconDrawable">@drawable/ic_arrow_forward</item>
+        <item name="endIconTint">?attr/colorOnPrimary</item>
+        <item name="endIconMode">custom</item>
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="prefixTextColor">@color/gray</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@color/transparent</item>
+
+    </style>
+
+    <style name="TextStyleFilter.Input">
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:focusable">false</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textColorHint">?attr/text_hint_color</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontWeight">400</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="FontDisplay.SalaryInputTextStyle">
+        <item name="boxBackgroundColor">?attr/edit_text_color</item>
+        <item name="boxCornerRadiusTopStart">@dimen/dimen_8dp</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/dimen_8dp</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/dimen_8dp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/dimen_8dp</item>
+        <item name="android:focusable">true</item>
+        <item name="boxStrokeWidth">@dimen/size_zero</item>
+        <item name="boxStrokeWidthFocused">@dimen/size_zero</item>
+        <item name="android:textSize">16sp</item>
+        <item name="endIconTint">@color/black_universal</item>
+        <item name="endIconMode">custom</item>
+        <item name="android:fontWeight">400</item>
+        <item name="android:textColor">@color/black_universal</item>
+        <item name="android:inputType">numberDecimal</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="FilterButton">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="backgroundColor">@color/white_universal</item>
+        <item name="android:drawablePadding">@dimen/dimen_8dp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontWeight">400</item>
+        <item name="icon">@drawable/ic_arrow_forward</item>
+        <item name="iconGravity">end</item>
+    </style>
+
+    <style name="FilterButton.Accept">
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/rounded_rectangle</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textColor">@color/white_universal</item>
+        <item name="icon">@null</item>
+    </style>
+
+    <style name="FilterButton.Reset">
+        <item name="android:gravity">center</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textColor">@color/red</item>
+        <item name="icon">@null</item>
     </style>
 </resources>
