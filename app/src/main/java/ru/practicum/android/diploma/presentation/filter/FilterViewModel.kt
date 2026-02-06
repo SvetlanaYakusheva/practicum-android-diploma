@@ -60,7 +60,7 @@ class FilterViewModel(private val filterInteractor: FilterInteractor) :
     }
 
     fun checkFilter() {
-        currentFilter = filterInteractor.appliedFilter()
+        currentFilter = filterInteractor.currentFilter()
         postCurrentFilter()
     }
 
