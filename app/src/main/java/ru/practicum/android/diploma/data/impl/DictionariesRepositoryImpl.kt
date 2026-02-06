@@ -15,46 +15,40 @@ import ru.practicum.android.diploma.util.ErrorType
 import ru.practicum.android.diploma.util.Resource
 
 class DictionariesRepositoryImpl(
-    private val networkClient: NetworkClient, private val mapper: Mapper
+    private val networkClient: NetworkClient,
+    private val mapper: Mapper
 ) : DictionariesRepository {
 
     override fun getAreas(): Flow<Resource<List<Area>>> = flow {
         val response = networkClient.doRequest(AreasRequest())
-        when (response.resultCode) {
-            NetworkClient.HTTP_SUCCESS -> {
-                val result = with(mapper) {
-                    (response as AreaResponse).area.map {
-                        it.toArea()
+        emit(
+            when (response.resultCode) {
+                NetworkClient.HTTP_SUCCESS -> {
+                    val result = with(mapper) {
+                        (response as AreaResponse).area.map { it.toArea() }
                     }
+                    Resource.Success(result)
                 }
-                Resource.Success(result)
+                NetworkClient.HTTP_NO_CONNECTION -> Resource.Error(ErrorType.NoConnection)
+                NetworkClient.HTTP_NOTHING_FOUND -> Resource.Error(ErrorType.NothingFound)
+                else -> Resource.Error(ErrorType.ServerError)
             }
-
-            NetworkClient.HTTP_NOTHING_FOUND -> Resource.Error(
-                ErrorType.NothingFound
-            )
-
-            else -> Resource.Error(ErrorType.ServerError)
-        }
+        )
     }
 
     override fun getIndustries(): Flow<Resource<List<Industry>>> = flow {
         val response = networkClient.doRequest(IndustriesRequest())
         emit(
             when (response.resultCode) {
-            NetworkClient.HTTP_NO_CONNECTION -> Resource.Error(ErrorType.NoConnection)
-            NetworkClient.HTTP_SUCCESS -> {
-                val result = with(mapper) {
-                    (response as IndustriesResponse).industries.map {
-                        it.toIndustry()
+                NetworkClient.HTTP_SUCCESS -> {
+                    val result = with(mapper) {
+                        (response as IndustriesResponse).industries.map { it.toIndustry() }
                     }
+                    Resource.Success(result)
                 }
-                Resource.Success(result)
+                NetworkClient.HTTP_NO_CONNECTION -> Resource.Error(ErrorType.NoConnection)
+                else -> Resource.Error(ErrorType.ServerError)
             }
-
-            else -> Resource.Error(
-                errorType = ErrorType.ServerError
-            )
-        })
+        )
     }
 }
