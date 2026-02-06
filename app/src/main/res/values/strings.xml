@@ -74,6 +74,7 @@
     <string name="not_show_without_salary">Не показывать без зарплаты</string>
     <string name="apply_filter">Применить</string>
     <string name="reset_filter">Сбросить</string>
+    <string name="industry_not_found">Такой отрасли нет</string>
 
     <string name="not_found_industry">Такой отрасли нет!</string>
 
