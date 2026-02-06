@@ -14,6 +14,7 @@ class FilterViewModel(private val filterInteractor: FilterInteractor) :
     fun observeState(): LiveData<FilterUiState> = stateLiveData
 
     init {
+        currentFilter = filterInteractor.appliedFilter()
         postCurrentFilter()
     }
 
@@ -60,7 +61,7 @@ class FilterViewModel(private val filterInteractor: FilterInteractor) :
     }
 
     fun checkFilter() {
-        currentFilter = filterInteractor.currentFilter()
+        currentFilter = filterInteractor.appliedFilter()
         postCurrentFilter()
     }
 

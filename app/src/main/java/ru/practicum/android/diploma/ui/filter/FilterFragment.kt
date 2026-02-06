@@ -34,14 +34,10 @@ class FilterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.observeState().observe(viewLifecycleOwner) {
-            render(it)
-        }
-
+        viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
         binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -56,14 +52,11 @@ class FilterFragment : Fragment() {
         binding.industry.setOnClickListener {
             findNavController().navigate(R.id.action_filterFragment_to_industryFragment)
         }
-
         val (emptyHintColor, blackHintColor, blueHintColor) = hintColorStates()
-
         textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 return
             }
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (clearButtonVisibility(s)) {
                     binding.salaryFrame.setEndIconDrawable(R.drawable.ic_close_icon_24)
@@ -73,15 +66,12 @@ class FilterFragment : Fragment() {
                     binding.salaryFrame.defaultHintTextColor = emptyHintColor
                 }
             }
-
             override fun afterTextChanged(s: Editable?) {
                 viewModel.setSalary(s.toString())
                 renderConfirmButtons()
             }
         }
-
         binding.salaryValue.addTextChangedListener(textWatcher!!)
-
         binding.salaryFrame.setEndIconOnClickListener {
             binding.salaryValue.setText(getString(R.string.empty_string))
             binding.salaryFrame.endIconDrawable = null
@@ -89,15 +79,11 @@ class FilterFragment : Fragment() {
             renderConfirmButtons()
             it.hideKeyboard()
         }
-        binding.resetButton.setOnClickListener {
-            viewModel.clearFilter()
-        }
-
+        binding.resetButton.setOnClickListener { viewModel.clearFilter() }
         binding.salaryIsRequiredCheck.setOnClickListener {
             viewModel.setSalaryIsRequired(binding.salaryIsRequiredCheck.isChecked)
             renderConfirmButtons()
         }
-
         binding.saveButton.setOnClickListener {
             viewModel.applyFilter()
             findNavController().popBackStack()
