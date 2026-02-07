@@ -89,7 +89,6 @@ class RegionFragment : Fragment() {
         regionViewModel.observeState().observe(viewLifecycleOwner) { render(it) }
     }
 
-
     private fun render(state: RegionUiState) {
         when (state) {
             is RegionUiState.Error -> renderError(state.error)

@@ -10,7 +10,7 @@ import ru.practicum.android.diploma.domain.api.FilterInteractor
 import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.ui.country.CountryUiState
 
-class CountryViewModel (
+class CountryViewModel(
     val dictionariesInteractor: DictionariesInteractor,
     val filterInteractor: FilterInteractor
 ) : ViewModel() {

@@ -11,7 +11,7 @@ import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.ui.region.RegionUiState
 import ru.practicum.android.diploma.util.UtilFunctions.debounce
 
-class RegionViewModel (
+class RegionViewModel(
     val dictionariesInteractor: DictionariesInteractor,
     val filterInteractor: FilterInteractor
 ) : ViewModel() {

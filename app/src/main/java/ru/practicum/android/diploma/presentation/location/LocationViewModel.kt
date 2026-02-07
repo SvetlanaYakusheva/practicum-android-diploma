@@ -8,7 +8,7 @@ import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.ui.location.LocationUiState
 
-class LocationViewModel (
+class LocationViewModel(
     val filterInteractor: FilterInteractor
 ) : ViewModel() {
     private var currentFilter = filterInteractor.currentFilter()
@@ -26,10 +26,12 @@ class LocationViewModel (
             stateLiveData.postValue(LocationUiState.Filled(currentFilter))
         }
     }
+
     fun checkFilter() {
         currentFilter = filterInteractor.currentFilter()
         postCurrentFilter()
     }
+
     fun currentFilterChanged() = currentFilter != filterInteractor.appliedFilter()
 
     fun setLocationToFilter(country: Area?, region: Area?) {

@@ -132,7 +132,6 @@ class LocationFragment : Fragment() {
         }
     }
 
-
     private fun emptyScreen() {
         with(binding) {
             country.defaultHintTextColor = setGrayColor()
