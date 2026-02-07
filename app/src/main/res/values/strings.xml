@@ -76,8 +76,6 @@
     <string name="reset_filter">Сбросить</string>
     <string name="industry_not_found">Такой отрасли нет</string>
 
-    <string name="not_found_industry">Такой отрасли нет!</string>
-
     <plurals name="vacancy_of_vacancies">
         <item quantity="one">%d вакансия</item>
         <item quantity="two">%d вакансии</item>
