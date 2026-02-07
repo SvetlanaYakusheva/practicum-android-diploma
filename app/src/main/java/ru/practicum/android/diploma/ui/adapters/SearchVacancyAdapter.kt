@@ -15,10 +15,10 @@ class SearchVacancyAdapter(private val onItemClickListener: OnItemClickListener)
     private val listData = mutableListOf<Vacancy>()
     private var showLoading: Boolean = false
 
-    fun setData(newListData: List<Vacancy>, count: Int) {
+    fun setData(newListData: List<Vacancy>) {
         listData.clear()
         listData.addAll(newListData)
-        notifyItemInserted(count + 1)
+        notifyDataSetChanged()
     }
 
     fun showLoading(isShowLoading: Boolean) {
