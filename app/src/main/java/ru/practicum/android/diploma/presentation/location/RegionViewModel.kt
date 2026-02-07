@@ -50,18 +50,18 @@ class RegionViewModel (
     private fun loadRegions() {
         stateLiveData.postValue(RegionUiState.Loading)
         if (currentFilter.country == null) {
-        viewModelScope.launch {
-            dictionariesInteractor.getRegionsFlatMap().collect {
-                if (it.errorType != null) {
-                    areasList = null
-                    stateLiveData.postValue(RegionUiState.Error(it.errorType))
-                } else if (it.data != null) {
-                    areasList = it.data
-                    filteredRegions = areasList?.filter { !it.parentId.isNullOrBlank() }
-                    postFilteredIndustries(filteredRegions!!, latestSearchText)
+            viewModelScope.launch {
+                dictionariesInteractor.getRegionsFlatMap().collect {
+                    if (it.errorType != null) {
+                        areasList = null
+                        stateLiveData.postValue(RegionUiState.Error(it.errorType))
+                    } else if (it.data != null) {
+                        areasList = it.data
+                        filteredRegions = areasList?.filter { !it.parentId.isNullOrBlank() }
+                        postFilteredIndustries(filteredRegions!!, latestSearchText)
+                    }
                 }
             }
-        }
         } else {
             postFilteredIndustries(currentFilter.country!!.areas!!, latestSearchText)
         }
@@ -85,7 +85,7 @@ class RegionViewModel (
         filterInteractor.setRegion(region)
         if (currentFilter.country?.id != region?.parentId) {
             val country = areasList?.filter { it.id == region?.parentId }?.get(0)
-                    filterInteractor.setCountry(country)
+            filterInteractor.setCountry(country)
         }
     }
 

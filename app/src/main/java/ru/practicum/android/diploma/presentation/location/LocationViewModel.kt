@@ -6,14 +6,14 @@ import androidx.lifecycle.ViewModel
 import ru.practicum.android.diploma.domain.api.FilterInteractor
 import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.domain.models.Filter
-import ru.practicum.android.diploma.ui.filter.FilterUiState
+import ru.practicum.android.diploma.ui.location.LocationUiState
 
 class LocationViewModel (
     val filterInteractor: FilterInteractor
 ) : ViewModel() {
     private var currentFilter = filterInteractor.currentFilter()
-    private val stateLiveData = MutableLiveData<FilterUiState>()
-    fun observeState(): LiveData<FilterUiState> = stateLiveData
+    private val stateLiveData = MutableLiveData<LocationUiState>()
+    fun observeState(): LiveData<LocationUiState> = stateLiveData
 
     init {
         postCurrentFilter()
@@ -21,9 +21,9 @@ class LocationViewModel (
 
     private fun postCurrentFilter() {
         if (currentFilter == Filter()) {
-            stateLiveData.postValue(FilterUiState.Empty)
+            stateLiveData.postValue(LocationUiState.Empty)
         } else {
-            stateLiveData.postValue(FilterUiState.Filled(currentFilter))
+            stateLiveData.postValue(LocationUiState.Filled(currentFilter))
         }
     }
     fun checkFilter() {

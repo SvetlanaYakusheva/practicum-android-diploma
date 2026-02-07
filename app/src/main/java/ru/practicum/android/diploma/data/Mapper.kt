@@ -105,7 +105,6 @@ class Mapper(private val gson: Gson) {
 
     fun Area.getAllNodes(): List<Area> {
         // Возвращаем текущий элемент + рекурсивно вызываем getAllNodes для всех детей
-        return (listOf(this) + (this.areas?.flatMap { it.getAllNodes() } ?: emptyList()))//.filter { it.parentId != null }
-
+        return listOf(this) + (this.areas?.flatMap { it.getAllNodes() } ?: emptyList())
     }
 }

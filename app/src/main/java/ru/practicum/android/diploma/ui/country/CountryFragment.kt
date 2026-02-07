@@ -1,13 +1,10 @@
 package ru.practicum.android.diploma.ui.country
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,14 +12,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentCountryBinding
 import ru.practicum.android.diploma.domain.models.Area
-import ru.practicum.android.diploma.domain.models.Industry
-import ru.practicum.android.diploma.presentation.industry.IndustryViewModel
 import ru.practicum.android.diploma.presentation.location.CountryViewModel
 import ru.practicum.android.diploma.ui.adapters.AreaAdapter
-import ru.practicum.android.diploma.ui.adapters.IndustryAdapter
-import ru.practicum.android.diploma.ui.industry.IndustryUiState
 import ru.practicum.android.diploma.util.ErrorType
-import kotlin.getValue
 
 class CountryFragment : Fragment() {
 
@@ -58,17 +50,6 @@ class CountryFragment : Fragment() {
             adapter = areaAdapter
             itemAnimator = null
         }
-
-//        searchFrame.setEndIconOnClickListener {
-//            if (inputEditText.text.isNullOrEmpty()) {
-//                inputEditText.requestFocus()
-//                showKeyboard(inputEditText)
-//            } else {
-//                inputEditText.text?.clear()
-//                it.hideKeyboard()
-//            }
-//        }
-
     }
 
     private fun setupObservers() {
@@ -122,14 +103,6 @@ class CountryFragment : Fragment() {
         centralImageHolder.setImageResource(imageRes)
         stateTextView.setText(textRes)
     }
-    private fun setGrayColor(): ColorStateList {
-        val grayColor = ColorStateList(
-            arrayOf(intArrayOf(android.R.attr.state_enabled)),
-            intArrayOf(ContextCompat.getColor(requireContext(), R.color.gray))
-        )
-        return grayColor
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

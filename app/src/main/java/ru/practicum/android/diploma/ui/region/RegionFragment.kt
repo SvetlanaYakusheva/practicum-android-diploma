@@ -1,13 +1,11 @@
 package ru.practicum.android.diploma.ui.region
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -71,6 +69,7 @@ class RegionFragment : Fragment() {
             }
         }
     }
+
     private fun updateSearchIcon(hasText: Boolean) {
         val iconRes = if (hasText) R.drawable.ic_close_icon_24 else R.drawable.ic_search_24
         binding.searchFrame.setEndIconDrawable(iconRes)
@@ -143,14 +142,6 @@ class RegionFragment : Fragment() {
         centralImageHolder.setImageResource(imageRes)
         stateTextView.setText(textRes)
     }
-    private fun setGrayColor(): ColorStateList {
-        val grayColor = ColorStateList(
-            arrayOf(intArrayOf(android.R.attr.state_enabled)),
-            intArrayOf(ContextCompat.getColor(requireContext(), R.color.gray))
-        )
-        return grayColor
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

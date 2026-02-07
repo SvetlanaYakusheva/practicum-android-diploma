@@ -29,6 +29,7 @@ class DictionariesRepositoryImpl(
                     }
                     Resource.Success(result)
                 }
+
                 NetworkClient.HTTP_NO_CONNECTION -> Resource.Error(ErrorType.NoConnection)
                 NetworkClient.HTTP_NOTHING_FOUND -> Resource.Error(ErrorType.NothingFound)
                 else -> Resource.Error(ErrorType.ServerError)
@@ -45,7 +46,7 @@ class DictionariesRepositoryImpl(
                         (response as AreaResponse).area.map { it.toArea() }
                     }
 
-                    val allAreas = with(mapper) {result.flatMap { it.getAllNodes() }}
+                    val allAreas = with(mapper) { result.flatMap { it.getAllNodes() } }
 
                     Resource.Success(allAreas)
                 }
@@ -67,6 +68,7 @@ class DictionariesRepositoryImpl(
                     }
                     Resource.Success(result)
                 }
+
                 NetworkClient.HTTP_NO_CONNECTION -> Resource.Error(ErrorType.NoConnection)
                 else -> Resource.Error(ErrorType.ServerError)
             }

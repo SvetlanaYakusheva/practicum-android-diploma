@@ -15,7 +15,6 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentLocationBinding
 import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.presentation.location.LocationViewModel
-import ru.practicum.android.diploma.ui.filter.FilterUiState
 
 class LocationFragment : Fragment() {
     private var _binding: FragmentLocationBinding? = null
@@ -61,16 +60,14 @@ class LocationFragment : Fragment() {
         }
 
         binding.selectButton.setOnClickListener {
-            //it.hideKeyboard()
-            //viewModel.setLocationToFilter(industryAdapter.getSelectedIndustry())
             findNavController().popBackStack()
         }
     }
 
-    private fun render(state: FilterUiState) {
+    private fun render(state: LocationUiState) {
         when (state) {
-            FilterUiState.Empty -> emptyScreen()
-            is FilterUiState.Filled -> filterScreen(state.filter)
+            LocationUiState.Empty -> emptyScreen()
+            is LocationUiState.Filled -> filterScreen(state.filter)
         }
 
         renderConfirmButtons()
@@ -84,11 +81,8 @@ class LocationFragment : Fragment() {
     private fun filterScreen(filter: Filter) {
         binding.countryValue.setText(filter.country?.name)
         binding.regionValue.setText(filter.region?.name)
-
         fillCountry()
         fillRegion()
-
-
         binding.selectButton.isVisible = true
     }
 
@@ -96,7 +90,6 @@ class LocationFragment : Fragment() {
         binding.country.defaultHintTextColor = setGrayColor()
         if (binding.countryValue.text.toString().isNotEmpty()) {
             binding.country.setEndIconDrawable(R.drawable.ic_close_icon_24)
-            //binding.country.defaultHintTextColor = setHintOnValueColor()
             binding.country.setEndIconOnClickListener {
                 viewModel.clearCountry()
                 renderConfirmButtons()
@@ -120,7 +113,6 @@ class LocationFragment : Fragment() {
         binding.region.defaultHintTextColor = setGrayColor()
         if (binding.regionValue.text.toString().isNotEmpty()) {
             binding.region.setEndIconDrawable(R.drawable.ic_close_icon_24)
-            //binding.region.defaultHintTextColor = setHintOnValueColor()
             binding.region.setEndIconOnClickListener {
                 viewModel.clearRegion()
                 renderConfirmButtons()
@@ -167,6 +159,7 @@ class LocationFragment : Fragment() {
         super.onResume()
         viewModel.checkFilter()
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
