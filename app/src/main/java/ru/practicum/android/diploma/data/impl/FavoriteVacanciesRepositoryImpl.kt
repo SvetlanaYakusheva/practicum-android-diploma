@@ -55,8 +55,8 @@ class FavoriteVacanciesRepositoryImpl(
         emit(Resource.Success(vacancy))
 
     }.catch { e ->
-        // Ловим только реальные ошибки, не мешая корутинам отменяться
-        emit(Resource.Error(ErrorType.SQLError))
+        if (e is CancellationException) throw e
+        else emit(Resource.Error(ErrorType.SQLError))
     }
 
 }
