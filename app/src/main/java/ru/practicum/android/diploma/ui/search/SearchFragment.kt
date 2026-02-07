@@ -58,17 +58,19 @@ class SearchFragment : Fragment() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = vacancyAdapter
-            itemAnimator = null // Prevent flickering on update
+            itemAnimator = null
         }
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
-                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                    val lastVisiblePos = layoutManager.findLastVisibleItemPosition()
-                    if (lastVisiblePos >= vacancyAdapter.itemCount - 3) {
-                        viewModel.onLastItemReached()
+                    val pos = (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val itemsCount = vacancyAdapter.itemCount
+                    itemsCount.let {
+                        if (pos >= it - 2) {
+                            viewModel.onLastItemReached()
+                        }
                     }
                 }
             }
