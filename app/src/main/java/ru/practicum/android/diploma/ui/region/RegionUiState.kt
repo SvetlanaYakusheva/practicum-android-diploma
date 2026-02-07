@@ -15,11 +15,7 @@ sealed interface RegionUiState {
 //
 //    data object NoRegionUi : RegionUiState
 
-    data class Filtered(
-        val regionsList: List<Area>
-    ) : RegionUiState
-
-    data class NotFiltered(
+    data class Content(
         val regionsList: List<Area>
     ) : RegionUiState
 
@@ -27,4 +23,7 @@ sealed interface RegionUiState {
         val error: ErrorType
     ) : RegionUiState
 
+    data object Empty : RegionUiState
+
+    data object Loading : RegionUiState
 }

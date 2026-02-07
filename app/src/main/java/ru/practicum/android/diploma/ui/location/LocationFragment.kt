@@ -14,10 +14,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentLocationBinding
 import ru.practicum.android.diploma.domain.models.Filter
-import ru.practicum.android.diploma.presentation.filter.FilterViewModel
 import ru.practicum.android.diploma.presentation.location.LocationViewModel
 import ru.practicum.android.diploma.ui.filter.FilterUiState
-import kotlin.getValue
 
 class LocationFragment : Fragment() {
     private var _binding: FragmentLocationBinding? = null
@@ -61,6 +59,12 @@ class LocationFragment : Fragment() {
         binding.region.setOnClickListener {
             findNavController().navigate(R.id.action_locationFragment_to_regionFragment)
         }
+
+        binding.selectButton.setOnClickListener {
+            //it.hideKeyboard()
+            //viewModel.setLocationToFilter(industryAdapter.getSelectedIndustry())
+            findNavController().popBackStack()
+        }
     }
 
     private fun render(state: FilterUiState) {
@@ -78,43 +82,64 @@ class LocationFragment : Fragment() {
     }
 
     private fun filterScreen(filter: Filter) {
-        binding.countryValue.setText(filter.area?.name)
+        binding.countryValue.setText(filter.country?.name)
+        binding.regionValue.setText(filter.region?.name)
 
-//        fillIndustry()
-//        if (filter.salary.isNullOrEmpty() or (filter.salary == "")) {
-//            binding.salaryValue.setText(R.string.empty_string)
-//            binding.salaryFrame.defaultHintTextColor = hintColorStates().first
-//        } else {
-//            binding.salaryValue.setText(filter.salary)
-//            binding.salaryFrame.setEndIconDrawable(R.drawable.ic_close_icon_24)
-//            binding.salaryFrame.defaultHintTextColor = hintColorStates().second
-//        }
+        fillCountry()
+        fillRegion()
+
+
         binding.selectButton.isVisible = true
     }
 
-//    private fun fillIndustry() {
-//        binding.industry.defaultHintTextColor = setGrayColor()
-//        if (binding.industryValue.text.toString().isNotEmpty()) {
-//            binding.industry.setEndIconDrawable(R.drawable.ic_close_icon_24)
-//            binding.industry.defaultHintTextColor = setHintOnValueColor()
-//            binding.industry.setEndIconOnClickListener {
-//                viewModel.clearIndustry()
-//                renderConfirmButtons()
-//                binding.industryValue.setText(getString(R.string.empty_string))
-//                binding.industry.setEndIconDrawable(R.drawable.ic_arrow_forward)
-//                binding.industry.defaultHintTextColor = setGrayColor()
-//                binding.industry.setEndIconOnClickListener {
-//                    findNavController().navigate(R.id.action_filterFragment_to_industryFragment)
-//                }
-//            }
-//        } else {
-//            binding.industry.setEndIconDrawable(R.drawable.ic_arrow_forward)
-//            binding.industry.setEndIconOnClickListener {
-//                renderConfirmButtons()
-//                findNavController().navigate(R.id.action_filterFragment_to_industryFragment)
-//            }
-//        }
-//    }
+    private fun fillCountry() {
+        binding.country.defaultHintTextColor = setGrayColor()
+        if (binding.countryValue.text.toString().isNotEmpty()) {
+            binding.country.setEndIconDrawable(R.drawable.ic_close_icon_24)
+            //binding.country.defaultHintTextColor = setHintOnValueColor()
+            binding.country.setEndIconOnClickListener {
+                viewModel.clearCountry()
+                renderConfirmButtons()
+                binding.countryValue.setText(getString(R.string.empty_string))
+                binding.country.setEndIconDrawable(R.drawable.ic_arrow_forward)
+                binding.country.defaultHintTextColor = setGrayColor()
+                binding.country.setEndIconOnClickListener {
+                    findNavController().navigate(R.id.action_locationFragment_to_countryFragment)
+                }
+            }
+        } else {
+            binding.country.setEndIconDrawable(R.drawable.ic_arrow_forward)
+            binding.country.setEndIconOnClickListener {
+                renderConfirmButtons()
+                findNavController().navigate(R.id.action_locationFragment_to_countryFragment)
+            }
+        }
+    }
+
+    private fun fillRegion() {
+        binding.region.defaultHintTextColor = setGrayColor()
+        if (binding.regionValue.text.toString().isNotEmpty()) {
+            binding.region.setEndIconDrawable(R.drawable.ic_close_icon_24)
+            //binding.region.defaultHintTextColor = setHintOnValueColor()
+            binding.region.setEndIconOnClickListener {
+                viewModel.clearRegion()
+                renderConfirmButtons()
+                binding.regionValue.setText(getString(R.string.empty_string))
+                binding.region.setEndIconDrawable(R.drawable.ic_arrow_forward)
+                binding.region.defaultHintTextColor = setGrayColor()
+                binding.region.setEndIconOnClickListener {
+                    findNavController().navigate(R.id.action_locationFragment_to_regionFragment)
+                }
+            }
+        } else {
+            binding.region.setEndIconDrawable(R.drawable.ic_arrow_forward)
+            binding.region.setEndIconOnClickListener {
+                renderConfirmButtons()
+                findNavController().navigate(R.id.action_locationFragment_to_regionFragment)
+            }
+        }
+    }
+
 
     private fun emptyScreen() {
         with(binding) {

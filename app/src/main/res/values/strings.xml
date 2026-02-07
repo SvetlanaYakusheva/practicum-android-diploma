@@ -83,6 +83,7 @@
     <string name="country_choose_title">Выбор страны</string>
     <string name="region_choose_title">Выбор региона</string>
     <string name="enter_region_hint">Введите регион</string>
+    <string name="region_not_found">Такого региона нет</string>
 
     <plurals name="vacancy_of_vacancies">
         <item quantity="one">%d вакансия</item>

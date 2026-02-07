@@ -8,18 +8,15 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.DictionariesInteractor
 import ru.practicum.android.diploma.domain.api.FilterInteractor
 import ru.practicum.android.diploma.domain.models.Area
-import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.ui.country.CountryUiState
-import ru.practicum.android.diploma.ui.industry.IndustryUiState
 
 class CountryViewModel (
     val dictionariesInteractor: DictionariesInteractor,
     val filterInteractor: FilterInteractor
 ) : ViewModel() {
     private val stateLiveData = MutableLiveData<CountryUiState>()
-    private var latestSearchText: String? = null
-    private var countriesList: List<Area>? = null
     fun observeState(): LiveData<CountryUiState> = stateLiveData
+    private var countriesList: List<Area>? = null
 
     init {
         loadCountries()
@@ -41,7 +38,9 @@ class CountryViewModel (
     }
 
     fun setCountryToFilter(country: Area?) {
-        filterInteractor.setArea(country)
+        filterInteractor.setCountry(country)
+        if (filterInteractor.currentFilter().region?.parentId != country?.id) {
+            filterInteractor.setRegion(null)
+        }
     }
-
 }

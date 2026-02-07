@@ -1,12 +1,15 @@
 package ru.practicum.android.diploma.ui.region
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,13 +17,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentRegionBinding
 import ru.practicum.android.diploma.domain.models.Area
-import ru.practicum.android.diploma.presentation.location.CountryViewModel
 import ru.practicum.android.diploma.presentation.location.RegionViewModel
 import ru.practicum.android.diploma.ui.adapters.AreaAdapter
-import ru.practicum.android.diploma.ui.country.CountryUiState
-import ru.practicum.android.diploma.ui.filter.FilterUiState
 import ru.practicum.android.diploma.util.ErrorType
-import kotlin.getValue
 
 class RegionFragment : Fragment() {
     private var _binding: FragmentRegionBinding? = null
@@ -30,7 +29,7 @@ class RegionFragment : Fragment() {
     private val regionViewModel by viewModel<RegionViewModel>()
     private val areaAdapter = AreaAdapter { area ->
         if (area != null) {
-            regionViewModel.setCountryToFilter(area)
+            regionViewModel.setRegionToFilter(area)
             findNavController().popBackStack()
         }
     }
@@ -56,16 +55,35 @@ class RegionFragment : Fragment() {
             itemAnimator = null
         }
 
-//        searchFrame.setEndIconOnClickListener {
-//            if (inputEditText.text.isNullOrEmpty()) {
-//                inputEditText.requestFocus()
-//                showKeyboard(inputEditText)
-//            } else {
-//                inputEditText.text?.clear()
-//                it.hideKeyboard()
-//            }
-//        }
+        inputEditText.doAfterTextChanged { text ->
+            val query = text?.toString().orEmpty()
+            updateSearchIcon(query.isNotEmpty())
+            regionViewModel.searchDebounce(query)
+        }
 
+        searchFrame.setEndIconOnClickListener {
+            if (inputEditText.text.isNullOrEmpty()) {
+                inputEditText.requestFocus()
+                showKeyboard(inputEditText)
+            } else {
+                inputEditText.text?.clear()
+                it.hideKeyboard()
+            }
+        }
+    }
+    private fun updateSearchIcon(hasText: Boolean) {
+        val iconRes = if (hasText) R.drawable.ic_close_icon_24 else R.drawable.ic_search_24
+        binding.searchFrame.setEndIconDrawable(iconRes)
+    }
+
+    private fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    private fun showKeyboard(view: View) {
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun setupObservers() {
@@ -74,14 +92,21 @@ class RegionFragment : Fragment() {
 
 
     private fun render(state: RegionUiState) {
-        //textWatcher?.let { binding.salaryValue.removeTextChangedListener(it) }
         when (state) {
             is RegionUiState.Error -> renderError(state.error)
-            is RegionUiState.Filtered -> showContent(state.regionsList)
-            is RegionUiState.NotFiltered -> showContent(state.regionsList)
+            is RegionUiState.Content -> showContent(state.regionsList)
+            is RegionUiState.Loading -> showLoading()
+            is RegionUiState.Empty -> showEmpty()
         }
-//        textWatcher?.let { binding.salaryValue.addTextChangedListener(it) }
-//        renderConfirmButtons()
+    }
+
+    private fun showEmpty() = with(binding) {
+        progressBar.isVisible = false
+        centralImageHolder.isVisible = true
+        stateTextView.isVisible = true
+        recyclerView.isVisible = false
+        centralImageHolder.setImageResource(R.drawable.empty_list_icon)
+        stateTextView.setText(R.string.region_not_found)
     }
 
     private fun showContent(regionList: List<Area>) = with(binding) {

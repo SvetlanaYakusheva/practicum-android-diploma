@@ -113,6 +113,11 @@ class FilterFragment : Fragment() {
     }
 
     private fun filterScreen(filter: Filter) {
+        binding.workPlaceValue.setText(buildString {
+            append(filter.country?.name)
+            append(if (!filter.region?.name.isNullOrEmpty()) requireContext().getString(R.string.comma_space) else "")
+            append(filter.region?.name ?: "")
+        })
         binding.industryValue.setText(filter.industry?.name)
         binding.salaryIsRequiredCheck.isChecked = filter.onlyWithSalary
         fillIndustry()

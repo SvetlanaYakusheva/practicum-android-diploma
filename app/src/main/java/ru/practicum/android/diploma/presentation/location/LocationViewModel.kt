@@ -3,8 +3,8 @@ package ru.practicum.android.diploma.presentation.location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ru.practicum.android.diploma.domain.api.DictionariesInteractor
 import ru.practicum.android.diploma.domain.api.FilterInteractor
+import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.ui.filter.FilterUiState
 
@@ -31,4 +31,20 @@ class LocationViewModel (
         postCurrentFilter()
     }
     fun currentFilterChanged() = currentFilter != filterInteractor.appliedFilter()
+
+    fun setLocationToFilter(country: Area?, region: Area?) {
+        filterInteractor.setCountry(country)
+        filterInteractor.setRegion(region)
+    }
+
+    fun clearCountry() {
+        filterInteractor.setCountry(null)
+        filterInteractor.setRegion(null)
+        checkFilter()
+    }
+
+    fun clearRegion() {
+        filterInteractor.setRegion(null)
+        checkFilter()
+    }
 }

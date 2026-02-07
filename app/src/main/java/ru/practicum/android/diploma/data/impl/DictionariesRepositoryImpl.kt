@@ -36,6 +36,27 @@ class DictionariesRepositoryImpl(
         )
     }
 
+    override fun getRegionsFlatMap(): Flow<Resource<List<Area>>> = flow {
+        val response = networkClient.doRequest(AreasRequest())
+        emit(
+            when (response.resultCode) {
+                NetworkClient.HTTP_SUCCESS -> {
+                    val result = with(mapper) {
+                        (response as AreaResponse).area.map { it.toArea() }
+                    }
+
+                    val allAreas = with(mapper) {result.flatMap { it.getAllNodes() }}
+
+                    Resource.Success(allAreas)
+                }
+
+                NetworkClient.HTTP_NO_CONNECTION -> Resource.Error(ErrorType.NoConnection)
+                NetworkClient.HTTP_NOTHING_FOUND -> Resource.Error(ErrorType.NothingFound)
+                else -> Resource.Error(ErrorType.ServerError)
+            }
+        )
+    }
+
     override fun getIndustries(): Flow<Resource<List<Industry>>> = flow {
         val response = networkClient.doRequest(IndustriesRequest())
         emit(

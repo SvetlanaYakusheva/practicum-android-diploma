@@ -11,4 +11,7 @@ interface DictionariesInteractor {
 
     fun getIndustries(): Flow<Resource<List<Industry>>>
 
+    fun getRegionsFlatMap(): Flow<Resource<List<Area>>>
+
+
 }
