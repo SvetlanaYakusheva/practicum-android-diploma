@@ -89,7 +89,6 @@
             style="@style/SalaryTextStyleFilter.Input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:hint="@string/enter_sum_hint" />
 
 
