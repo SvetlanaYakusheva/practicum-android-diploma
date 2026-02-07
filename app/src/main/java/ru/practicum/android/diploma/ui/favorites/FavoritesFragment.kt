@@ -36,10 +36,19 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupUI()
+
         viewModel.fillData()
         viewModel.observeFavoritesState().observe(viewLifecycleOwner) {
             render(it)
         }
+    }
+
+    private fun setupUI() {
+        binding.vacancyRecycler.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.vacancyRecycler.adapter = vacancyAdapter
     }
 
     override fun onDestroyView() {
@@ -76,9 +85,6 @@ class FavoritesFragment : Fragment() {
                     vacancyRecycler.isVisible = true
                     emptyPlaceholder.isVisible = false
                     emptyText.isVisible = false
-                    binding.vacancyRecycler.layoutManager =
-                        LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                    binding.vacancyRecycler.adapter = vacancyAdapter
                     vacancyAdapter.setData(state.vacancies)
                 }
             }
