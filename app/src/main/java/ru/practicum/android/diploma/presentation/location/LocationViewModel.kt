@@ -26,4 +26,9 @@ class LocationViewModel (
             stateLiveData.postValue(FilterUiState.Filled(currentFilter))
         }
     }
+    fun checkFilter() {
+        currentFilter = filterInteractor.currentFilter()
+        postCurrentFilter()
+    }
+    fun currentFilterChanged() = currentFilter != filterInteractor.appliedFilter()
 }

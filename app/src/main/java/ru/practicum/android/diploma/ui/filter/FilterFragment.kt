@@ -46,6 +46,13 @@ class FilterFragment : Fragment() {
                 }
             }
         )
+        binding.workPlaceValue.setOnClickListener {
+            findNavController().navigate(R.id.action_filterFragment_to_locationFragment)
+        }
+        binding.workPlace.setOnClickListener {
+            findNavController().navigate(R.id.action_filterFragment_to_locationFragment)
+        }
+
         binding.industryValue.setOnClickListener {
             findNavController().navigate(R.id.action_filterFragment_to_industryFragment)
         }

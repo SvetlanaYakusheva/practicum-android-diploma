@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_filterFragment_to_industryFragment"
             app:destination="@id/industryFragment" />
+        <action
+            android:id="@+id/action_filterFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
     </fragment>
     <fragment
         android:id="@+id/vacancyDetailsFragment"
@@ -62,12 +65,20 @@
         android:id="@+id/regionFragment"
         android:name="ru.practicum.android.diploma.ui.region.RegionFragment"
         android:label="fragment_region"
-        tools:layout="@layout/fragment_region" />
+        tools:layout="@layout/fragment_region" >
+        <action
+            android:id="@+id/action_regionFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/countryFragment"
         android:name="ru.practicum.android.diploma.ui.country.CountryFragment"
         android:label="fragment_country"
-        tools:layout="@layout/fragment_country" />
+        tools:layout="@layout/fragment_country" >
+        <action
+            android:id="@+id/action_countryFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/industryFragment"
         android:name="ru.practicum.android.diploma.ui.industry.IndustryFragment"
@@ -80,5 +91,15 @@
         android:id="@+id/locationFragment"
         android:name="ru.practicum.android.diploma.ui.location.LocationFragment"
         android:label="fragment_location"
-        tools:layout="@layout/fragment_location" />
+        tools:layout="@layout/fragment_location" >
+        <action
+            android:id="@+id/action_locationFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
+        <action
+            android:id="@+id/action_locationFragment_to_countryFragment"
+            app:destination="@id/countryFragment" />
+        <action
+            android:id="@+id/action_locationFragment_to_regionFragment"
+            app:destination="@id/regionFragment" />
+    </fragment>
 </navigation>
