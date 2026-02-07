@@ -22,19 +22,20 @@ class SearchVacancyAdapter(private val onItemClickListener: OnItemClickListener)
     }
 
     fun showLoading(isShowLoading: Boolean) {
-        showLoading = isShowLoading
-        notifyItemRangeChanged(listData.size + 1, 1, true)
+        if (showLoading != isShowLoading) {
+            showLoading = isShowLoading
+            if (showLoading) {
+                notifyItemInserted(itemCount - 1)
+            } else {
+                notifyItemRemoved(itemCount)
+            }
+        }
     }
 
     override fun getItemViewType(position: Int) =
         when (position) {
             0 -> VIEW_TYPE_EMPTY
-            listData.size + 1 -> if (showLoading) {
-                VIEW_TYPE_LOADING
-            } else {
-                VIEW_TYPE_EMPTY
-            }
-
+            listData.size + 1 -> if (showLoading) VIEW_TYPE_LOADING else VIEW_TYPE_EMPTY
             else -> VIEW_TYPE_VACANCY
         }
 
@@ -83,7 +84,7 @@ class SearchVacancyAdapter(private val onItemClickListener: OnItemClickListener)
     }
 
     override fun onBindViewHolder(holder: ListItemViewHolder, position: Int) {
-        if (position > 0 && position <= listData.size) {
+        if (holder is VacancyViewHolder && position > 0 && position <= listData.size) {
             holder.bind(listData[position - 1])
         }
     }
