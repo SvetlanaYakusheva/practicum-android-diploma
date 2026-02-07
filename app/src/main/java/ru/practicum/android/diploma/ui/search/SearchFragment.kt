@@ -92,7 +92,9 @@ class SearchFragment : Fragment() {
             if (menuItem.itemId == R.id.filter) {
                 findNavController().navigate(R.id.action_search_fragment_to_filterFragment)
                 true
-            } else false
+            } else {
+                false
+            }
         }
     }
 
