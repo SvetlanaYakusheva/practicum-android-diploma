@@ -24,8 +24,11 @@ class FavoriteVacanciesRepositoryImpl(
         emit(Resource.Success(vacancies))
 
     }.catch { e ->
-        if (e is CancellationException) throw e
-        else emit(Resource.Error(ErrorType.SQLError))
+        if (e is CancellationException) {
+            throw e
+        } else {
+            emit(Resource.Error(ErrorType.SQLError))
+        }
 
     }
 
@@ -55,8 +58,11 @@ class FavoriteVacanciesRepositoryImpl(
         emit(Resource.Success(vacancy))
 
     }.catch { e ->
-        if (e is CancellationException) throw e
-        else emit(Resource.Error(ErrorType.SQLError))
+        if (e is CancellationException) {
+            throw e
+        } else {
+            emit(Resource.Error(ErrorType.SQLError))
+        }
     }
 
 }
