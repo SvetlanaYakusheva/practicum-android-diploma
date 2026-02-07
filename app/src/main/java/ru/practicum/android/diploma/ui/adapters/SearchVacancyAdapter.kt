@@ -36,11 +36,11 @@ class SearchVacancyAdapter(private val onItemClickListener: OnItemClickListener)
         when (position) {
             0 -> VIEW_TYPE_EMPTY
             listData.size + 1 -> if (showLoading) VIEW_TYPE_LOADING else VIEW_TYPE_EMPTY
-            else -> VIEW_TYPE_VACANCY
+            else -> VIEW_TYPE_CONTEXT
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
-        VIEW_TYPE_VACANCY -> {
+        VIEW_TYPE_CONTEXT -> {
             VacancyViewHolder(
                 LayoutInflater.from(parent.context)
                     .inflate(R.layout.vacancy_list_item, parent, false)
@@ -91,7 +91,7 @@ class SearchVacancyAdapter(private val onItemClickListener: OnItemClickListener)
 
     companion object {
         private const val VIEW_TYPE_EMPTY = 0
-        private const val VIEW_TYPE_VACANCY = 1
+        private const val VIEW_TYPE_CONTEXT = 1
         private const val VIEW_TYPE_LOADING = 2
     }
 
