@@ -1,13 +1,89 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.location.LocationFragment">
+    android:background="?attr/background_color">
 
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/location_title"
+        style="@style/ToolbarStyleParent.AppBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/top_app_bar"
+            style="@style/ToolbarStyleParent.ToolBar"
+            app:navigationIcon="@drawable/arrow_back_icon"
+            app:title="@string/filter_location_title" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/country"
+        style="@style/TextStyleFilter"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60dp"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:gravity="center_vertical"
+        android:hint="@string/country_hint"
+        app:hintTextAppearance="@style/FontDisplay.Hint"
+        app:layout_constraintTop_toBottomOf="@id/location_title"
+        app:prefixTextAppearance="@style/FontDisplay.Regular16">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/country_value"
+            style="@style/TextStyleFilter.Input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/region"
+        style="@style/TextStyleFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:gravity="center_vertical"
+        android:hint="@string/region_hint"
+        app:hintTextAppearance="@style/FontDisplay.Hint"
+        app:layout_constraintTop_toBottomOf="@id/country"
+        app:prefixTextAppearance="@style/FontDisplay.Regular16">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/industry_value"
+            style="@style/TextStyleFilter.Input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:maxLines="2"
+            android:text="" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/select_button"
+        style="@style/FontDisplay.Medium16"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60dp"
+        android:layout_marginHorizontal="@dimen/dimen_16dp"
+        android:layout_marginBottom="@dimen/dimen_20dp"
+        android:background="@drawable/rounded_blue_rectangle"
+        android:text="@string/filter_select"
+        android:textColor="@color/white_universal"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
