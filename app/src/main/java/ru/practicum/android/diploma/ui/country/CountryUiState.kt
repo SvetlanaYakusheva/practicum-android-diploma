@@ -12,6 +12,4 @@ sealed interface CountryUiState {
     data object Loading : CountryUiState
 
     data class Error(val error: ErrorType) : CountryUiState
-
-    data object Empty : CountryUiState
 }

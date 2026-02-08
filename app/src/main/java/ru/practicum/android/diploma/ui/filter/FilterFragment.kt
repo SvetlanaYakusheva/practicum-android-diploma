@@ -118,20 +118,47 @@ class FilterFragment : Fragment() {
             append(if (!filter.region?.name.isNullOrEmpty()) requireContext().getString(R.string.comma_space) else "")
             append(filter.region?.name ?: "")
         })
+        fillLocation()
+
         binding.industryValue.setText(filter.industry?.name)
         binding.salaryIsRequiredCheck.isChecked = filter.onlyWithSalary
         fillIndustry()
         if (filter.salary.isNullOrEmpty() or (filter.salary == "")) {
             binding.salaryValue.setText(R.string.empty_string)
             binding.salaryFrame.defaultHintTextColor = hintColorStates().first
+            binding.salaryFrame.isEndIconVisible = false
         } else {
             binding.salaryValue.setText(filter.salary)
+            binding.salaryFrame.isEndIconVisible = true
             binding.salaryFrame.setEndIconDrawable(R.drawable.ic_close_icon_24)
             binding.salaryFrame.defaultHintTextColor = hintColorStates().second
         }
         binding.resetButton.isVisible = true
     }
 
+    private fun fillLocation() {
+        binding.workPlace.defaultHintTextColor = setGrayColor()
+        if (binding.workPlaceValue.text.toString().isNotEmpty()) {
+            binding.workPlace.setEndIconDrawable(R.drawable.ic_close_icon_24)
+            binding.workPlace.defaultHintTextColor = setHintOnValueColor()
+            binding.workPlace.setEndIconOnClickListener {
+                viewModel.clearIndustry()
+                renderConfirmButtons()
+                binding.workPlaceValue.setText(getString(R.string.empty_string))
+                binding.workPlace.setEndIconDrawable(R.drawable.ic_arrow_forward)
+                binding.workPlace.defaultHintTextColor = setGrayColor()
+                binding.workPlace.setEndIconOnClickListener {
+                    findNavController().navigate(R.id.action_filterFragment_to_locationFragment)
+                }
+            }
+        } else {
+            binding.workPlace.setEndIconDrawable(R.drawable.ic_arrow_forward)
+            binding.workPlace.setEndIconOnClickListener {
+                renderConfirmButtons()
+                findNavController().navigate(R.id.action_filterFragment_to_locationFragment)
+            }
+        }
+    }
     private fun fillIndustry() {
         binding.industry.defaultHintTextColor = setGrayColor()
         if (binding.industryValue.text.toString().isNotEmpty()) {

@@ -60,11 +60,6 @@ class CountryFragment : Fragment() {
         when (state) {
             is CountryUiState.Content -> showContent(state.countriesList)
             is CountryUiState.Loading -> showLoading()
-            is CountryUiState.Empty -> showPlaceholder(
-                R.drawable.empty_list_icon,
-                R.string.industry_not_found
-            )
-
             is CountryUiState.Error -> renderError(state.error)
         }
     }
@@ -86,9 +81,9 @@ class CountryFragment : Fragment() {
 
     private fun renderError(errorType: ErrorType) {
         val (image, text) = when (errorType) {
-            ErrorType.NoConnection -> R.drawable.nointernet_icon to R.string.internet_is_not_available
-            ErrorType.ServerError -> R.drawable.servererror2_icon to R.string.server_error_message
-            else -> R.drawable.placeholder_nothing to R.string.server_error_message
+                ErrorType.NoConnection -> R.drawable.nointernet2_icon to R.string.list_is_not_available
+                ErrorType.ServerError -> R.drawable.nointernet2_icon to R.string.list_is_not_available
+                else -> R.drawable.empty_list_icon to R.string.region_not_found
         }
         showPlaceholder(image, text)
     }

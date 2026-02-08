@@ -52,6 +52,7 @@ class SearchFragment : Fragment() {
 
         setupUI()
         setupObservers()
+        updateFilterIcon(viewModel.hasFilter())
     }
 
     private fun setupUI() = with(binding) {
