@@ -9,6 +9,7 @@ import ru.practicum.android.diploma.domain.api.FavoriteVacanciesRepository
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.util.ErrorType
 import ru.practicum.android.diploma.util.Resource
+import kotlin.coroutines.cancellation.CancellationException
 
 class FavoriteVacanciesRepositoryImpl(
     private val appDatabase: AppDatabase,
@@ -23,8 +24,11 @@ class FavoriteVacanciesRepositoryImpl(
         emit(Resource.Success(vacancies))
 
     }.catch { e ->
-        // Ловим только реальные ошибки, не мешая корутинам отменяться
-        emit(Resource.Error(ErrorType.SQLError))
+        if (e is CancellationException) {
+            throw e
+        } else {
+            emit(Resource.Error(ErrorType.SQLError))
+        }
 
     }
 
@@ -54,8 +58,11 @@ class FavoriteVacanciesRepositoryImpl(
         emit(Resource.Success(vacancy))
 
     }.catch { e ->
-        // Ловим только реальные ошибки, не мешая корутинам отменяться
-        emit(Resource.Error(ErrorType.SQLError))
+        if (e is CancellationException) {
+            throw e
+        } else {
+            emit(Resource.Error(ErrorType.SQLError))
+        }
     }
 
 }
