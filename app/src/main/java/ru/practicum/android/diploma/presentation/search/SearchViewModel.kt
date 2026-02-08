@@ -40,7 +40,6 @@ class SearchViewModel(
     fun searchDebounce(changedText: String) {
         if (latestSearchText != changedText) {
             latestSearchText = changedText
-            filterInteractor.apply()
             appliedFilter = filterInteractor.appliedFilter()
             vacancySearchDebounce(changedText)
         }
@@ -67,7 +66,7 @@ class SearchViewModel(
 
     fun clearSearch() {
         renderState(SearchUiState.Default)
-        currentPage = 1
+        currentPage = 0
         maxPage = null
         vacanciesList.clear()
     }
@@ -76,7 +75,7 @@ class SearchViewModel(
         if (isNextPageLoading) {
             return
         } else {
-            searchVacancies(latestSearchText!!)
+            latestSearchText?.let { searchVacancies(it) }
         }
     }
 
@@ -156,7 +155,8 @@ class SearchViewModel(
         val newFilter = filterInteractor.appliedFilter()
         if (newFilter != appliedFilter) {
             appliedFilter = newFilter
-            currentPage = 1
+            currentPage = 0
+            maxPage = null
             vacanciesList.clear()
             latestSearchText?.let { searchText ->
                 searchVacancies(searchText)
