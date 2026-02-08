@@ -78,17 +78,18 @@ class FilterFragment : Fragment() {
 
         binding.salaryValue.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                binding.salaryFrame.defaultHintTextColor = if (binding.salaryValue.text.isNullOrEmpty()) emptyHintColor else blueHintColor
+                binding.salaryFrame.defaultHintTextColor =
+                    if (binding.salaryValue.text.isNullOrEmpty()) emptyHintColor else blueHintColor
                 if (!binding.salaryValue.text.isNullOrEmpty()) {
                     binding.salaryFrame.setEndIconDrawable(R.drawable.ic_close_icon_24)
                     binding.salaryFrame.isEndIconVisible = true
                 }
             } else {
-                binding.salaryFrame.defaultHintTextColor = if (binding.salaryValue.text.isNullOrEmpty()) emptyHintColor else blackHintColor
+                binding.salaryFrame.defaultHintTextColor =
+                    if (binding.salaryValue.text.isNullOrEmpty()) emptyHintColor else blackHintColor
                 binding.salaryFrame.isEndIconVisible = !binding.salaryValue.text.isNullOrEmpty()
             }
         }
-
         textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -156,7 +157,8 @@ class FilterFragment : Fragment() {
             binding.salaryValue.setText(filter.salary)
             binding.salaryFrame.setEndIconDrawable(R.drawable.ic_close_icon_24)
             binding.salaryFrame.isEndIconVisible = true
-            binding.salaryFrame.defaultHintTextColor = if (binding.salaryValue.hasFocus()) blueHintColor else blackHintColor
+            binding.salaryFrame.defaultHintTextColor =
+                if (binding.salaryValue.hasFocus()) blueHintColor else blackHintColor
         }
     }
 
