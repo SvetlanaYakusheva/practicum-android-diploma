@@ -77,45 +77,85 @@ class FilterFragment : Fragment() {
         val (emptyHintColor, blackHintColor, blueHintColor) = hintColorStates()
 
         binding.salaryValue.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                binding.salaryFrame.defaultHintTextColor =
-                    if (binding.salaryValue.text.isNullOrEmpty()) emptyHintColor else blueHintColor
-                if (!binding.salaryValue.text.isNullOrEmpty()) {
-                    binding.salaryFrame.setEndIconDrawable(R.drawable.ic_close_icon_24)
-                    binding.salaryFrame.isEndIconVisible = true
-                }
-            } else {
-                binding.salaryFrame.defaultHintTextColor =
-                    if (binding.salaryValue.text.isNullOrEmpty()) emptyHintColor else blackHintColor
-                binding.salaryFrame.isEndIconVisible = !binding.salaryValue.text.isNullOrEmpty()
-            }
+            updateSalaryHintOnFocus(
+                hasFocus = hasFocus,
+                emptyHintColor = emptyHintColor,
+                blackHintColor = blackHintColor,
+                blueHintColor = blueHintColor
+            )
+            updateSalaryEndIcon(binding.salaryValue.text)
         }
+
         textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (clearButtonVisibility(s)) {
-                    binding.salaryFrame.setEndIconDrawable(R.drawable.ic_close_icon_24)
-                    binding.salaryFrame.isEndIconVisible = true
-                    binding.salaryFrame.defaultHintTextColor = blueHintColor
-                } else {
-                    binding.salaryFrame.isEndIconVisible = false
-                    binding.salaryFrame.endIconDrawable = null
-                    binding.salaryFrame.defaultHintTextColor = emptyHintColor
-                }
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) = Unit
+
+            override fun onTextChanged(
+                s: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                updateSalaryEndIcon(s)
+                updateSalaryHintOnTextChange(text = s, emptyHintColor = emptyHintColor, blueHintColor = blueHintColor)
             }
+
             override fun afterTextChanged(s: Editable?) {
                 viewModel.setSalary(s.toString())
                 renderConfirmButtons()
             }
         }
+
         binding.salaryValue.addTextChangedListener(textWatcher!!)
         binding.salaryFrame.setEndIconOnClickListener {
-            binding.salaryValue.setText(getString(R.string.empty_string))
-            binding.salaryFrame.isEndIconVisible = false
-            viewModel.clearSalary()
-            renderConfirmButtons()
+            clearSalaryField()
             it.hideKeyboard()
         }
+    }
+
+    private fun updateSalaryHintOnFocus(
+        hasFocus: Boolean,
+        emptyHintColor: ColorStateList,
+        blackHintColor: ColorStateList,
+        blueHintColor: ColorStateList
+    ) {
+        binding.salaryFrame.defaultHintTextColor = when {
+            hasFocus && binding.salaryValue.text.isNullOrEmpty() -> emptyHintColor
+            hasFocus -> blueHintColor
+            binding.salaryValue.text.isNullOrEmpty() -> emptyHintColor
+            else -> blackHintColor
+        }
+    }
+
+    private fun updateSalaryEndIcon(text: CharSequence?) {
+        val isVisible = !text.isNullOrEmpty()
+        binding.salaryFrame.isEndIconVisible = isVisible
+
+        if (isVisible) {
+            binding.salaryFrame.setEndIconDrawable(R.drawable.ic_close_icon_24)
+        } else {
+            binding.salaryFrame.endIconDrawable = null
+        }
+    }
+
+    private fun updateSalaryHintOnTextChange(
+        text: CharSequence?,
+        emptyHintColor: ColorStateList,
+        blueHintColor: ColorStateList
+    ) {
+        binding.salaryFrame.defaultHintTextColor =
+            if (text.isNullOrEmpty()) emptyHintColor else blueHintColor
+    }
+
+    private fun clearSalaryField() {
+        binding.salaryValue.setText(getString(R.string.empty_string))
+        binding.salaryFrame.isEndIconVisible = false
+        viewModel.clearSalary()
+        renderConfirmButtons()
     }
 
     private fun renderConfirmButtons() {
@@ -249,8 +289,6 @@ class FilterFragment : Fragment() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
     }
-
-    private fun clearButtonVisibility(s: CharSequence?): Boolean = !s.isNullOrEmpty()
 
     override fun onResume() {
         super.onResume()
