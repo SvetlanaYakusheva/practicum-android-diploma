@@ -129,7 +129,10 @@ class SearchFragment : Fragment() {
 
             is SearchUiState.LoadingNewQuery -> showLoading()
             is SearchUiState.Default -> showDefault()
-            is SearchUiState.NextPageLoading -> vacancyAdapter.showLoading(true)
+            is SearchUiState.NextPageLoading -> {
+                binding.progressBar.isVisible = false
+                vacancyAdapter.showLoading(true)
+            }
         }
         updateFilterIcon(viewModel.hasFilter())
     }
