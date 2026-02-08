@@ -59,21 +59,33 @@ class FilterFragment : Fragment() {
         binding.industry.setOnClickListener {
             findNavController().navigate(R.id.action_filterFragment_to_industryFragment)
         }
+
+        setupSalaryField()
+
+        binding.resetButton.setOnClickListener { viewModel.clearFilter() }
+        binding.salaryIsRequiredCheck.setOnClickListener {
+            viewModel.setSalaryIsRequired(binding.salaryIsRequiredCheck.isChecked)
+            renderConfirmButtons()
+        }
+        binding.saveButton.setOnClickListener {
+            viewModel.applyFilter()
+            findNavController().popBackStack()
+        }
+    }
+
+    private fun setupSalaryField() {
         val (emptyHintColor, blackHintColor, blueHintColor) = hintColorStates()
+
         binding.salaryValue.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                if (binding.salaryValue.text.isNullOrEmpty()) {
-                    binding.salaryFrame.defaultHintTextColor = emptyHintColor
-                } else {
-                    binding.salaryFrame.defaultHintTextColor = blueHintColor
+                binding.salaryFrame.defaultHintTextColor = if (binding.salaryValue.text.isNullOrEmpty()) emptyHintColor else blueHintColor
+                if (!binding.salaryValue.text.isNullOrEmpty()) {
                     binding.salaryFrame.setEndIconDrawable(R.drawable.ic_close_icon_24)
+                    binding.salaryFrame.isEndIconVisible = true
                 }
             } else {
-                if (binding.salaryValue.text.isNullOrEmpty()) {
-                    binding.salaryFrame.defaultHintTextColor = emptyHintColor
-                } else {
-                    binding.salaryFrame.defaultHintTextColor = blackHintColor
-                }
+                binding.salaryFrame.defaultHintTextColor = if (binding.salaryValue.text.isNullOrEmpty()) emptyHintColor else blackHintColor
+                binding.salaryFrame.isEndIconVisible = !binding.salaryValue.text.isNullOrEmpty()
             }
         }
 
@@ -82,8 +94,10 @@ class FilterFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (clearButtonVisibility(s)) {
                     binding.salaryFrame.setEndIconDrawable(R.drawable.ic_close_icon_24)
+                    binding.salaryFrame.isEndIconVisible = true
                     binding.salaryFrame.defaultHintTextColor = blueHintColor
                 } else {
+                    binding.salaryFrame.isEndIconVisible = false
                     binding.salaryFrame.endIconDrawable = null
                     binding.salaryFrame.defaultHintTextColor = emptyHintColor
                 }
@@ -96,19 +110,10 @@ class FilterFragment : Fragment() {
         binding.salaryValue.addTextChangedListener(textWatcher!!)
         binding.salaryFrame.setEndIconOnClickListener {
             binding.salaryValue.setText(getString(R.string.empty_string))
-            binding.salaryFrame.endIconDrawable = null
+            binding.salaryFrame.isEndIconVisible = false
             viewModel.clearSalary()
             renderConfirmButtons()
             it.hideKeyboard()
-        }
-        binding.resetButton.setOnClickListener { viewModel.clearFilter() }
-        binding.salaryIsRequiredCheck.setOnClickListener {
-            viewModel.setSalaryIsRequired(binding.salaryIsRequiredCheck.isChecked)
-            renderConfirmButtons()
-        }
-        binding.saveButton.setOnClickListener {
-            viewModel.applyFilter()
-            findNavController().popBackStack()
         }
     }
 
@@ -128,16 +133,20 @@ class FilterFragment : Fragment() {
     }
 
     private fun filterScreen(filter: Filter) {
-        binding.workPlaceValue.setText(buildString {
+        val workplaceText = buildString {
             append(filter.country?.name ?: "")
             append(if (!filter.region?.name.isNullOrEmpty()) requireContext().getString(R.string.comma_space) else "")
             append(filter.region?.name ?: "")
-        })
-        fillLocation()
+        }
+        binding.workPlaceValue.setText(workplaceText)
+        fillLocation(workplaceText.isNotEmpty())
 
-        binding.industryValue.setText(filter.industry?.name)
+        val industryText = filter.industry?.name ?: ""
+        binding.industryValue.setText(industryText)
+        fillIndustry(industryText.isNotEmpty())
+
         binding.salaryIsRequiredCheck.isChecked = filter.onlyWithSalary
-        fillIndustry()
+
         val (emptyHintColor, blackHintColor, blueHintColor) = hintColorStates()
         if (filter.salary.isNullOrEmpty()) {
             binding.salaryValue.setText(R.string.empty_string)
@@ -145,55 +154,49 @@ class FilterFragment : Fragment() {
             binding.salaryFrame.isEndIconVisible = false
         } else {
             binding.salaryValue.setText(filter.salary)
-            binding.salaryFrame.isEndIconVisible = true
             binding.salaryFrame.setEndIconDrawable(R.drawable.ic_close_icon_24)
-            binding.salaryFrame.defaultHintTextColor =
-                if (binding.salaryValue.hasFocus()) blueHintColor else blackHintColor}
-        binding.resetButton.isVisible = true
+            binding.salaryFrame.isEndIconVisible = true
+            binding.salaryFrame.defaultHintTextColor = if (binding.salaryValue.hasFocus()) blueHintColor else blackHintColor
+        }
     }
 
-    private fun fillLocation() {
-        binding.workPlace.defaultHintTextColor = setGrayColor()
-        if (binding.workPlaceValue.text.toString().isNotEmpty()) {
+    private fun fillLocation(isNotEmpty: Boolean) {
+        if (isNotEmpty) {
             binding.workPlace.setEndIconDrawable(R.drawable.ic_close_icon_24)
+            binding.workPlace.isEndIconVisible = true
             binding.workPlace.defaultHintTextColor = setHintOnValueColor()
             binding.workPlace.setEndIconOnClickListener {
                 viewModel.clearWorkplace()
-                renderConfirmButtons()
                 binding.workPlaceValue.setText(getString(R.string.empty_string))
-                binding.workPlace.setEndIconDrawable(R.drawable.ic_arrow_forward)
-                binding.workPlace.defaultHintTextColor = setGrayColor()
-                binding.workPlace.setEndIconOnClickListener {
-                    findNavController().navigate(R.id.action_filterFragment_to_locationFragment)
-                }
+                fillLocation(false)
+                renderConfirmButtons()
             }
         } else {
             binding.workPlace.setEndIconDrawable(R.drawable.ic_arrow_forward)
+            binding.workPlace.isEndIconVisible = true
+            binding.workPlace.defaultHintTextColor = setGrayColor()
             binding.workPlace.setEndIconOnClickListener {
-                renderConfirmButtons()
                 findNavController().navigate(R.id.action_filterFragment_to_locationFragment)
             }
         }
     }
-    private fun fillIndustry() {
-        binding.industry.defaultHintTextColor = setGrayColor()
-        if (binding.industryValue.text.toString().isNotEmpty()) {
+
+    private fun fillIndustry(isNotEmpty: Boolean) {
+        if (isNotEmpty) {
             binding.industry.setEndIconDrawable(R.drawable.ic_close_icon_24)
+            binding.industry.isEndIconVisible = true
             binding.industry.defaultHintTextColor = setHintOnValueColor()
             binding.industry.setEndIconOnClickListener {
                 viewModel.clearIndustry()
-                renderConfirmButtons()
                 binding.industryValue.setText(getString(R.string.empty_string))
-                binding.industry.setEndIconDrawable(R.drawable.ic_arrow_forward)
-                binding.industry.defaultHintTextColor = setGrayColor()
-                binding.industry.setEndIconOnClickListener {
-                    findNavController().navigate(R.id.action_filterFragment_to_industryFragment)
-                }
+                fillIndustry(false)
+                renderConfirmButtons()
             }
         } else {
             binding.industry.setEndIconDrawable(R.drawable.ic_arrow_forward)
+            binding.industry.isEndIconVisible = true
+            binding.industry.defaultHintTextColor = setGrayColor()
             binding.industry.setEndIconOnClickListener {
-                renderConfirmButtons()
                 findNavController().navigate(R.id.action_filterFragment_to_industryFragment)
             }
         }
@@ -201,16 +204,16 @@ class FilterFragment : Fragment() {
 
     private fun emptyScreen() {
         with(binding) {
-            workPlace.defaultHintTextColor = setGrayColor()
-            industry.defaultHintTextColor = setGrayColor()
-            resetButton.isVisible = false
-            saveButton.isVisible = false
             workPlaceValue.setText(getString(R.string.empty_string))
             industryValue.setText(getString(R.string.empty_string))
             salaryValue.setText(getString(R.string.empty_string))
             salaryIsRequiredCheck.isChecked = false
-            workPlace.setEndIconDrawable(R.drawable.ic_arrow_forward)
-            industry.setEndIconDrawable(R.drawable.ic_arrow_forward)
+            fillLocation(false)
+            fillIndustry(false)
+            salaryFrame.endIconDrawable = null
+            salaryFrame.isEndIconVisible = false
+            resetButton.isVisible = false
+            saveButton.isVisible = false
         }
     }
 
@@ -219,12 +222,10 @@ class FilterFragment : Fragment() {
             arrayOf(intArrayOf(android.R.attr.state_enabled)),
             intArrayOf(ContextCompat.getColor(requireContext(), R.color.text_hint_color))
         )
-
         val blackHintColor = ColorStateList(
             arrayOf(intArrayOf(android.R.attr.state_enabled)),
             intArrayOf(ContextCompat.getColor(requireContext(), R.color.text_hint_color_after))
         )
-
         val blueHintColor = ColorStateList(
             arrayOf(intArrayOf(android.R.attr.state_enabled)),
             intArrayOf(ContextCompat.getColor(requireContext(), R.color.text_hint_color_blue))
@@ -232,38 +233,30 @@ class FilterFragment : Fragment() {
         return Triple(emptyHintColor, blackHintColor, blueHintColor)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    private fun setGrayColor(): ColorStateList = ColorStateList(
+        arrayOf(intArrayOf(android.R.attr.state_enabled)),
+        intArrayOf(ContextCompat.getColor(requireContext(), R.color.gray))
+    )
 
-    private fun setGrayColor(): ColorStateList {
-        val grayColor = ColorStateList(
-            arrayOf(intArrayOf(android.R.attr.state_enabled)),
-            intArrayOf(ContextCompat.getColor(requireContext(), R.color.gray))
-        )
-        return grayColor
-    }
-
-    private fun setHintOnValueColor(): ColorStateList {
-        val blackOrWhiteColor = ColorStateList(
-            arrayOf(intArrayOf(android.R.attr.state_enabled)),
-            intArrayOf(ContextCompat.getColor(requireContext(), R.color.text_hint_country_industry))
-        )
-        return blackOrWhiteColor
-    }
+    private fun setHintOnValueColor(): ColorStateList = ColorStateList(
+        arrayOf(intArrayOf(android.R.attr.state_enabled)),
+        intArrayOf(ContextCompat.getColor(requireContext(), R.color.text_hint_country_industry))
+    )
 
     private fun View.hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
     }
 
-    private fun clearButtonVisibility(s: CharSequence?): Boolean {
-        return !s.isNullOrEmpty()
-    }
+    private fun clearButtonVisibility(s: CharSequence?): Boolean = !s.isNullOrEmpty()
 
     override fun onResume() {
         super.onResume()
         viewModel.checkFilter()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
