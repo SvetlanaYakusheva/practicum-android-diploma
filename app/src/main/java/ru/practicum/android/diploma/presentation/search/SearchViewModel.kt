@@ -76,6 +76,7 @@ class SearchViewModel(
         currentPage = 0
         maxPage = null
         vacanciesList.clear()
+        isNextPageLoading = false
     }
 
     fun onLastItemReached() {
@@ -120,10 +121,10 @@ class SearchViewModel(
                 if (errorType == ErrorType.NoConnection) {
                     if (isNextPageLoading) {
                         renderState(SearchUiState.Content(vacanciesList, null))
+                        showToast(ErrorType.NoConnection)
                     } else {
                         renderState(SearchUiState.InternetNotAvailable)
                     }
-                    showToast(ErrorType.NoConnection)
                 } else {
                     if (isNextPageLoading) {
                         renderState(SearchUiState.Content(vacanciesList, null))
@@ -132,7 +133,6 @@ class SearchViewModel(
                     }
                     showToast(ErrorType.ServerError)
                 }
-                isNextPageLoading = false
             }
 
             vacanciesList.isEmpty() -> {
