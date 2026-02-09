@@ -76,6 +76,16 @@
     <string name="reset_filter">Сбросить</string>
     <string name="industry_not_found">Такой отрасли нет</string>
 
+    <string name="not_found_industry">Такой отрасли нет!</string>
+    <string name="filter_location_title">Выбор места работы</string>
+    <string name="country_hint">Страна</string>
+    <string name="region_hint">Регион</string>
+    <string name="country_choose_title">Выбор страны</string>
+    <string name="region_choose_title">Выбор региона</string>
+    <string name="enter_region_hint">Введите регион</string>
+    <string name="region_not_found">Такого региона нет</string>
+    <string name="list_is_not_available">Не удалось получить список</string>
+
     <plurals name="vacancy_of_vacancies">
         <item quantity="one">%d вакансия</item>
         <item quantity="two">%d вакансии</item>

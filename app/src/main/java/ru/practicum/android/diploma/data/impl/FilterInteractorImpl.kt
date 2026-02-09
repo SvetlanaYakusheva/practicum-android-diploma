@@ -18,6 +18,11 @@ class FilterInteractorImpl(private val repository: FilterRepository) : FilterInt
         saveCurrentFilter()
     }
 
+    override fun setRegion(region: Area?) {
+        currentFilter = currentFilter.copy(region = region)
+        saveCurrentFilter()
+    }
+
     override fun setArea(area: Area?) {
         currentFilter = currentFilter.copy(area = area)
         saveCurrentFilter()

@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.ui.country
 
 import ru.practicum.android.diploma.domain.models.Area
+import ru.practicum.android.diploma.util.ErrorType
 
 sealed interface CountryUiState {
 
@@ -8,7 +9,7 @@ sealed interface CountryUiState {
         val countriesList: List<Area>
     ) : CountryUiState
 
-    data object Error : CountryUiState
+    data object Loading : CountryUiState
 
-    data object Empty : CountryUiState
+    data class Error(val error: ErrorType) : CountryUiState
 }

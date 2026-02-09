@@ -8,6 +8,7 @@ interface FilterInteractor {
     fun currentFilter(): Filter
     fun appliedFilter(): Filter
     fun setCountry(country: Area?)
+    fun setRegion(region: Area?)
     fun setArea(area: Area?)
     fun setIndustry(industry: Industry?)
     fun setSalary(salary: String?)

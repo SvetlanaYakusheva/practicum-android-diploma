@@ -6,9 +6,10 @@ import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.util.Resource
 
 interface DictionariesRepository {
-
     fun getAreas(): Flow<Resource<List<Area>>>
 
     fun getIndustries(): Flow<Resource<List<Industry>>>
+
+    fun getRegionsFlatMap(): Flow<Resource<List<Area>>>
 
 }

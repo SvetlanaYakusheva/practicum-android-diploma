@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.ui.region
 
 import ru.practicum.android.diploma.domain.models.Area
+import ru.practicum.android.diploma.util.ErrorType
 
 sealed interface RegionUiState {
 
@@ -8,9 +9,11 @@ sealed interface RegionUiState {
         val regionsList: List<Area>
     ) : RegionUiState
 
-    data object Error : RegionUiState
+    data class Error(
+        val error: ErrorType
+    ) : RegionUiState
 
     data object Empty : RegionUiState
 
-    data object NoRegionUi : RegionUiState
+    data object Loading : RegionUiState
 }

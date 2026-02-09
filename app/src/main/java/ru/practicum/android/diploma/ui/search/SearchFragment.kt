@@ -52,6 +52,7 @@ class SearchFragment : Fragment() {
 
         setupUI()
         setupObservers()
+        updateFilterIcon(viewModel.hasFilter())
     }
 
     private fun setupUI() = with(binding) {
@@ -128,7 +129,10 @@ class SearchFragment : Fragment() {
 
             is SearchUiState.LoadingNewQuery -> showLoading()
             is SearchUiState.Default -> showDefault()
-            is SearchUiState.NextPageLoading -> vacancyAdapter.showLoading(true)
+            is SearchUiState.NextPageLoading -> {
+                binding.progressBar.isVisible = false
+                vacancyAdapter.showLoading(true)
+            }
         }
         updateFilterIcon(viewModel.hasFilter())
     }

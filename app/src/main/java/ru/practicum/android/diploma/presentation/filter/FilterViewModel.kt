@@ -55,6 +55,12 @@ class FilterViewModel(private val filterInteractor: FilterInteractor) :
         currentFilter = filterInteractor.currentFilter()
     }
 
+    fun clearWorkplace() {
+        filterInteractor.setCountry(null)
+        filterInteractor.setRegion(null)
+        currentFilter = filterInteractor.currentFilter()
+    }
+
     fun applyFilter() {
         filterInteractor.apply()
     }
