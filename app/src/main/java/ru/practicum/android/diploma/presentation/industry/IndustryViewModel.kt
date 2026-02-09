@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.domain.api.DictionariesInteractor
 import ru.practicum.android.diploma.domain.api.FilterInteractor
 import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.ui.industry.IndustryUiState
-import ru.practicum.android.diploma.util.Constant.Companion.SEARCH_DEBOUNCE_DELAY_DICTIONARY
+import ru.practicum.android.diploma.util.Constant.SEARCH_DEBOUNCE_DELAY_DICTIONARY
 import ru.practicum.android.diploma.util.UtilFunctions.debounce
 
 class IndustryViewModel(

@@ -22,7 +22,7 @@ import ru.practicum.android.diploma.domain.models.VacancySource
 import ru.practicum.android.diploma.presentation.search.SearchViewModel
 import ru.practicum.android.diploma.ui.adapters.SearchVacancyAdapter
 import ru.practicum.android.diploma.ui.vacancy.VacancyDetailsFragment
-import ru.practicum.android.diploma.util.Constant.Companion.PER_PAGE_SIZE
+import ru.practicum.android.diploma.util.Constant.PER_PAGE_SIZE
 import ru.practicum.android.diploma.util.ErrorType
 
 class SearchFragment : Fragment() {

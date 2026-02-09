@@ -10,9 +10,9 @@ import ru.practicum.android.diploma.domain.api.SearchVacanciesInteractor
 import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.search.SearchUiState
-import ru.practicum.android.diploma.util.Constant.Companion.NEXT_PAGE_LOADING_START
-import ru.practicum.android.diploma.util.Constant.Companion.PER_PAGE_SIZE
-import ru.practicum.android.diploma.util.Constant.Companion.SEARCH_DEBOUNCE_DELAY_MS
+import ru.practicum.android.diploma.util.Constant.NEXT_PAGE_LOADING_START
+import ru.practicum.android.diploma.util.Constant.PER_PAGE_SIZE
+import ru.practicum.android.diploma.util.Constant.SEARCH_DEBOUNCE_DELAY_MS
 import ru.practicum.android.diploma.util.ErrorType
 import ru.practicum.android.diploma.util.SingleLiveEvent
 import ru.practicum.android.diploma.util.UtilFunctions
