@@ -83,7 +83,7 @@ class LocationFragment : Fragment() {
         binding.regionValue.setText(filter.region?.name)
         fillCountry()
         fillRegion()
-        binding.selectButton.isVisible = true
+        renderConfirmButtons()
     }
 
     private fun fillCountry() {
