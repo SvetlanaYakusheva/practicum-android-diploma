@@ -57,44 +57,61 @@ class SearchFragment : Fragment() {
     }
 
     private fun setupUI() = with(binding) {
+        setupRecyclerView()
+        setupScrollListener()
+        setupSearchInput()
+        setupSearchClearIcon()
+        setupTopAppBar()
+    }
+
+    private fun FragmentSearchBinding.setupRecyclerView() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = vacancyAdapter
             itemAnimator = null
         }
+    }
 
+    private fun FragmentSearchBinding.setupScrollListener() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) {
-                    val pos = (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                    val itemsCount = vacancyAdapter.itemCount
-                    itemsCount.let {
-                        if (pos >= it - 2) {
-                            if (itemsCount > PER_PAGE_SIZE) {
-                                viewModel.onLastItemReached()
-                            }
-                        }
-                    }
-                }
+                if (dy > 0) checkPagination()
             }
         })
+    }
 
+    private fun checkPagination() {
+        val layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager
+        val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+        val itemsCount = vacancyAdapter.itemCount
+
+        if (lastVisiblePosition >= itemsCount - 2 && itemsCount > PER_PAGE_SIZE) {
+            viewModel.onLastItemReached()
+        }
+    }
+
+    private fun FragmentSearchBinding.setupSearchInput() {
         searchInput.doAfterTextChanged { text ->
             val query = text?.toString().orEmpty()
             viewModel.searchDebounce(query)
             updateSearchIcon(query.isNotEmpty())
         }
+    }
 
+    private fun FragmentSearchBinding.setupSearchClearIcon() {
         searchInputLayout.setEndIconOnClickListener {
             searchInput.text?.clear()
             it.hideKeyboard()
             viewModel.clearSearch()
         }
+    }
 
+    private fun FragmentSearchBinding.setupTopAppBar() {
         searchTopAppBar.setOnMenuItemClickListener { menuItem ->
             if (menuItem.itemId == R.id.filter) {
-                findNavController().navigate(R.id.action_search_fragment_to_filterFragment)
+                findNavController()
+                    .navigate(R.id.action_search_fragment_to_filterFragment)
                 true
             } else {
                 false
@@ -104,40 +121,48 @@ class SearchFragment : Fragment() {
 
     private fun setupObservers() {
         viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
-        viewModel.observeShowToast().observe(viewLifecycleOwner) { toast -> showToast(toast) }
+        viewModel.observeShowToast().observe(viewLifecycleOwner) { showToast(it) }
     }
 
     private fun updateSearchIcon(hasText: Boolean) {
-        binding.searchInputLayout.endIconDrawable = if (hasText) {
-            AppCompatResources.getDrawable(requireContext(), R.drawable.ic_close_icon_24)
-        } else {
-            AppCompatResources.getDrawable(requireContext(), R.drawable.ic_search_24)
-        }
+        binding.searchInputLayout.endIconDrawable =
+            AppCompatResources.getDrawable(
+                requireContext(),
+                if (hasText) R.drawable.ic_close_icon_24 else R.drawable.ic_search_24
+            )
     }
 
     private fun render(state: SearchUiState) {
         when (state) {
-            is SearchUiState.Content -> showContent(state.vacanciesList, state.countOfVacancies)
-            is SearchUiState.EmptyQuery -> showPlaceholder(
-                R.drawable.empty_list_icon,
-                R.string.error_no_vacancies_found,
-                showCount = true
-            )
+            is SearchUiState.Content ->
+                showContent(state.vacanciesList, state.countOfVacancies)
 
-            is SearchUiState.ServerError -> showPlaceholder(R.drawable.error_icon, R.string.server_error_message)
-            is SearchUiState.InternetNotAvailable -> showPlaceholder(
-                R.drawable.nointernet_icon,
-                R.string.internet_is_not_available
-            )
+            is SearchUiState.EmptyQuery ->
+                showPlaceholder(
+                    R.drawable.empty_list_icon,
+                    R.string.error_no_vacancies_found,
+                    showCount = true
+                )
+
+            is SearchUiState.ServerError ->
+                showPlaceholder(R.drawable.error_icon, R.string.server_error_message)
+
+            is SearchUiState.InternetNotAvailable ->
+                showPlaceholder(
+                    R.drawable.nointernet_icon,
+                    R.string.internet_is_not_available
+                )
 
             is SearchUiState.LoadingNewQuery -> showLoading()
             is SearchUiState.Default -> showDefault()
-            is SearchUiState.NextPageLoading -> {
-                binding.progressBar.isVisible = false
-                vacancyAdapter.showLoading(true)
-            }
+            is SearchUiState.NextPageLoading -> showNextPageLoading()
         }
         updateFilterIcon(viewModel.hasFilter())
+    }
+
+    private fun showNextPageLoading() {
+        binding.progressBar.isVisible = false
+        vacancyAdapter.showLoading(true)
     }
 
     private fun showContent(vacancies: List<Vacancy>, count: Int?) = with(binding) {
@@ -148,14 +173,23 @@ class SearchFragment : Fragment() {
 
         vacancyCountTextView.isVisible = count != null
         count?.let {
-            vacancyCountTextView.text = resources.getQuantityString(R.plurals.vacancy_of_vacancies, it, it)
+            vacancyCountTextView.text =
+                resources.getQuantityString(
+                    R.plurals.vacancy_of_vacancies,
+                    it,
+                    it
+                )
         }
 
         vacancyAdapter.showLoading(false)
         vacancyAdapter.setData(vacancies)
     }
 
-    private fun showPlaceholder(imageRes: Int, textRes: Int, showCount: Boolean = false) = with(binding) {
+    private fun showPlaceholder(
+        imageRes: Int,
+        textRes: Int,
+        showCount: Boolean = false
+    ) = with(binding) {
         progressBar.isVisible = false
         recyclerView.isVisible = false
         emptyPlaceholder.isVisible = true
@@ -186,14 +220,24 @@ class SearchFragment : Fragment() {
     }
 
     private fun updateFilterIcon(isFilterApplied: Boolean) {
-        val iconRes = if (isFilterApplied) R.drawable.ic_filter_on_24 else R.drawable.ic_filter_off_24
-        binding.searchTopAppBar.menu.findItem(R.id.filter).setIcon(iconRes)
+        val iconRes =
+            if (isFilterApplied) {
+                R.drawable.ic_filter_on_24
+            } else {
+                R.drawable.ic_filter_off_24
+            }
+        binding.searchTopAppBar.menu
+            .findItem(R.id.filter)
+            .setIcon(iconRes)
     }
 
     private fun openVacancyDetails(vacancyId: String) {
         findNavController().navigate(
             R.id.action_search_fragment_to_vacancyDetailsFragment,
-            VacancyDetailsFragment.createArgs(vacancyId, VacancySource.SEARCH)
+            VacancyDetailsFragment.createArgs(
+                vacancyId,
+                VacancySource.SEARCH
+            )
         )
     }
 
@@ -203,11 +247,17 @@ class SearchFragment : Fragment() {
             ErrorType.ServerError -> R.string.server_error_message
             else -> return
         }
-        Toast.makeText(requireContext(), getString(messageRes), Toast.LENGTH_LONG).show()
+        Toast.makeText(
+            requireContext(),
+            getString(messageRes),
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     private fun View.hideKeyboard() {
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE)
+                as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
     }
 
