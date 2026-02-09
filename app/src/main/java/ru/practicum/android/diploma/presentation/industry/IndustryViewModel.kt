@@ -78,4 +78,8 @@ class IndustryViewModel(
     fun setIndustryToFilter(industry: Industry?) {
         filterInteractor.setIndustry(industry)
     }
+
+    fun getIndustryFromFilter(): Industry? {
+        return filterInteractor.currentFilter().industry
+    }
 }

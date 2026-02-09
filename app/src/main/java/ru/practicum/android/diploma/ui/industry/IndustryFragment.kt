@@ -25,8 +25,11 @@ class IndustryFragment : Fragment() {
     private var _binding: FragmentIndustryBinding? = null
     private val binding get() = _binding!!
 
-    private val industryAdapter = IndustryAdapter { industry ->
-        binding.selectButton.isVisible = industry != null
+    private val industryAdapter by lazy {
+        IndustryAdapter(
+            onItemClickListener = { industry -> binding.selectButton.isVisible = industry != null },
+            initialIndustry = industryViewModel.getIndustryFromFilter()
+        )
     }
 
     override fun onCreateView(

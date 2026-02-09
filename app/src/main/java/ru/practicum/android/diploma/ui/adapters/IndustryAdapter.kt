@@ -5,11 +5,14 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.ui.viewholders.IndustryViewHolder
 
-class IndustryAdapter(private val onItemClickListener: (Industry?) -> Unit) :
+class IndustryAdapter(
+    private val onItemClickListener: (Industry?) -> Unit,
+    val initialIndustry: Industry?
+) :
     RecyclerView.Adapter<IndustryViewHolder>() {
 
     private val listData = mutableListOf<Industry>()
-    private var selectedIndustry: Industry? = null
+    private var selectedIndustry: Industry? = initialIndustry
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IndustryViewHolder =
         IndustryViewHolder(parent, onItemClickListener) { newIndustry ->
