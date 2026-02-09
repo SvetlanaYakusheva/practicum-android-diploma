@@ -56,7 +56,11 @@ class RetrofitNetworkClient(
             if (page > 0) put("page", page.toString())
             if (perPage > 0) put("per_page", perPage.toString())
 
-            filter.region?.let { put("area", it.id) }
+            if (filter.region != null) {
+                put("area", filter.region.id)
+            } else {
+                filter.country?.let { put("area", it.id) }
+            }
             filter.industry?.let { put("industry", it.id) }
             filter.salary?.let { put("salary", it) }
             put("only_with_salary", filter.onlyWithSalary.toString())
