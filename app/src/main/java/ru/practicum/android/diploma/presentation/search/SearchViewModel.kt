@@ -10,6 +10,9 @@ import ru.practicum.android.diploma.domain.api.SearchVacanciesInteractor
 import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.search.SearchUiState
+import ru.practicum.android.diploma.util.Constant.NEXT_PAGE_LOADING_START
+import ru.practicum.android.diploma.util.Constant.PER_PAGE_SIZE
+import ru.practicum.android.diploma.util.Constant.SEARCH_DEBOUNCE_DELAY_MS
 import ru.practicum.android.diploma.util.ErrorType
 import ru.practicum.android.diploma.util.SingleLiveEvent
 import ru.practicum.android.diploma.util.UtilFunctions
@@ -47,17 +50,21 @@ class SearchViewModel(
 
     private fun searchVacancies(searchText: String) {
         if (searchText.isNotBlank()) {
-            if (this.currentPage == maxPage) {
+            if (currentPage == maxPage) {
                 return
             } else {
-                if (currentPage == 1) {
+                if (currentPage == 0) {
                     renderState(SearchUiState.LoadingNewQuery)
                 } else {
                     isNextPageLoading = true
                     renderState(SearchUiState.NextPageLoading)
                 }
                 searchRequest(searchText, currentPage)
-                currentPage += 1
+                if (currentPage == 0) {
+                    currentPage = NEXT_PAGE_LOADING_START
+                } else {
+                    currentPage += 1
+                }
             }
         } else {
             renderState(SearchUiState.Default)
@@ -69,6 +76,7 @@ class SearchViewModel(
         currentPage = 0
         maxPage = null
         vacanciesList.clear()
+        isNextPageLoading = false
     }
 
     fun onLastItemReached() {
@@ -113,10 +121,10 @@ class SearchViewModel(
                 if (errorType == ErrorType.NoConnection) {
                     if (isNextPageLoading) {
                         renderState(SearchUiState.Content(vacanciesList, null))
+                        showToast(ErrorType.NoConnection)
                     } else {
                         renderState(SearchUiState.InternetNotAvailable)
                     }
-                    showToast(ErrorType.NoConnection)
                 } else {
                     if (isNextPageLoading) {
                         renderState(SearchUiState.Content(vacanciesList, null))
@@ -125,7 +133,6 @@ class SearchViewModel(
                     }
                     showToast(ErrorType.ServerError)
                 }
-                isNextPageLoading = false
             }
 
             vacanciesList.isEmpty() -> {
@@ -149,7 +156,6 @@ class SearchViewModel(
         stateLiveData.postValue(state)
     }
 
-    fun filterNotEmpty() = appliedFilter != Filter()
     fun checkFilters() {
         val newFilter = filterInteractor.appliedFilter()
         if (newFilter != appliedFilter) {
@@ -165,8 +171,4 @@ class SearchViewModel(
 
     fun hasFilter() = filterInteractor.currentFilter() != Filter()
 
-    companion object {
-        private const val SEARCH_DEBOUNCE_DELAY_MS = 2_000L
-        private const val PER_PAGE_SIZE = 20
-    }
 }

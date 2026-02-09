@@ -22,6 +22,7 @@ import ru.practicum.android.diploma.domain.models.VacancySource
 import ru.practicum.android.diploma.presentation.search.SearchViewModel
 import ru.practicum.android.diploma.ui.adapters.SearchVacancyAdapter
 import ru.practicum.android.diploma.ui.vacancy.VacancyDetailsFragment
+import ru.practicum.android.diploma.util.Constant.PER_PAGE_SIZE
 import ru.practicum.android.diploma.util.ErrorType
 
 class SearchFragment : Fragment() {
@@ -70,7 +71,9 @@ class SearchFragment : Fragment() {
                     val itemsCount = vacancyAdapter.itemCount
                     itemsCount.let {
                         if (pos >= it - 2) {
-                            viewModel.onLastItemReached()
+                            if (itemsCount > PER_PAGE_SIZE) {
+                                viewModel.onLastItemReached()
+                            }
                         }
                     }
                 }

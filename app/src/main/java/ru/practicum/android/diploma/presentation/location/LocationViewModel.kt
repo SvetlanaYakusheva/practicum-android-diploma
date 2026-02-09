@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.practicum.android.diploma.domain.api.FilterInteractor
-import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.ui.location.LocationUiState
 
@@ -33,11 +32,6 @@ class LocationViewModel(
     }
 
     fun currentFilterChanged() = currentFilter != filterInteractor.appliedFilter()
-
-    fun setLocationToFilter(country: Area?, region: Area?) {
-        filterInteractor.setCountry(country)
-        filterInteractor.setRegion(region)
-    }
 
     fun clearCountry() {
         filterInteractor.setCountry(null)

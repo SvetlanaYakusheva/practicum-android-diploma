@@ -25,6 +25,8 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancySource
 import ru.practicum.android.diploma.presentation.vacancy.VacancyDetailsViewModel
 import ru.practicum.android.diploma.ui.adapters.PhoneAdapter
+import ru.practicum.android.diploma.util.Constant.KEY_SOURCE_FRAGMENT
+import ru.practicum.android.diploma.util.Constant.KEY_VACANCY_ID
 import ru.practicum.android.diploma.util.ImageUtil.normalizeLogoUrl
 import ru.practicum.android.diploma.util.UtilFunctions.formatSalary
 
@@ -225,9 +227,6 @@ class VacancyDetailsFragment : Fragment() {
     }
 
     companion object {
-        const val KEY_VACANCY_ID = "KEY_VACANCY_ID"
-        const val KEY_SOURCE_FRAGMENT = "KEY_PREVIOUS_FRAGMENT"
-
         fun createArgs(id: String, sourceFragment: VacancySource): Bundle =
             bundleOf(KEY_VACANCY_ID to id, KEY_SOURCE_FRAGMENT to sourceFragment.name)
     }

@@ -5,6 +5,9 @@ import androidx.core.content.edit
 import com.google.gson.Gson
 import ru.practicum.android.diploma.domain.api.FilterRepository
 import ru.practicum.android.diploma.domain.models.Filter
+import ru.practicum.android.diploma.util.Constant.APPLIED_FILTER
+import ru.practicum.android.diploma.util.Constant.CURRENT_FILTER
+import ru.practicum.android.diploma.util.Constant.STORAGE_FILTER
 
 class FilterRepositoryImpl(context: Context, private val gson: Gson) : FilterRepository {
     private val sharedPreferences = context.applicationContext
@@ -23,7 +26,6 @@ class FilterRepositoryImpl(context: Context, private val gson: Gson) : FilterRep
         return if (json.isNullOrEmpty()) {
             Filter()
         } else {
-            // Use the injected gson instance
             gson.fromJson(json, Filter::class.java) ?: Filter()
         }
     }
@@ -32,11 +34,5 @@ class FilterRepositoryImpl(context: Context, private val gson: Gson) : FilterRep
         sharedPreferences.edit {
             putString(key, gson.toJson(filter))
         }
-    }
-
-    companion object {
-        private const val APPLIED_FILTER = "APPLIED_FILTER"
-        private const val CURRENT_FILTER = "CURRENT_FILTER"
-        private const val STORAGE_FILTER = "STORAGE_FILTER"
     }
 }

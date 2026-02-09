@@ -32,8 +32,11 @@ class VacancyViewHolder(itemView: View, private val onClickListener: OnItemClick
             .centerInside()
             .into(vacancyIcon)
 
-        vacancyTitle.text =
-            String.format(context.getString(R.string.view_holder_vacancy_name), vacancy.name, vacancy.addressCity)
+        vacancyTitle.text = context.getString(
+            R.string.view_holder_vacancy_name,
+            vacancy.name,
+            vacancy.addressCity ?: ""
+        )
 
         companyName.text = vacancy.employerName
 
