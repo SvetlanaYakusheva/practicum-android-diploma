@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.data.impl
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.data.Mapper
@@ -24,12 +25,7 @@ class FavoriteVacanciesRepositoryImpl(
         emit(Resource.Success(vacancies))
 
     }.catch { e ->
-        if (e is CancellationException) {
-            throw e
-        } else {
-            emit(Resource.Error(ErrorType.SQLError))
-        }
-
+        handleException(e)
     }
 
     override suspend fun addToFavoriteVacancies(vacancy: Vacancy) {
@@ -58,11 +54,12 @@ class FavoriteVacanciesRepositoryImpl(
         emit(Resource.Success(vacancy))
 
     }.catch { e ->
-        if (e is CancellationException) {
-            throw e
-        } else {
-            emit(Resource.Error(ErrorType.SQLError))
-        }
+        handleException(e)
+    }
+
+    private suspend fun <T> FlowCollector<Resource<T>>.handleException(e: Throwable) {
+        if (e is CancellationException) throw e
+        emit(Resource.Error(ErrorType.SQLError))
     }
 
 }

@@ -9,6 +9,7 @@ import ru.practicum.android.diploma.domain.api.DictionariesInteractor
 import ru.practicum.android.diploma.domain.api.FilterInteractor
 import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.ui.industry.IndustryUiState
+import ru.practicum.android.diploma.util.Constant.Companion.SEARCH_DEBOUNCE_DELAY_DICTIONARY
 import ru.practicum.android.diploma.util.UtilFunctions.debounce
 
 class IndustryViewModel(
@@ -48,7 +49,7 @@ class IndustryViewModel(
     }
 
     private val industrySearchDebounce =
-        debounce<String>(SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { changedText ->
+        debounce<String>(SEARCH_DEBOUNCE_DELAY_DICTIONARY, viewModelScope, true) { changedText ->
             searchIndustries(changedText)
         }
 
@@ -76,9 +77,5 @@ class IndustryViewModel(
 
     fun setIndustryToFilter(industry: Industry?) {
         filterInteractor.setIndustry(industry)
-    }
-
-    companion object {
-        private const val SEARCH_DEBOUNCE_DELAY = 500L
     }
 }

@@ -10,6 +10,9 @@ import ru.practicum.android.diploma.domain.api.SearchVacanciesInteractor
 import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.search.SearchUiState
+import ru.practicum.android.diploma.util.Constant.Companion.NEXT_PAGE_LOADING_START
+import ru.practicum.android.diploma.util.Constant.Companion.PER_PAGE_SIZE
+import ru.practicum.android.diploma.util.Constant.Companion.SEARCH_DEBOUNCE_DELAY_MS
 import ru.practicum.android.diploma.util.ErrorType
 import ru.practicum.android.diploma.util.SingleLiveEvent
 import ru.practicum.android.diploma.util.UtilFunctions
@@ -47,17 +50,21 @@ class SearchViewModel(
 
     private fun searchVacancies(searchText: String) {
         if (searchText.isNotBlank()) {
-            if (this.currentPage == maxPage) {
+            if (currentPage == maxPage) {
                 return
             } else {
-                if (currentPage == 1) {
+                if (currentPage == 0) {
                     renderState(SearchUiState.LoadingNewQuery)
                 } else {
                     isNextPageLoading = true
                     renderState(SearchUiState.NextPageLoading)
                 }
                 searchRequest(searchText, currentPage)
-                currentPage += 1
+                if (currentPage == 0) {
+                    currentPage = NEXT_PAGE_LOADING_START
+                } else {
+                    currentPage += 1
+                }
             }
         } else {
             renderState(SearchUiState.Default)
@@ -149,7 +156,6 @@ class SearchViewModel(
         stateLiveData.postValue(state)
     }
 
-    fun filterNotEmpty() = appliedFilter != Filter()
     fun checkFilters() {
         val newFilter = filterInteractor.appliedFilter()
         if (newFilter != appliedFilter) {
@@ -165,8 +171,4 @@ class SearchViewModel(
 
     fun hasFilter() = filterInteractor.currentFilter() != Filter()
 
-    companion object {
-        private const val SEARCH_DEBOUNCE_DELAY_MS = 2_000L
-        private const val PER_PAGE_SIZE = 20
-    }
 }

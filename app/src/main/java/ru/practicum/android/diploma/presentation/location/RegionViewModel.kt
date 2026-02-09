@@ -9,6 +9,7 @@ import ru.practicum.android.diploma.domain.api.DictionariesInteractor
 import ru.practicum.android.diploma.domain.api.FilterInteractor
 import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.ui.region.RegionUiState
+import ru.practicum.android.diploma.util.Constant.Companion.SEARCH_DEBOUNCE_DELAY_DICTIONARY
 import ru.practicum.android.diploma.util.UtilFunctions.debounce
 
 class RegionViewModel(
@@ -35,7 +36,7 @@ class RegionViewModel(
     }
 
     private val industrySearchDebounce =
-        debounce<String>(SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { changedText ->
+        debounce<String>(SEARCH_DEBOUNCE_DELAY_DICTIONARY, viewModelScope, true) { changedText ->
             searchIndustries(changedText)
         }
 
@@ -87,9 +88,5 @@ class RegionViewModel(
             val country = areasList?.filter { it.id == region?.parentId }?.get(0)
             filterInteractor.setCountry(country)
         }
-    }
-
-    companion object {
-        private const val SEARCH_DEBOUNCE_DELAY = 500L
     }
 }

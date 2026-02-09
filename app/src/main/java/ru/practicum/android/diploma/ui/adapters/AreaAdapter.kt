@@ -30,6 +30,4 @@ class AreaAdapter(private val onItemClickListener: (Area?) -> Unit) :
         notifyDataSetChanged()
     }
 
-    fun getSelectedArea() = selectedItem
-
 }
