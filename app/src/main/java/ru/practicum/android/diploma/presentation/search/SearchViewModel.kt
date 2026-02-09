@@ -105,7 +105,6 @@ class SearchViewModel(
         countOfVacancies: Int?,
         errorType: ErrorType?
     ) {
-
         if (foundVacancies != null) {
             vacanciesList.addAll(foundVacancies)
         }
