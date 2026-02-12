@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -14,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,6 +25,9 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancySource
 import ru.practicum.android.diploma.presentation.vacancy.VacancyDetailsViewModel
 import ru.practicum.android.diploma.ui.adapters.PhoneAdapter
+import ru.practicum.android.diploma.util.Constant.KEY_SOURCE_FRAGMENT
+import ru.practicum.android.diploma.util.Constant.KEY_VACANCY_ID
+import ru.practicum.android.diploma.util.ImageUtil.normalizeLogoUrl
 import ru.practicum.android.diploma.util.UtilFunctions.formatSalary
 
 class VacancyDetailsFragment : Fragment() {
@@ -126,8 +129,10 @@ class VacancyDetailsFragment : Fragment() {
             vacancyDetailsScroll.isVisible = true
 
             Glide.with(requireContext())
-                .load(vacancy.employerLogoPath?.toUri())
+                .load(normalizeLogoUrl(vacancy.employerLogoPath))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_employer_logo_placeholder_48)
+                .error(R.drawable.ic_employer_logo_placeholder_48)
                 .into(companyLogo)
 
             vacancyName.text = vacancy.name
@@ -222,9 +227,6 @@ class VacancyDetailsFragment : Fragment() {
     }
 
     companion object {
-        const val KEY_VACANCY_ID = "KEY_VACANCY_ID"
-        const val KEY_SOURCE_FRAGMENT = "KEY_PREVIOUS_FRAGMENT"
-
         fun createArgs(id: String, sourceFragment: VacancySource): Bundle =
             bundleOf(KEY_VACANCY_ID to id, KEY_SOURCE_FRAGMENT to sourceFragment.name)
     }

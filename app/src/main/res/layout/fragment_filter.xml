@@ -1,14 +1,133 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.filter.FilterFragment">
+    android:background="?attr/background_color">
 
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/filter_title"
+        style="@style/ToolbarStyleParent.AppBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="Фильтр"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/top_app_bar"
+            style="@style/ToolbarStyleParent.ToolBar"
+            app:navigationIcon="@drawable/arrow_back_icon"
+            app:title="@string/filter_settings_title" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/work_place"
+        style="@style/TextStyleFilter"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60dp"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:gravity="center_vertical"
+        android:hint="@string/work_place_hint"
+        app:hintTextAppearance="@style/FontDisplay.Hint"
+        app:layout_constraintTop_toBottomOf="@id/filter_title"
+        app:prefixTextAppearance="@style/FontDisplay.Regular16">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/work_place_value"
+            style="@style/TextStyleFilter.Input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/industry"
+        style="@style/TextStyleFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:gravity="center_vertical"
+        android:hint="@string/industry_hint"
+        app:hintTextAppearance="@style/FontDisplay.Hint"
+        app:layout_constraintTop_toBottomOf="@id/work_place"
+        app:prefixTextAppearance="@style/FontDisplay.Regular16">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/industry_value"
+            style="@style/TextStyleFilter.Input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:maxLines="2"
+            android:text="" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/salary_frame"
+        style="@style/FontDisplay.SalaryInputTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/search_height"
+        android:layout_marginHorizontal="@dimen/dimen_16dp"
+        android:layout_marginTop="@dimen/dimen_24dp"
+        android:hint="@string/salary_expected_hint"
+        android:textColorHint="@color/text_hint_color"
+        app:expandedHintEnabled="false"
+        app:hintTextAppearance="@style/FontDisplay.Hint"
+        app:hintTextColor="@color/blue"
+        app:layout_constraintTop_toBottomOf="@id/industry">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/salary_value"
+            style="@style/SalaryTextStyleFilter.Input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/enter_sum_hint" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/salary_is_required_check"
+        style="@style/FilterButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60dp"
+        android:layout_marginTop="@dimen/dimen_24dp"
+        android:checkable="true"
+        android:text="@string/not_show_without_salary"
+        app:icon="@drawable/ic_check_box_selector"
+        app:iconTint="@color/blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/salary_frame" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_button"
+        style="@style/FilterButton.Accept"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60dp"
+        android:layout_marginHorizontal="@dimen/dimen_16dp"
+        android:layout_marginBottom="@dimen/dimen_4dp"
+        android:text="@string/apply_filter"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/reset_button" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/reset_button"
+        style="@style/FilterButton.Reset"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60dp"
+        android:layout_marginBottom="@dimen/dimen_8dp"
+        android:text="@string/reset_filter"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

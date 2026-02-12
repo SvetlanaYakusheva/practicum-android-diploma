@@ -5,23 +5,30 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.domain.api.FilterInteractor
 import ru.practicum.android.diploma.domain.api.SearchVacanciesInteractor
+import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.search.SearchUiState
+import ru.practicum.android.diploma.util.Constant.NEXT_PAGE_LOADING_START
+import ru.practicum.android.diploma.util.Constant.PER_PAGE_SIZE
+import ru.practicum.android.diploma.util.Constant.SEARCH_DEBOUNCE_DELAY_MS
 import ru.practicum.android.diploma.util.ErrorType
 import ru.practicum.android.diploma.util.SingleLiveEvent
 import ru.practicum.android.diploma.util.UtilFunctions
 
 class SearchViewModel(
-    private val searchVacanciesInteractor: SearchVacanciesInteractor
+    private val searchVacanciesInteractor: SearchVacanciesInteractor,
+    private val filterInteractor: FilterInteractor
 ) : ViewModel() {
+    private var appliedFilter: Filter = filterInteractor.appliedFilter()
     private val stateLiveData = MutableLiveData<SearchUiState>()
     fun observeState(): LiveData<SearchUiState> = stateLiveData
     private var vacanciesList = mutableListOf<Vacancy>()
-    private val showToast = SingleLiveEvent<String>()
-    fun observeShowToast(): LiveData<String> = showToast
+    private val showToast = SingleLiveEvent<ErrorType>()
+    fun observeShowToast(): LiveData<ErrorType> = showToast
     private var isNextPageLoading: Boolean = false
-    private var currentPage: Int = 0
+    private var currentPage: Int = 1
     private var maxPage: Int? = null
     private var latestSearchText: String? = null
     private val vacancySearchDebounce = UtilFunctions.debounce<String>(
@@ -36,13 +43,14 @@ class SearchViewModel(
     fun searchDebounce(changedText: String) {
         if (latestSearchText != changedText) {
             latestSearchText = changedText
+            appliedFilter = filterInteractor.appliedFilter()
             vacancySearchDebounce(changedText)
         }
     }
 
     private fun searchVacancies(searchText: String) {
         if (searchText.isNotBlank()) {
-            if (this.currentPage == maxPage) {
+            if (currentPage == maxPage) {
                 return
             } else {
                 if (currentPage == 0) {
@@ -52,7 +60,11 @@ class SearchViewModel(
                     renderState(SearchUiState.NextPageLoading)
                 }
                 searchRequest(searchText, currentPage)
-                currentPage += 1
+                if (currentPage == 0) {
+                    currentPage = NEXT_PAGE_LOADING_START
+                } else {
+                    currentPage += 1
+                }
             }
         } else {
             renderState(SearchUiState.Default)
@@ -64,13 +76,14 @@ class SearchViewModel(
         currentPage = 0
         maxPage = null
         vacanciesList.clear()
+        isNextPageLoading = false
     }
 
     fun onLastItemReached() {
         if (isNextPageLoading) {
             return
         } else {
-            searchVacancies(latestSearchText!!)
+            latestSearchText?.let { searchVacancies(it) }
         }
     }
 
@@ -79,6 +92,7 @@ class SearchViewModel(
             viewModelScope.launch {
                 searchVacanciesInteractor.searchVacancies(
                     searchText,
+                    appliedFilter,
                     currentPage,
                     PER_PAGE_SIZE
                 )
@@ -86,8 +100,7 @@ class SearchViewModel(
                         processResult(
                             resource.data?.vacancies,
                             resource.data?.found,
-                            resource.errorType,
-                            resource.message
+                            resource.errorType
                         )
                         maxPage = resource.data?.count
                     }
@@ -98,13 +111,8 @@ class SearchViewModel(
     private fun processResult(
         foundVacancies: List<Vacancy>?,
         countOfVacancies: Int?,
-        errorType: ErrorType?,
-        errorMessage: String?
+        errorType: ErrorType?
     ) {
-        val messageServerError = "server_error"
-        val messageNoInternet = "internet_is_not_available"
-        val messageCheckConnection = "check_connection_message"
-
         if (foundVacancies != null) {
             vacanciesList.addAll(foundVacancies)
         }
@@ -113,20 +121,18 @@ class SearchViewModel(
                 if (errorType == ErrorType.NoConnection) {
                     if (isNextPageLoading) {
                         renderState(SearchUiState.Content(vacanciesList, null))
+                        showToast(ErrorType.NoConnection)
                     } else {
                         renderState(SearchUiState.InternetNotAvailable)
                     }
-
-                    showToast(messageCheckConnection)
                 } else {
                     if (isNextPageLoading) {
                         renderState(SearchUiState.Content(vacanciesList, null))
                     } else {
                         renderState(SearchUiState.ServerError)
                     }
-                    showToast(errorMessage ?: messageServerError)
+                    showToast(ErrorType.ServerError)
                 }
-                isNextPageLoading = false
             }
 
             vacanciesList.isEmpty() -> {
@@ -142,16 +148,27 @@ class SearchViewModel(
         }
     }
 
-    private fun showToast(message: String) {
-        showToast.postValue(message)
+    private fun showToast(errorType: ErrorType) {
+        showToast.postValue(errorType)
     }
 
     private fun renderState(state: SearchUiState) {
         stateLiveData.postValue(state)
     }
 
-    companion object {
-        private const val SEARCH_DEBOUNCE_DELAY_MS = 2_000L
-        private const val PER_PAGE_SIZE = 20
+    fun checkFilters() {
+        val newFilter = filterInteractor.appliedFilter()
+        if (newFilter != appliedFilter) {
+            appliedFilter = newFilter
+            currentPage = 0
+            maxPage = null
+            vacanciesList.clear()
+            latestSearchText?.let { searchText ->
+                searchVacancies(searchText)
+            }
+        }
     }
+
+    fun hasFilter() = filterInteractor.currentFilter() != Filter()
+
 }

@@ -4,9 +4,10 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.util.ImageUtil.normalizeLogoUrl
 import ru.practicum.android.diploma.util.OnItemClickListener
 import ru.practicum.android.diploma.util.UtilFunctions
 
@@ -22,15 +23,20 @@ class VacancyViewHolder(itemView: View, private val onClickListener: OnItemClick
 
     override fun bind(vacancy: Vacancy) {
         itemView.setOnClickListener { onClickListener.onItemClick(vacancy.id) }
+
         Glide.with(context)
-            .load(vacancy.employerLogoPath)
+            .load(normalizeLogoUrl(vacancy.employerLogoPath))
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .placeholder(R.drawable.ic_employer_logo_placeholder_48)
+            .error(R.drawable.ic_employer_logo_placeholder_48)
             .centerInside()
-            .transform(RoundedCorners(context.resources.getDimensionPixelSize(R.dimen.dimen_12dp)))
             .into(vacancyIcon)
 
-        vacancyTitle.text =
-            String.format(context.getString(R.string.view_holder_vacancy_name), vacancy.name, vacancy.addressCity)
+        vacancyTitle.text = context.getString(
+            R.string.view_holder_vacancy_name,
+            vacancy.name,
+            vacancy.addressCity ?: ""
+        )
 
         companyName.text = vacancy.employerName
 

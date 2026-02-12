@@ -12,6 +12,7 @@
         android:layout_width="@dimen/vacancy_logo_size"
         android:layout_height="@dimen/vacancy_logo_size"
         android:scaleType="fitCenter"
+        android:background="@color/white_universal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/RoundedLogoShape"
